@@ -1,11 +1,11 @@
 package com.bookrecommend.demo.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 // 用户表
@@ -55,5 +55,7 @@ public class User {
 //    @JsonFormat(shape= JsonFormat.Shape.STRING,pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
 //    private Date registrationDate;
 
-
+    // 用户消息
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Message> messageList;
 }
