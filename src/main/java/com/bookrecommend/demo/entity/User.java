@@ -57,5 +57,25 @@ public class User {
 
     // 用户消息
     @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "message_id")
     private List<Message> messageList;
+
+    // 用户评论
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Comment> commentList;
+
+    // 用户收藏
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "collection_id")
+    private List<Collection> collectionList;
+
+    // 用户购物车
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shoping_cart_id")
+    private List<ShopingCart> shopingCartList;
+
+    // 推荐书籍
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recommend_id")
+    private List<Recommend> recommendList;
 }

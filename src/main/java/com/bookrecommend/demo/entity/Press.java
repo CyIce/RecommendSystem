@@ -5,7 +5,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 
 // 出版社表
@@ -29,9 +28,5 @@ public class Press {
     @Column(name = "establish_date", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date establishDate;
-
-    // 出版社出版的书籍
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Book> bookList;
 
 }

@@ -76,4 +76,8 @@ public class Book {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date modifiedTime;
 
+    // 书籍评论
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Comment> commentList;
+
 }

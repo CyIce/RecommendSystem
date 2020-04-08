@@ -15,11 +15,6 @@ public class Message {
     @GeneratedValue
     private Integer id;
 
-    // 用户
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
-
     // 消息内容
     @Column(name = "contend", columnDefinition = "text", nullable = false, length = 2000)
     private String contend;
