@@ -8,7 +8,7 @@ import java.util.Date;
 
 // 购物车表
 @Entity
-@Table(name = "shopingcart")
+@Table(name = "shoping_cart")
 public class ShopingCart {
 
     @Id

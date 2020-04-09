@@ -20,8 +20,10 @@ public class Recommend {
     @JoinColumn(name = "book_id")
     private Book book;
 
+    // 书籍推荐的优先级别
     @Column(name = "value", nullable = false, length = 11)
     private Integer value;
+
     // 日期日期
     @Column(name = "date", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

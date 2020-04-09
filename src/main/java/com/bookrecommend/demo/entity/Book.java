@@ -78,6 +78,12 @@ public class Book {
 
     // 书籍评论
     @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "comment_id")
     private List<Comment> commentList;
+
+    // 用户标签
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_label_id")
+    private List<BookLabel> bookLabelList;
 
 }

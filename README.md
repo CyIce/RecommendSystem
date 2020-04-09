@@ -11,6 +11,9 @@
 * 修改实体类一对一、一对多之间的关系
 * 创建Score、Comment、Collection、ShopingCart、Recommend等实体类
 
+### 2020年04月09日
+* 创建ReadingRecord、ShopingOrder、UserOrder、RefundRecord、UserLabel、BookLabel等实体类
+
 ## 参考链接
 ### SprigBoot JPA
 #### SpringBoots数据库一对一、一对多、多对多关系实现

@@ -78,4 +78,24 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "recommend_id")
     private List<Recommend> recommendList;
+
+    // 阅读记录
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reading_record_id")
+    private List<ReadingRecord> readingRecordList;
+
+    // 用户订单
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_order_id")
+    private List<UserOrder> userOrderList;
+
+    // 退款记录
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "refund_record_id")
+    private List<RefundRecord> refundRecordList;
+
+    // 用户标签
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_label_id")
+    private List<UserLabel> userLabelList;
 }
