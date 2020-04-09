@@ -12,7 +12,7 @@
 * 创建Score、Comment、Collection、ShopingCart、Recommend等实体类
 
 ### 2020年04月09日
-* 创建ReadingRecord、ShopingOrder、UserOrder、RefundRecord、UserLabel、BookLabel等实体类
+* 创建ReadingRecord、ShopingOrder、UserOrder、RefundRecord、UserLabel、BookLabel、ClickRecord等实体类
 
 ## 参考链接
 ### SprigBoot JPA

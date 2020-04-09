@@ -42,7 +42,6 @@ public class User {
     @Column(name = "phone_number",nullable = false,length = 31)
     private String phoneNumber;
 
-
     // 邮箱地址
     @Column(name = "email",nullable = false,length = 31)
     private String email;
@@ -98,4 +97,148 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_label_id")
     private List<UserLabel> userLabelList;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public Boolean getGender() {
+        return gender;
+    }
+
+    public void setGender(Boolean gender) {
+        this.gender = gender;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Date getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
+    public List<Message> getMessageList() {
+        return messageList;
+    }
+
+    public void setMessageList(List<Message> messageList) {
+        this.messageList = messageList;
+    }
+
+    public List<Comment> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
+    }
+
+    public List<Collection> getCollectionList() {
+        return collectionList;
+    }
+
+    public void setCollectionList(List<Collection> collectionList) {
+        this.collectionList = collectionList;
+    }
+
+    public List<ShopingCart> getShopingCartList() {
+        return shopingCartList;
+    }
+
+    public void setShopingCartList(List<ShopingCart> shopingCartList) {
+        this.shopingCartList = shopingCartList;
+    }
+
+    public List<Recommend> getRecommendList() {
+        return recommendList;
+    }
+
+    public void setRecommendList(List<Recommend> recommendList) {
+        this.recommendList = recommendList;
+    }
+
+    public List<ReadingRecord> getReadingRecordList() {
+        return readingRecordList;
+    }
+
+    public void setReadingRecordList(List<ReadingRecord> readingRecordList) {
+        this.readingRecordList = readingRecordList;
+    }
+
+    public List<UserOrder> getUserOrderList() {
+        return userOrderList;
+    }
+
+    public void setUserOrderList(List<UserOrder> userOrderList) {
+        this.userOrderList = userOrderList;
+    }
+
+    public List<RefundRecord> getRefundRecordList() {
+        return refundRecordList;
+    }
+
+    public void setRefundRecordList(List<RefundRecord> refundRecordList) {
+        this.refundRecordList = refundRecordList;
+    }
+
+    public List<UserLabel> getUserLabelList() {
+        return userLabelList;
+    }
+
+    public void setUserLabelList(List<UserLabel> userLabelList) {
+        this.userLabelList = userLabelList;
+    }
 }

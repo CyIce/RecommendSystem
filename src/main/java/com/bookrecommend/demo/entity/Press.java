@@ -29,4 +29,35 @@ public class Press {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date establishDate;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
+
+    public Date getEstablishDate() {
+        return establishDate;
+    }
+
+    public void setEstablishDate(Date establishDate) {
+        this.establishDate = establishDate;
+    }
 }

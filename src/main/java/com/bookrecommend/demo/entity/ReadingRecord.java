@@ -32,4 +32,44 @@ public class ReadingRecord {
     // 本书阅读的总时长
     @Column(name = "reading_time", nullable = false, length = 11)
     private Integer readingTime;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
+    public Integer getPosition() {
+        return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Integer getReadingTime() {
+        return readingTime;
+    }
+
+    public void setReadingTime(Integer readingTime) {
+        this.readingTime = readingTime;
+    }
 }

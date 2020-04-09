@@ -52,5 +52,75 @@ public class UserOrder {
     @JoinColumn(name = "shoping_order")
     private List<ShopingOrder> shopingOrderList;
 
+    public Integer getId() {
+        return id;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getPaymentTime() {
+        return paymentTime;
+    }
+
+    public void setPaymentTime(Date paymentTime) {
+        this.paymentTime = paymentTime;
+    }
+
+    public Date getDeliverTime() {
+        return deliverTime;
+    }
+
+    public void setDeliverTime(Date deliverTime) {
+        this.deliverTime = deliverTime;
+    }
+
+    public Date getReceiveTime() {
+        return receiveTime;
+    }
+
+    public void setReceiveTime(Date receiveTime) {
+        this.receiveTime = receiveTime;
+    }
+
+    public Boolean getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(Boolean paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+    public Boolean getDeliverStatus() {
+        return deliverStatus;
+    }
+
+    public void setDeliverStatus(Boolean deliverStatus) {
+        this.deliverStatus = deliverStatus;
+    }
+
+    public Boolean getReceiveStatus() {
+        return receiveStatus;
+    }
+
+    public void setReceiveStatus(Boolean receiveStatus) {
+        this.receiveStatus = receiveStatus;
+    }
+
+    public List<ShopingOrder> getShopingOrderList() {
+        return shopingOrderList;
+    }
+
+    public void setShopingOrderList(List<ShopingOrder> shopingOrderList) {
+        this.shopingOrderList = shopingOrderList;
+    }
 }
