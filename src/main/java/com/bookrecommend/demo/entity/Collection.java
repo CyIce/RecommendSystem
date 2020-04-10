@@ -25,6 +25,9 @@ public class Collection {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date date;
 
+    public Collection() {
+    }
+
     public Integer getId() {
         return id;
     }

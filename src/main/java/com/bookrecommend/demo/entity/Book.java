@@ -1,6 +1,7 @@
 package com.bookrecommend.demo.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -12,6 +13,8 @@ import java.util.List;
 @Entity
 @Table(name = "book")
 public class Book {
+
+    private boolean status = false;
 
     @Id
     @GeneratedValue
@@ -30,6 +33,7 @@ public class Book {
     private String photo;
 
     // 书籍的作者
+//    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "authot_to_book",
             joinColumns = @JoinColumn(name = "book_id"),
@@ -37,6 +41,7 @@ public class Book {
     List<Author> authorList;
 
     // 书籍出版社
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "press_id")
     private Press press;
@@ -77,15 +82,21 @@ public class Book {
     private Date modifiedTime;
 
     // 书籍评论
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "comment_id")
+    @JoinColumn(name = "book_id")
     private List<Comment> commentList;
 
-    // 用户标签
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_label_id")
-    private List<BookLabel> bookLabelList;
+    // 书籍标签
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(name = "book_to_book_label",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_label_id"))
+    List<BookLabel> bookLabelList;
 
+    public Book() {
+    }
 
     public Integer getId() {
         return id;
@@ -119,8 +130,15 @@ public class Book {
         this.photo = photo;
     }
 
+
     public List<Author> getAuthorList() {
-        return authorList;
+
+        if (status) {
+            status = false;
+            return authorList;
+        }
+
+        return null;
     }
 
     public void setAuthorList(List<Author> authorList) {
@@ -213,5 +231,13 @@ public class Book {
 
     public void setBookLabelList(List<BookLabel> bookLabelList) {
         this.bookLabelList = bookLabelList;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

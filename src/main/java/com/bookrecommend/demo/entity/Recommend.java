@@ -29,6 +29,9 @@ public class Recommend {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date date;
 
+    public Recommend() {
+    }
+
     public Integer getId() {
         return id;
     }

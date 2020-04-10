@@ -33,6 +33,9 @@ public class ReadingRecord {
     @Column(name = "reading_time", nullable = false, length = 11)
     private Integer readingTime;
 
+    public ReadingRecord() {
+    }
+
     public Integer getId() {
         return id;
     }

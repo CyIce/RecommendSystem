@@ -1,6 +1,8 @@
 package com.bookrecommend.demo.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -9,6 +11,8 @@ import java.util.List;
 @Entity
 @Table(name = "author")
 public class Author {
+
+    private boolean status = false;
 
     @Id
     @GeneratedValue
@@ -35,12 +39,15 @@ public class Author {
     private Float score;
 
     // 作者的书籍
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "authot_to_book",
             joinColumns = @JoinColumn(name = "author_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id"))
     List<Book> bookList;
 
+    public Author() {
+    }
 
     public Integer getId() {
         return id;
@@ -91,7 +98,21 @@ public class Author {
     }
 
     public List<Book> getBookList() {
-        return bookList;
+        if (status) {
+            return bookList;
+        }
+        return null;
     }
 
+    public void setBookList(List<Book> bookList) {
+        this.bookList = bookList;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
 }

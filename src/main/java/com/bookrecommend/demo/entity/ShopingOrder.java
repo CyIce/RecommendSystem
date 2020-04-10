@@ -24,6 +24,8 @@ public class ShopingOrder {
     @Column(name = "number", nullable = false, length = 11)
     private Integer number;
 
+    public ShopingOrder() {
+    }
 
     public Integer getId() {
         return id;

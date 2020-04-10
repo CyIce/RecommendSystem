@@ -34,6 +34,9 @@ public class Comment {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date date;
 
+    public Comment() {
+    }
+
     public Integer getId() {
         return id;
     }

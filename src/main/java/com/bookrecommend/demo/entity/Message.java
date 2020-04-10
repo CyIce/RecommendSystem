@@ -32,6 +32,9 @@ public class Message {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date date;
 
+    public Message() {
+    }
+
     public Integer getId() {
         return id;
     }

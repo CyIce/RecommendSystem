@@ -1,6 +1,7 @@
 package com.bookrecommend.demo.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -55,48 +56,61 @@ public class User {
 //    private Date registrationDate;
 
     // 用户消息
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "message_id")
+    @JoinColumn(name = "user_id")
     private List<Message> messageList;
 
     // 用户评论
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private List<Comment> commentList;
 
     // 用户收藏
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "collection_id")
+    @JoinColumn(name = "user_id")
     private List<Collection> collectionList;
 
     // 用户购物车
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shoping_cart_id")
+    @JoinColumn(name = "user_id")
     private List<ShopingCart> shopingCartList;
 
     // 推荐书籍
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "recommend_id")
+    @JoinColumn(name = "user_id")
     private List<Recommend> recommendList;
 
     // 阅读记录
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reading_record_id")
+    @JoinColumn(name = "user_id")
     private List<ReadingRecord> readingRecordList;
 
     // 用户订单
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_order_id")
+    @JoinColumn(name = "user_id")
     private List<UserOrder> userOrderList;
 
     // 退款记录
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "refund_record_id")
+    @JoinColumn(name = "user_id")
     private List<RefundRecord> refundRecordList;
 
     // 用户标签
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_label_id")
+    @JoinColumn(name = "user_id")
     private List<UserLabel> userLabelList;
+
+    public User() {
+    }
 
     public Integer getId() {
         return id;

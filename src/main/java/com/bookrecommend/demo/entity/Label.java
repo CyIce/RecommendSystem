@@ -20,6 +20,9 @@ public class Label {
     @Column(name = "hot", nullable = false, length = 11)
     private Integer hot;
 
+    public Label() {
+    }
+
     public Integer getId() {
         return id;
     }

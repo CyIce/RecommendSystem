@@ -14,12 +14,15 @@ public class UserLabel {
 
     // 标签
     @OneToOne
-    @JoinColumn(name = "label")
+    @JoinColumn(name = "label_id")
     private Label label;
 
     // 用户对标签的喜爱程度
     @Column(name = "value", nullable = false, length = 11)
     private Integer value;
+
+    public UserLabel() {
+    }
 
     public Integer getId() {
         return id;

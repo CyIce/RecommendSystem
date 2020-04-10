@@ -33,6 +33,9 @@ public class ShopingCart {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date date;
 
+    public ShopingCart() {
+    }
+
     public Integer getId() {
         return id;
     }

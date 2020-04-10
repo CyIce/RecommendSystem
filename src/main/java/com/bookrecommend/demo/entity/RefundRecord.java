@@ -17,7 +17,7 @@ public class RefundRecord {
 
     // 购物订单
     @OneToOne
-    @JoinColumn(name = "shoping_order")
+    @JoinColumn(name = "shoping_order_id")
     private ShopingOrder shopingOrder;
 
     // 退款状态
@@ -28,6 +28,9 @@ public class RefundRecord {
     @Column(name = "date")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date date;
+
+    public RefundRecord() {
+    }
 
     public Integer getId() {
         return id;

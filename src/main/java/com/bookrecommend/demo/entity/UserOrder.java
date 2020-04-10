@@ -49,11 +49,14 @@ public class UserOrder {
 
     // 购物订单
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shoping_order")
+    @JoinColumn(name = "user_order_id")
     private List<ShopingOrder> shopingOrderList;
 
     public Integer getId() {
         return id;
+    }
+
+    public UserOrder() {
     }
 
     public void setId(Integer id) {

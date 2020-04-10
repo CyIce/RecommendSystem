@@ -29,6 +29,8 @@ public class ClickRecord {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date lastClickTime;
 
+    public ClickRecord() {
+    }
 
     public Integer getId() {
         return id;

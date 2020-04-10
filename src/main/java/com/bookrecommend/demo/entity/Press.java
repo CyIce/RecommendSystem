@@ -29,6 +29,9 @@ public class Press {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date establishDate;
 
+    public Press() {
+    }
+
     public Integer getId() {
         return id;
     }

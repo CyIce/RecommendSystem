@@ -32,6 +32,9 @@ public class Score {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date date;
 
+    public Score() {
+    }
+
     public Integer getId() {
         return id;
     }

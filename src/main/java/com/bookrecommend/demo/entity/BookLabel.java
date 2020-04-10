@@ -2,6 +2,7 @@ package com.bookrecommend.demo.entity;
 
 
 import javax.persistence.*;
+import java.util.List;
 
 // 书籍标签表
 @Entity
@@ -14,13 +15,22 @@ public class BookLabel {
 
     // 标签
     @OneToOne
-    @JoinColumn(name = "label")
+    @JoinColumn(name = "label_id")
     private Label label;
+
+    // 书籍
+    @ManyToMany
+    @JoinTable(name = "book_to_book_label",
+            joinColumns = @JoinColumn(name = "book_label_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id"))
+    List<Book> bookList;
 
     // 该标签与书籍的相似程
     @Column(name = "value", nullable = false, length = 11)
     private Integer value;
 
+    public BookLabel() {
+    }
 
     public Integer getId() {
         return id;
