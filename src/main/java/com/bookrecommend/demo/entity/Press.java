@@ -29,6 +29,7 @@ public class Press {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date establishDate;
 
+
     public Press() {
     }
 
@@ -63,4 +64,5 @@ public class Press {
     public void setEstablishDate(Date establishDate) {
         this.establishDate = establishDate;
     }
+
 }

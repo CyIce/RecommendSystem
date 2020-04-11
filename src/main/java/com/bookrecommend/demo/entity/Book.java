@@ -14,7 +14,9 @@ import java.util.List;
 @Table(name = "book")
 public class Book {
 
-    private boolean status = false;
+    // 各个表之间的关联状态
+    @Transient
+    private boolean connectStatus = false;
 
     @Id
     @GeneratedValue
@@ -33,7 +35,6 @@ public class Book {
     private String photo;
 
     // 书籍的作者
-//    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "authot_to_book",
             joinColumns = @JoinColumn(name = "book_id"),
@@ -41,8 +42,7 @@ public class Book {
     List<Author> authorList;
 
     // 书籍出版社
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "press_id")
     private Press press;
 
@@ -88,12 +88,11 @@ public class Book {
     private List<Comment> commentList;
 
     // 书籍标签
-    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "book_to_book_label",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "book_label_id"))
-    List<BookLabel> bookLabelList;
+    private List<BookLabel> bookLabelList;
 
     public Book() {
     }
@@ -133,8 +132,7 @@ public class Book {
 
     public List<Author> getAuthorList() {
 
-        if (status) {
-            status = false;
+        if (connectStatus) {
             return authorList;
         }
 
@@ -226,18 +224,21 @@ public class Book {
     }
 
     public List<BookLabel> getBookLabelList() {
-        return bookLabelList;
+        if (connectStatus) {
+            return bookLabelList;
+        }
+        return null;
     }
 
     public void setBookLabelList(List<BookLabel> bookLabelList) {
         this.bookLabelList = bookLabelList;
     }
 
-    public boolean isStatus() {
-        return status;
+    public boolean isConnectStatus() {
+        return connectStatus;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setConnectStatus(boolean connectStatus) {
+        this.connectStatus = connectStatus;
     }
 }

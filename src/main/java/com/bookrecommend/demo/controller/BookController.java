@@ -19,7 +19,7 @@ public class BookController {
     @GetMapping()
     public Book getBook(@RequestParam(value = "book_id") Integer bookId) {
         Book book = bookRepository.findBookById(bookId);
-        book.setStatus(true);
+        book.setConnectStatus(true);
         return book;
 
     }

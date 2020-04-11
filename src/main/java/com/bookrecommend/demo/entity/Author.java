@@ -12,7 +12,8 @@ import java.util.List;
 @Table(name = "author")
 public class Author {
 
-    private boolean status = false;
+    @Transient
+    private boolean connectStatus = false;
 
     @Id
     @GeneratedValue
@@ -98,7 +99,7 @@ public class Author {
     }
 
     public List<Book> getBookList() {
-        if (status) {
+        if (connectStatus) {
             return bookList;
         }
         return null;
@@ -108,11 +109,11 @@ public class Author {
         this.bookList = bookList;
     }
 
-    public boolean isStatus() {
-        return status;
+    public boolean isConnectStatus() {
+        return connectStatus;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setConnectStatus(boolean connectStatus) {
+        this.connectStatus = connectStatus;
     }
 }

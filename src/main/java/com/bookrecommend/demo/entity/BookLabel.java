@@ -9,6 +9,9 @@ import java.util.List;
 @Table(name = "book_label")
 public class BookLabel {
 
+    @Transient
+    private boolean connectStatus = false;
+
     @Id
     @GeneratedValue
     private Integer id;
@@ -55,4 +58,24 @@ public class BookLabel {
     public void setValue(Integer value) {
         this.value = value;
     }
+
+    public List<Book> getBookList() {
+        if (connectStatus) {
+            return bookList;
+        }
+        return null;
+    }
+
+    public void setBookList(List<Book> bookList) {
+        this.bookList = bookList;
+    }
+
+    public boolean isConnectStatus() {
+        return connectStatus;
+    }
+
+    public void setConnectStatus(boolean connectStatus) {
+        this.connectStatus = connectStatus;
+    }
 }
+
