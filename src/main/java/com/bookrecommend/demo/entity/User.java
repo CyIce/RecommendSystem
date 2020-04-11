@@ -52,8 +52,6 @@ public class User {
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date registrationDate;
 
-//    @JsonFormat(shape= JsonFormat.Shape.STRING,pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
-//    private Date registrationDate;
 
     // 用户消息
     @JsonIgnore

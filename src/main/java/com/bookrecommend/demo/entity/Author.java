@@ -12,9 +12,6 @@ import java.util.List;
 @Table(name = "author")
 public class Author {
 
-    @Transient
-    private boolean connectStatus = false;
-
     @Id
     @GeneratedValue
     private Integer id;
@@ -45,7 +42,7 @@ public class Author {
     @JoinTable(name = "authot_to_book",
             joinColumns = @JoinColumn(name = "author_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id"))
-    List<Book> bookList;
+    private List<Book> bookList;
 
     public Author() {
     }
@@ -99,21 +96,10 @@ public class Author {
     }
 
     public List<Book> getBookList() {
-        if (connectStatus) {
-            return bookList;
-        }
-        return null;
+        return bookList;
     }
 
     public void setBookList(List<Book> bookList) {
         this.bookList = bookList;
-    }
-
-    public boolean isConnectStatus() {
-        return connectStatus;
-    }
-
-    public void setConnectStatus(boolean connectStatus) {
-        this.connectStatus = connectStatus;
     }
 }
