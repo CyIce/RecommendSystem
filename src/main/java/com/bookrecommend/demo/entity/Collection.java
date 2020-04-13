@@ -20,6 +20,9 @@ public class Collection {
     @JoinColumn(name = "book_id")
     private Book book;
 
+    @Column(name = "user_id", nullable = false, length = 11)
+    private Integer userId;
+
     // 收藏日期
     @Column(name = "date", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -50,6 +53,14 @@ public class Collection {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }
 

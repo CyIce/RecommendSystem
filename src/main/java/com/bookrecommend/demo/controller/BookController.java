@@ -42,7 +42,7 @@ public class BookController {
         Book book = bookRepository.findBookById(bookId);
 
 
-        JSONObject jsonBook = book2JsonBook(book);
+        JSONObject jsonBook = book2JsonBook(book, false);
 
         return jsonBook.toJSONString();
 
@@ -108,18 +108,29 @@ public class BookController {
         return jsonBooks.toJSONString();
     }
 
+
     // 将Book对象转化为符合规则的Json对象
-    private JSONObject book2JsonBook(Book book) {
+    private JSONObject book2JsonBook(Book book, boolean basisInfo) {
         JSONObject jsonBook = JSONObject.parseObject(JSON.toJSONString(book));
         JSONObject authorList = new JSONObject();
         jsonBook.remove("commentList");
         jsonBook.remove("bookLabelList");
+        jsonBook.remove("modifiedTime");
+        jsonBook.remove("createTime");
+
+        if (basisInfo) {
+            jsonBook.remove("introduction");
+        }
         for (int i = 0; i < book.getAuthorList().size(); i++) {
             JSONObject tmp = new JSONObject();
             Author author = book.getAuthorList().get(i);
             tmp.put("authorId", author.getId());
             tmp.put("nameCn", author.getNameCn());
             tmp.put("nameEng", author.getNameEng());
+            if (!basisInfo) {
+                tmp.put("introduction", author.getIntroduction());
+            }
+
             authorList.put(Integer.toString(i), tmp);
         }
         jsonBook.put("authorList", authorList);
@@ -148,7 +159,7 @@ public class BookController {
         JSONObject jsonBooks = new JSONObject();
         for (int i = 0; i < books.size(); i++) {
             JSONObject tmp = new JSONObject();
-            tmp = book2JsonBook(books.get(i));
+            tmp = book2JsonBook(books.get(i), true);
             jsonBooks.put(Integer.toString(i), tmp);
         }
 
