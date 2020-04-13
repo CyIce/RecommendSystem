@@ -87,10 +87,8 @@ public class Book {
 
     // 书籍标签
     @JsonIgnore
-    @ManyToMany
-    @JoinTable(name = "book_to_book_label",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_label_id"))
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id")
     private List<BookLabel> bookLabelList;
 
     public Book() {

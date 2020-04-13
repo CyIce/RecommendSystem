@@ -6,15 +6,14 @@ import com.bookrecommend.demo.entity.Author;
 import com.bookrecommend.demo.entity.Book;
 import com.bookrecommend.demo.entity.BookLabel;
 import com.bookrecommend.demo.respository.BookRepository;
+import com.bookrecommend.demo.respository.LabelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -25,12 +24,15 @@ public class BookController {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private LabelRepository labelRepository;
+
     @GetMapping()
     public String getBook(@RequestParam(value = "book_id") Integer bookId) {
         Book book = bookRepository.findBookById(bookId);
 
 
-        JSONObject jsonBook = addBookElement(book);
+        JSONObject jsonBook = book2JsonBook(book);
 
         return jsonBook.toJSONString();
 
@@ -45,24 +47,38 @@ public class BookController {
         Pageable pageable = PageRequest.of(offset, limit, sort);
         List<Book> books = bookRepository.findAll(pageable).toList();
 
-        JSONObject jsonBooks = new JSONObject();
-        for (int i = 0; i < books.size(); i++) {
-            JSONObject tmp = new JSONObject();
-            tmp = addBookElement(books.get(i));
-            jsonBooks.put(Integer.toString(i), tmp);
-        }
+        JSONObject jsonBooks = books2JsonBooks(books);
 
         return jsonBooks.toJSONString();
     }
 
 
-    @GetMapping("search")
-    public String search() {
-        return "";
+    // 根据关键字和书籍标签查找书籍
+    @PostMapping("search")
+    public String searchByKeyword(@RequestParam("keyword") String keyword,
+                                  @RequestBody JSONObject labelList,
+                                  @RequestParam(value = "offset", defaultValue = "0") Integer offset,
+                                  @RequestParam(value = "limit", defaultValue = "10") Integer limit) {
+        offset = offset < 0 ? 0 : offset;
+        Sort sort = Sort.by(Sort.Order.desc("hot"));
+        Pageable pageable = PageRequest.of(offset, limit, sort);
+        List<Integer> labelIdList = new ArrayList<Integer>();
+        for (int i = 0; i < labelList.size(); i++) {
+            labelIdList.add(labelList.getJSONObject(Integer.toString(i)).getInteger("labelId"));
+        }
+
+        if (labelIdList.size() == 0) {
+            labelIdList = null;
+        }
+
+        List<Book> books = bookRepository.searchByKeyword(pageable, keyword, labelIdList).toList();
+        JSONObject jsonBooks = books2JsonBooks(books);
+
+        return jsonBooks.toJSONString();
     }
 
-
-    private JSONObject addBookElement(Book book) {
+    // 将Book对象转化为符合规则的Json对象
+    private JSONObject book2JsonBook(Book book) {
         JSONObject jsonBook = JSONObject.parseObject(JSON.toJSONString(book));
         JSONObject authorList = new JSONObject();
         jsonBook.remove("commentList");
@@ -86,12 +102,25 @@ public class BookController {
         for (int i = 0; i < book.getBookLabelList().size(); i++) {
             JSONObject tmp = new JSONObject();
             BookLabel bookLabel = book.getBookLabelList().get(i);
-            tmp.put("labelId", bookLabel.getLabel().getId());
-            tmp.put("label", bookLabel.getLabel().getLabel());
+            Integer labelId = bookLabel.getLabelId();
+            tmp.put("labelId", labelId);
+            tmp.put("label", labelRepository.findLabelById(labelId).getLabel());
             tmp.put("value", bookLabel.getValue());
             bookLabelList.put(Integer.toString(i), tmp);
         }
         jsonBook.put("bookLabelList", bookLabelList);
         return jsonBook;
+    }
+
+    // 将Book对象列表转化为符合规则的Json对象
+    private JSONObject books2JsonBooks(List<Book> books) {
+        JSONObject jsonBooks = new JSONObject();
+        for (int i = 0; i < books.size(); i++) {
+            JSONObject tmp = new JSONObject();
+            tmp = book2JsonBook(books.get(i));
+            jsonBooks.put(Integer.toString(i), tmp);
+        }
+
+        return jsonBooks;
     }
 }
