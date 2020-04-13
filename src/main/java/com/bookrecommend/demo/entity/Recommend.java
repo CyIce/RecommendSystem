@@ -20,6 +20,9 @@ public class Recommend {
     @JoinColumn(name = "book_id")
     private Book book;
 
+    @Column(name = "user_id", nullable = false, length = 11)
+    private Integer userId;
+
     // 书籍推荐的优先级别
     @Column(name = "value", nullable = false, length = 11)
     private Integer value;
@@ -38,5 +41,37 @@ public class Recommend {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getValue() {
+        return value;
+    }
+
+    public void setValue(Integer value) {
+        this.value = value;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

@@ -5,8 +5,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.bookrecommend.demo.entity.Author;
 import com.bookrecommend.demo.entity.Book;
 import com.bookrecommend.demo.entity.BookLabel;
+import com.bookrecommend.demo.entity.Recommend;
 import com.bookrecommend.demo.respository.BookRepository;
 import com.bookrecommend.demo.respository.LabelRepository;
+import com.bookrecommend.demo.respository.RecommendRepository;
+import com.bookrecommend.demo.respository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +30,13 @@ public class BookController {
     @Autowired
     private LabelRepository labelRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private RecommendRepository recommendRepository;
+
+    // 根据书籍id获取书籍
     @GetMapping()
     public String getBook(@RequestParam(value = "book_id") Integer bookId) {
         Book book = bookRepository.findBookById(bookId);
@@ -38,6 +48,7 @@ public class BookController {
 
     }
 
+    // 获取热门书籍
     @GetMapping("/hot")
     public String hotBooks(@RequestParam(value = "offset", defaultValue = "0") Integer offset,
                            @RequestParam(value = "limit", defaultValue = "10") Integer limit) {
@@ -52,6 +63,26 @@ public class BookController {
         return jsonBooks.toJSONString();
     }
 
+
+    // 获取用户的推荐书籍
+    @PostMapping("recommend")
+    public String recommendBooks(@RequestParam("user_id") Integer userId,
+                                 @RequestParam(value = "offset", defaultValue = "0") Integer offset,
+                                 @RequestParam(value = "limit", defaultValue = "10") Integer limit) {
+
+        offset = offset < 0 ? 0 : offset;
+        Sort sort = Sort.by(Sort.Order.desc("value"));
+        Pageable pageable = PageRequest.of(offset, limit, sort);
+        List<Recommend> recommendList = recommendRepository.findRecommendsByUserId(pageable, userId).toList();
+
+        List<Book> books = new ArrayList<Book>();
+        for (Recommend recommend : recommendList) {
+            books.add(recommend.getBook());
+        }
+        JSONObject jsonBooks = books2JsonBooks(books);
+
+        return jsonBooks.toString();
+    }
 
     // 根据关键字和书籍标签查找书籍
     @PostMapping("search")
