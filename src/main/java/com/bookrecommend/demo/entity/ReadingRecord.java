@@ -20,6 +20,10 @@ public class ReadingRecord {
     @JoinColumn(name = "book_id")
     private Book book;
 
+    // 用户
+    @Column(name = "user_id", nullable = false, length = 11)
+    private Integer userId;
+
     // 上次阅读到的位置
     @Column(name = "position", nullable = false, length = 11)
     private Integer position;
@@ -74,5 +78,13 @@ public class ReadingRecord {
 
     public void setReadingTime(Integer readingTime) {
         this.readingTime = readingTime;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }
