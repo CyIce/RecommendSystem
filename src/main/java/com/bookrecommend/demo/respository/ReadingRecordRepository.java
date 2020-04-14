@@ -4,11 +4,13 @@ import com.bookrecommend.demo.entity.ReadingRecord;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.query.Param;
 
 public interface ReadingRecordRepository extends JpaRepository<ReadingRecord, Integer> {
 
-    //    @Query(value = "select distinct r from ReadingRecord r where r.userId = :userId")
-    Page<ReadingRecord> findReadingRecordsByUserId(Pageable pageable, @Param("userId") Integer userId);
+    // 根据用户id获取用户的阅读记录
+    Page<ReadingRecord> findReadingRecordsByUserId(Pageable pageable, Integer userId);
+
+    // 根据用户id和书籍id获取书籍阅读记录
+    ReadingRecord findReadingRecordByUserIdAndBookId(Integer userId, Integer bookId);
 
 }

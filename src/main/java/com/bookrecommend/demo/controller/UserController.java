@@ -87,8 +87,8 @@ public class UserController {
     public String deleteCollection(@RequestParam("user_id") Integer userId,
                                    @RequestParam("book_id") Integer bookId) {
         if (isCollected(userId, bookId)) {
-            Collection c = collectionRepository.findCollectionsByUserIdAndBookId(userId, bookId);
-            collectionRepository.deleteById(c.getId());
+            Collection c = collectionRepository.findCollectionByUserIdAndBookId(userId, bookId);
+            collectionRepository.delete(c);
             return "1";
         } else {
             return "-1";
@@ -97,7 +97,7 @@ public class UserController {
 
 
     // 获取用户的阅读记录
-    @PostMapping("/readingrecord")
+    @GetMapping("/readingrecord")
     public String readingRecord(@RequestParam("user_id") Integer userId,
                                 @RequestParam(value = "offset", defaultValue = "0") Integer offset,
                                 @RequestParam(value = "limit", defaultValue = "10") Integer limit) {
@@ -112,15 +112,16 @@ public class UserController {
 
         for (int i = 0; i < readingRecordList.size(); i++) {
             ReadingRecord r = readingRecordList.get(i);
+            Book book = bookRepository.getOne(r.getBookId());
             JSONObject temp = new JSONObject();
-            temp.put("bookId", r.getBook().getId());
-            temp.put("bookNameCn", r.getBook().getNameCn());
-            temp.put("bookNameEng", r.getBook().getNameEng());
-            temp.put("bookPhoto", r.getBook().getPhoto());
-            temp.put("rate", r.getPosition() * 1.0 / r.getBook().getWordCount());
+            temp.put("bookId", book.getId());
+            temp.put("bookNameCn", book.getNameCn());
+            temp.put("bookNameEng", book.getNameEng());
+            temp.put("bookPhoto", book.getPhoto());
+            temp.put("rate", r.getPosition() * 1.0 / book.getWordCount());
             temp.put("readingTime", r.getReadingTime());
             temp.put("date", Utils.Date2String(r.getDate(), true));
-            List<Author> authorList = r.getBook().getAuthorList();
+            List<Author> authorList = book.getAuthorList();
             JSONObject jsonAuthors = new JSONObject();
             for (int j = 0; j < authorList.size(); j++) {
                 JSONObject json = new JSONObject();
@@ -136,9 +137,50 @@ public class UserController {
         return jsonRecords.toJSONString();
     }
 
+
+    // 为用户添加或修改阅读记录
+    @PostMapping("/readingrecord")
+    public String addReadingRecord(@RequestParam("user_id") Integer userId,
+                                   @RequestParam("book_id") Integer bookId,
+                                   @RequestParam("position") Integer position,
+                                   @RequestParam("reading_time") Integer readingTime,
+                                   @RequestParam("date") String dateStr) {
+        ReadingRecord r = readingRecordRepository.findReadingRecordByUserIdAndBookId(userId, bookId);
+        if (r == null) {
+            ReadingRecord record = new ReadingRecord();
+            record.setUserId(userId);
+            record.setBookId(bookId);
+            record.setPosition(position);
+            record.setReadingTime(readingTime);
+            record.setDate(Utils.String2Date(dateStr, false));
+            readingRecordRepository.save(record);
+        } else {
+            r.setPosition(position);
+            r.setReadingTime(r.getReadingTime() + readingTime);
+            r.setDate(Utils.String2Date(dateStr, false));
+            readingRecordRepository.save(r);
+        }
+
+        return "1";
+    }
+
+    // 删除一条阅读记录
+    @DeleteMapping("/readingrecord")
+    public String deleteReadingRecord(@RequestParam("user_id") Integer userId,
+                                      @RequestParam("book_id") Integer bookId) {
+        ReadingRecord r = readingRecordRepository.findReadingRecordByUserIdAndBookId(userId, bookId);
+        if (r == null) {
+            return "-1";
+        } else {
+            readingRecordRepository.delete(r);
+            return "1";
+        }
+    }
+
     // 判断书籍是否已被用户收藏
-    public boolean isCollected(Integer userId, Integer book_id) {
-        Collection c = collectionRepository.findCollectionsByUserIdAndBookId(userId, book_id);
+    private boolean isCollected(Integer userId, Integer book_id) {
+        Collection c = collectionRepository.findCollectionByUserIdAndBookId(userId, book_id);
         return c != null;
     }
+
 }
