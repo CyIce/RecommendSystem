@@ -2,14 +2,9 @@ package com.bookrecommend.demo.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.bookrecommend.demo.entity.Author;
-import com.bookrecommend.demo.entity.Book;
-import com.bookrecommend.demo.entity.BookLabel;
-import com.bookrecommend.demo.entity.Recommend;
-import com.bookrecommend.demo.respository.BookRepository;
-import com.bookrecommend.demo.respository.LabelRepository;
-import com.bookrecommend.demo.respository.RecommendRepository;
-import com.bookrecommend.demo.respository.UserRepository;
+import com.bookrecommend.demo.entity.*;
+import com.bookrecommend.demo.respository.*;
+import com.bookrecommend.demo.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +30,10 @@ public class BookController {
 
     @Autowired
     private RecommendRepository recommendRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
+
 
     // 根据书籍id获取书籍
     @GetMapping()
@@ -106,6 +105,34 @@ public class BookController {
         JSONObject jsonBooks = books2JsonBooks(books);
 
         return jsonBooks.toJSONString();
+    }
+
+
+    // 获取书籍评论
+    @GetMapping("comments")
+    public String getBookComments(@RequestParam("book_id") Integer bookId,
+                                  @RequestParam(value = "offset", defaultValue = "0") Integer offset,
+                                  @RequestParam(value = "limit", defaultValue = "10") Integer limit) {
+        offset = offset < 0 ? 0 : offset;
+        Sort sort = Sort.by(Sort.Order.desc("date"));
+        Pageable pageable = PageRequest.of(offset, limit, sort);
+
+        List<Comment> commentList = commentRepository.findCommentsByBookId(pageable, bookId).toList();
+
+        JSONObject jsonComments = new JSONObject();
+        for (int i = 0; i < commentList.size(); i++) {
+            JSONObject temp = new JSONObject();
+            Comment comment = commentList.get(i);
+            temp.put("userId", comment.getUser().getId());
+            temp.put("userName", comment.getUser().getName());
+            temp.put("userPhoto", comment.getUser().getPhoto());
+            temp.put("comment", comment.getComment());
+            temp.put("date", Utils.FormatDate(comment.getDate(), false));
+            jsonComments.put(Integer.toString(i), temp);
+        }
+
+
+        return jsonComments.toJSONString();
     }
 
 

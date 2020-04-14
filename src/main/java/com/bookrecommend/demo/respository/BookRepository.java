@@ -15,8 +15,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     // 根据关键字搜索书籍
     @Query(value = "select distinct b from Book b,BookLabel label where " +
-            "(b.nameCn like %:keyword% or b.nameEng like %:keyword%) and (label.bookId = b.id) and (label.labelId in (:labelIdList))")
-//    Page<Book> searchByKeyword(Pageable pageable, @Param("keyword") String keyword);
+            "(b.nameCn like %:keyword% or b.nameEng like %:keyword%) " +
+            "and (label.bookId = b.id) and (label.labelId in (:labelIdList))")
     Page<Book> searchByKeyword(Pageable pageable, @Param("keyword") String keyword, @Param("labelIdList") List<Integer> labelIdList);
-
 }
