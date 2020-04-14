@@ -13,7 +13,7 @@ import java.util.List;
 public class Author {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     // 中文名

@@ -12,13 +12,12 @@ import java.util.Date;
 public class Collection {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     // 书籍
-    @OneToOne
-    @JoinColumn(name = "book_id")
-    private Book book;
+    @Column(name = "book_id", nullable = false, length = 11)
+    private Integer bookId;
 
     @Column(name = "user_id", nullable = false, length = 11)
     private Integer userId;
@@ -39,12 +38,12 @@ public class Collection {
         this.id = id;
     }
 
-    public Book getBook() {
-        return book;
+    public Integer getBookId() {
+        return bookId;
     }
 
-    public void setBook(Book book) {
-        this.book = book;
+    public void setBookId(Integer bookId) {
+        this.bookId = bookId;
     }
 
     public Date getDate() {

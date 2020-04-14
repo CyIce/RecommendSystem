@@ -12,7 +12,7 @@ import java.util.Date;
 public class RefundRecord {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     // 购物订单

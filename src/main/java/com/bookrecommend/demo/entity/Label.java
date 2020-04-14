@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class Label {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     // 标签名称

@@ -127,7 +127,7 @@ public class BookController {
             temp.put("userName", comment.getUser().getName());
             temp.put("userPhoto", comment.getUser().getPhoto());
             temp.put("comment", comment.getComment());
-            temp.put("date", Utils.FormatDate(comment.getDate(), false));
+            temp.put("date", Utils.Date2String(comment.getDate(), false));
             jsonComments.put(Integer.toString(i), temp);
         }
 

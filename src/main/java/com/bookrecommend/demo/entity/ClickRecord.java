@@ -12,7 +12,7 @@ import java.util.Date;
 public class ClickRecord {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "user_id", nullable = false, length = 11)

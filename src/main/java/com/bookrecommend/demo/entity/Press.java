@@ -13,7 +13,7 @@ import java.util.Date;
 public class Press {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     // 出版社名称

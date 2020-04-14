@@ -12,7 +12,7 @@ import java.util.List;
 public class UserOrder {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     // 创建时间

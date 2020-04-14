@@ -15,7 +15,7 @@ import java.util.List;
 public class Book {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     // 书籍中文名称

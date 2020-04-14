@@ -12,7 +12,7 @@ import java.util.Date;
 public class ReadingRecord {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     // 书籍

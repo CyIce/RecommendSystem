@@ -12,7 +12,7 @@ import java.util.Date;
 public class Score {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     // 用户id

@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class UserLabel {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     // 标签

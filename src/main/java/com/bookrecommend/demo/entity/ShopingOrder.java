@@ -8,7 +8,7 @@ import javax.persistence.*;
 public class ShopingOrder {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     // 书籍

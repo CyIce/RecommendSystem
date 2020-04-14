@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class BookLabel {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     // 标签
