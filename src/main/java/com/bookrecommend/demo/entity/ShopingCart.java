@@ -16,9 +16,12 @@ public class ShopingCart {
     private Integer id;
 
     // 书籍
-    @OneToOne
-    @JoinColumn(name = "book_id")
-    private Book book;
+    @Column(name = "book_id", nullable = false, length = 11)
+    private Integer bookId;
+
+    // 用户
+    @Column(name = "user_id", nullable = false, length = 11)
+    private Integer userId;
 
     // 单价
     @Column(name = "price", nullable = false, length = 11, precision = 4)
@@ -44,12 +47,20 @@ public class ShopingCart {
         this.id = id;
     }
 
-    public Book getBook() {
-        return book;
+    public Integer getBookId() {
+        return bookId;
     }
 
-    public void setBook(Book book) {
-        this.book = book;
+    public void setBookId(Integer bookId) {
+        this.bookId = bookId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public float getPrice() {

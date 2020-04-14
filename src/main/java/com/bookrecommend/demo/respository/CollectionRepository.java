@@ -12,4 +12,5 @@ public interface CollectionRepository extends JpaRepository<Collection, Integer>
 
     // 根据用户id和书籍id判读用户是否已经收藏此书籍
     Collection findCollectionByUserIdAndBookId(Integer userId, Integer booId);
+
 }
