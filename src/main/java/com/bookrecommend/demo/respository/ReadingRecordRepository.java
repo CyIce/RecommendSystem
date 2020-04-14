@@ -13,4 +13,7 @@ public interface ReadingRecordRepository extends JpaRepository<ReadingRecord, In
     // 根据用户id和书籍id获取书籍阅读记录
     ReadingRecord findReadingRecordByUserIdAndBookId(Integer userId, Integer bookId);
 
+    // 根据用户id和书籍id判断书籍是否被用户阅读
+    boolean existsReadingRecordByUserIdAndBookId(Integer userId, Integer bookId);
+
 }

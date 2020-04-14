@@ -48,6 +48,7 @@ public class UserController {
             Collection collection = collectionList.get(i);
             JSONObject temp = new JSONObject();
             Book book = bookRepository.getOne(collection.getBookId());
+            temp.put("id", collection.getId());
             temp.put("bookId", book.getId());
             temp.put("nameCn", book.getNameCn());
             temp.put("nameEng", book.getNameEng());
@@ -66,7 +67,7 @@ public class UserController {
                                 @RequestParam("book_id") Integer bookId,
                                 @RequestParam("date") String dateStr) {
 
-        if (isCollected(userId, bookId)) {
+        if (collectionRepository.existsCollectionByUserIdAndBookId(userId, bookId)) {
             return "-1";
         } else {
             Collection collection = new Collection();
@@ -81,11 +82,9 @@ public class UserController {
 
     // 取消收藏
     @DeleteMapping("collection")
-    public String deleteCollection(@RequestParam("user_id") Integer userId,
-                                   @RequestParam("book_id") Integer bookId) {
-        if (isCollected(userId, bookId)) {
-            Collection c = collectionRepository.findCollectionByUserIdAndBookId(userId, bookId);
-            collectionRepository.delete(c);
+    public String deleteCollection(@RequestParam("id") Integer id) {
+        if (collectionRepository.existsById(id)) {
+            collectionRepository.deleteById(id);
             return "1";
         } else {
             return "-1";
@@ -111,6 +110,7 @@ public class UserController {
             ReadingRecord r = readingRecordList.get(i);
             Book book = bookRepository.getOne(r.getBookId());
             JSONObject temp = new JSONObject();
+            temp.put("id", r.getId());
             temp.put("bookId", book.getId());
             temp.put("bookNameCn", book.getNameCn());
             temp.put("bookNameEng", book.getNameEng());
@@ -129,15 +129,16 @@ public class UserController {
     }
 
 
-    // 为用户添加或修改阅读记录
+    // 为用户添加阅读记录
     @PostMapping("/readingrecord")
     public String addReadingRecord(@RequestParam("user_id") Integer userId,
                                    @RequestParam("book_id") Integer bookId,
                                    @RequestParam("position") Integer position,
                                    @RequestParam("reading_time") Integer readingTime,
                                    @RequestParam("date") String dateStr) {
-        ReadingRecord r = readingRecordRepository.findReadingRecordByUserIdAndBookId(userId, bookId);
-        if (r == null) {
+        if (readingRecordRepository.existsReadingRecordByUserIdAndBookId(userId, bookId)) {
+            return "-1";
+        } else {
             ReadingRecord record = new ReadingRecord();
             record.setUserId(userId);
             record.setBookId(bookId);
@@ -145,26 +146,39 @@ public class UserController {
             record.setReadingTime(readingTime);
             record.setDate(Utils.String2Date(dateStr, false));
             readingRecordRepository.save(record);
-        } else {
+            return "1";
+        }
+    }
+
+
+    // 更新阅读记录
+    @PostMapping("/updatereadingrecord")
+    public String updateReadingRecord(@RequestParam("id") Integer id,
+                                      @RequestParam("position") Integer position,
+                                      @RequestParam("reading_time") Integer readingTime,
+                                      @RequestParam("date") String dateStr) {
+        if (readingRecordRepository.existsById(id)) {
+            ReadingRecord r = readingRecordRepository.getOne(id);
             r.setPosition(position);
             r.setReadingTime(r.getReadingTime() + readingTime);
             r.setDate(Utils.String2Date(dateStr, false));
             readingRecordRepository.save(r);
+            return "1";
+        } else {
+            return "-1";
         }
 
-        return "1";
     }
 
     // 删除一条阅读记录
     @DeleteMapping("/readingrecord")
-    public String deleteReadingRecord(@RequestParam("user_id") Integer userId,
-                                      @RequestParam("book_id") Integer bookId) {
-        ReadingRecord r = readingRecordRepository.findReadingRecordByUserIdAndBookId(userId, bookId);
-        if (r == null) {
-            return "-1";
-        } else {
-            readingRecordRepository.delete(r);
+    public String deleteReadingRecord(@RequestParam("id") Integer id) {
+        ;
+        if (readingRecordRepository.existsById(id)) {
+            readingRecordRepository.deleteById(id);
             return "1";
+        } else {
+            return "-1";
         }
     }
 
@@ -259,11 +273,5 @@ public class UserController {
         }
     }
 
-
-    // 判断书籍是否已被用户收藏
-    private boolean isCollected(Integer userId, Integer book_id) {
-        Collection c = collectionRepository.findCollectionByUserIdAndBookId(userId, book_id);
-        return c != null;
-    }
 
 }
