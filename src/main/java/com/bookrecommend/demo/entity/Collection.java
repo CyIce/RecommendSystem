@@ -19,6 +19,7 @@ public class Collection {
     @Column(name = "book_id", nullable = false, length = 11)
     private Integer bookId;
 
+    // 用户
     @Column(name = "user_id", nullable = false, length = 11)
     private Integer userId;
 

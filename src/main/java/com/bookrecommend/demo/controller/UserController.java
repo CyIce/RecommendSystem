@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -30,6 +31,12 @@ public class UserController {
 
     @Autowired
     private ShopingCartRepository shopingCartRepository;
+
+    @Autowired
+    private UserOrderRepository userOrderRepository;
+
+    @Autowired
+    private ShopingOrderRepository shopingOrderRepository;
 
     // 获取用户的收藏
     @GetMapping("/collection")
@@ -64,8 +71,7 @@ public class UserController {
     // 收藏一本书籍
     @PostMapping("collection")
     public String addCollection(@RequestParam("user_id") Integer userId,
-                                @RequestParam("book_id") Integer bookId,
-                                @RequestParam("date") String dateStr) {
+                                @RequestParam("book_id") Integer bookId) {
 
         if (collectionRepository.existsCollectionByUserIdAndBookId(userId, bookId)) {
             return "-1";
@@ -73,7 +79,7 @@ public class UserController {
             Collection collection = new Collection();
             collection.setBookId(bookId);
             collection.setUserId(userId);
-            collection.setDate(Utils.String2Date(dateStr, false));
+            collection.setDate(new Date());
             collectionRepository.save(collection);
         }
 
@@ -134,8 +140,7 @@ public class UserController {
     public String addReadingRecord(@RequestParam("user_id") Integer userId,
                                    @RequestParam("book_id") Integer bookId,
                                    @RequestParam("position") Integer position,
-                                   @RequestParam("reading_time") Integer readingTime,
-                                   @RequestParam("date") String dateStr) {
+                                   @RequestParam("reading_time") Integer readingTime) {
         if (readingRecordRepository.existsReadingRecordByUserIdAndBookId(userId, bookId)) {
             return "-1";
         } else {
@@ -144,7 +149,7 @@ public class UserController {
             record.setBookId(bookId);
             record.setPosition(position);
             record.setReadingTime(readingTime);
-            record.setDate(Utils.String2Date(dateStr, false));
+            record.setDate(new Date());
             readingRecordRepository.save(record);
             return "1";
         }
@@ -155,13 +160,12 @@ public class UserController {
     @PostMapping("/updatereadingrecord")
     public String updateReadingRecord(@RequestParam("id") Integer id,
                                       @RequestParam("position") Integer position,
-                                      @RequestParam("reading_time") Integer readingTime,
-                                      @RequestParam("date") String dateStr) {
+                                      @RequestParam("reading_time") Integer readingTime) {
         if (readingRecordRepository.existsById(id)) {
             ReadingRecord r = readingRecordRepository.getOne(id);
             r.setPosition(position);
             r.setReadingTime(r.getReadingTime() + readingTime);
-            r.setDate(Utils.String2Date(dateStr, false));
+            r.setDate(new Date());
             readingRecordRepository.save(r);
             return "1";
         } else {
@@ -219,8 +223,7 @@ public class UserController {
     @PostMapping("/shopingcart")
     public String addShopingCart(@RequestParam("user_id") Integer userId,
                                  @RequestParam("book_id") Integer bookId,
-                                 @RequestParam("number") Integer number,
-                                 @RequestParam("date") String date) {
+                                 @RequestParam("number") Integer number) {
         if (shopingCartRepository.existsShopingCartByUserIdAndBookId(userId, bookId)) {
             return "-1";
         }
@@ -230,7 +233,7 @@ public class UserController {
         cart.setBookId(bookId);
         cart.setNumber(number);
         cart.setPrice(bookRepository.getOne(bookId).getPrice());
-        cart.setDate(Utils.String2Date(date, false));
+        cart.setDate(new Date());
         shopingCartRepository.save(cart);
         return "1";
     }
@@ -261,6 +264,98 @@ public class UserController {
             return "-1";
         }
     }
+
+
+    // 获取用户购买记录
+    @GetMapping("/userorder")
+    public String getUserOrder(@RequestParam("user_id") Integer userId,
+                               @RequestParam(value = "offset", defaultValue = "0") Integer offset,
+                               @RequestParam(value = "limit", defaultValue = "10") Integer limit) {
+        offset = offset < 0 ? 0 : offset;
+        Sort sort = Sort.by(Sort.Order.desc("createTime"));
+        Pageable pageable = PageRequest.of(offset, limit, sort);
+        List<UserOrder> userOrderList = userOrderRepository.findUserOrdersByUserId(pageable, userId).toList();
+
+        JSONObject jsonOrders = new JSONObject();
+        for (int i = 0; i < userOrderList.size(); i++) {
+            JSONObject order = new JSONObject();
+            UserOrder uo = userOrderList.get(i);
+            order.put("id", uo.getId());
+            order.put("createTime", Utils.Date2String(uo.getCreateTime(), false));
+            order.put("paymentTime", Utils.Date2String(uo.getPaymentTime(), false));
+            order.put("deliverTime", Utils.Date2String(uo.getDeliverTime(), false));
+            order.put("receiveTime", Utils.Date2String(uo.getReceiveTime(), false));
+            order.put("paymentStatus", uo.getPaymentStatus());
+            order.put("deliverStatus", uo.getDeliverStatus());
+            order.put("receiveStatus", uo.getReceiveStatus());
+
+            for (int j = 0; j < uo.getShopingOrderList().size(); j++) {
+                JSONObject temp = new JSONObject();
+                ShopingOrder so = uo.getShopingOrderList().get(j);
+                Book book = bookRepository.getOne(so.getBookId());
+
+                temp.put("shopingOrderId", so.getId());
+                temp.put("bookId", book.getId());
+                temp.put("bookNameCn", book.getNameCn());
+                temp.put("bookNameEng", book.getNameEng());
+                temp.put("bookPhoto", book.getPhoto());
+                temp.put("price", so.getPrice());
+                temp.put("number", so.getNumber());
+                order.put(Integer.toString(j), temp);
+            }
+            jsonOrders.put(Integer.toString(i), order);
+        }
+
+
+        return jsonOrders.toJSONString();
+    }
+
+    // 添加用户购买记录
+    @PostMapping("/userorder")
+    public String addUserOrder(@RequestBody JSONObject userOrderList) {
+
+        JSONObject shopingCartList = userOrderList.getJSONObject("shopingCartList");
+        UserOrder userOrder = new UserOrder();
+        userOrder.setUserId(userOrderList.getInteger("userId"));
+        userOrder.setCreateTime(new Date());
+        userOrder.setDeliverStatus(false);
+        userOrder.setPaymentStatus(false);
+        userOrder.setReceiveStatus(false);
+        userOrderRepository.save(userOrder);
+
+        for (int i = 0; i < shopingCartList.size(); i++) {
+            ShopingOrder shopingOrder = new ShopingOrder();
+            Integer cartId = shopingCartList.getJSONObject(Integer.toString(i)).getInteger("cartId");
+            ShopingCart cart = shopingCartRepository.getOne(cartId);
+
+            shopingOrder.setBookId(cart.getBookId());
+            shopingOrder.setNumber(cart.getNumber());
+            shopingOrder.setPrice(cart.getPrice());
+            shopingOrder.setUserOrderId(userOrder.getId());
+            shopingOrderRepository.save(shopingOrder);
+
+        }
+        return "1";
+    }
+
+    //修改用户购买信息，如付款信息、配送信息等
+    @PostMapping("/updateUserOrder")
+    public String updateUserOrder() {
+        return "";
+    }
+
+    // 删除用户购买记录
+    @DeleteMapping("/userorder")
+    public String deleteUserOrder(@RequestParam("user_order_id") Integer userOrderId) {
+        if (userOrderRepository.existsById(userOrderId)) {
+            shopingOrderRepository.deleteShopingOrdersByUserOrderId(userOrderId);
+            userOrderRepository.deleteById(userOrderId);
+            return "1";
+        } else {
+            return "-1";
+        }
+    }
+
 
     // 将作者信息添加到json中
     private void addAuthors2Json(List<Author> authorList, JSONObject jsonAuthors) {

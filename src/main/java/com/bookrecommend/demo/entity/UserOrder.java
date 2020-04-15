@@ -1,5 +1,6 @@
 package com.bookrecommend.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -14,6 +15,11 @@ public class UserOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+
+    // 用户
+    @Column(name = "user_id", nullable = false, length = 11)
+    private Integer userId;
 
     // 创建时间
     @Column(name = "create_time", nullable = false)
@@ -48,6 +54,7 @@ public class UserOrder {
     private Boolean receiveStatus;
 
     // 购物订单
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_order_id")
     private List<ShopingOrder> shopingOrderList;
@@ -61,6 +68,14 @@ public class UserOrder {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Date getCreateTime() {
