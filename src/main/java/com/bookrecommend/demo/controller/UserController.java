@@ -38,6 +38,110 @@ public class UserController {
     @Autowired
     private ShopingOrderRepository shopingOrderRepository;
 
+    @Autowired
+    private UserLabelRepository userLabelRepository;
+
+    @Autowired
+    private LabelRepository labelRepository;
+
+
+    // 获取用户基本信息
+    @GetMapping("/information")
+    public String getUserInfo(@RequestParam("user_id") Integer userId) {
+
+        if (userRepository.existsById(userId)) {
+            User user = userRepository.getOne(userId);
+            JSONObject jsonUser = new JSONObject();
+            jsonUser.put("userId", user.getId());
+            jsonUser.put("name", user.getName());
+            jsonUser.put("age", user.getAge());
+            jsonUser.put("email", user.getEmail());
+            jsonUser.put("gender", user.getGender());
+            jsonUser.put("introduction", user.getIntroduction());
+            jsonUser.put("phoneNumber", user.getPhoneNumber());
+            jsonUser.put("photo", user.getPhoto());
+            jsonUser.put("registrationDate", Utils.Date2String(user.getRegistrationDate(), true));
+
+            JSONObject jsonLabels = new JSONObject();
+            for (int i = 0; i < user.getUserLabelList().size(); i++) {
+                JSONObject temp = new JSONObject();
+                Label label = labelRepository.getOne(user.getUserLabelList().get(i).getLabelId());
+                temp.put("labelId", label.getId());
+                temp.put("label", label.getLabel());
+                temp.put("value", user.getUserLabelList().get(i).getValue());
+                jsonLabels.put(user.getUserLabelList().get(i).getId().toString(), temp);
+            }
+            jsonUser.put("labelList", jsonLabels);
+
+            return jsonUser.toJSONString();
+        }
+
+
+        return "-1";
+    }
+
+    // 修改用户信息
+    @PostMapping("/updateinformation")
+    public String updateUserInfo(@RequestBody JSONObject info) {
+        if (info.isEmpty() || !userRepository.existsById(info.getInteger("userId"))) {
+            return "-1";
+        } else {
+            User user = userRepository.getOne(info.getInteger("userId"));
+            user.setName(info.getString("name"));
+            user.setAge(info.getInteger("age"));
+            user.setGender(info.getBoolean("gender"));
+            user.setPhoto(info.getString("photo"));
+            user.setEmail(info.getString("email"));
+            user.setIntroduction(info.getString("Introduction"));
+            userRepository.save(user);
+            return "1";
+        }
+
+    }
+
+    // 给用户添加一个标签
+    @PostMapping("/label")
+    public String addLabel(@RequestParam("user_id") Integer userId,
+                           @RequestParam("label_id") Integer labelId) {
+        if (userRepository.existsById(userId) && labelRepository.existsById(labelId)) {
+            User user = userRepository.getOne(userId);
+            UserLabel userLabel = new UserLabel();
+            userLabel.setLabelId(labelId);
+            userLabel.setValue(1);
+            userLabel.setUserId(userId);
+            userLabelRepository.save(userLabel);
+            return "1";
+        }
+
+        return "-1";
+    }
+
+
+    // 删除一个用户的标签
+    @DeleteMapping("/label")
+    public String deleteLabel(@RequestParam("user_label_id") Integer userLabelId) {
+        if (userLabelRepository.existsById(userLabelId)) {
+            userLabelRepository.deleteById(userLabelId);
+            return "1";
+        }
+        return "-1";
+    }
+
+
+    // 修改用户标签的value
+    @PostMapping("/updateLabel")
+    public String updateLabel(@RequestParam("user_id") Integer userId,
+                              @RequestParam("user_label_id") Integer userLabelId) {
+
+        if (userLabelRepository.existsById(userLabelId)) {
+            UserLabel userLabel = userLabelRepository.getOne(userLabelId);
+            userLabel.setValue(userLabel.getValue() + 1);
+            userLabelRepository.save(userLabel);
+            return "1";
+        }
+        return "-1";
+    }
+
     // 获取用户的收藏
     @GetMapping("/collection")
     public String collectionBooks(@RequestParam("user_id") Integer userId,
@@ -356,6 +460,18 @@ public class UserController {
         }
     }
 
+
+    // 获取用户评论
+    @GetMapping("/comment")
+    public String getComment(@RequestParam("user_id") Integer userId) {
+        return "1";
+    }
+
+    // 用户评论书籍
+    @PostMapping("/comment")
+    public String comment(@RequestBody JSONObject comment) {
+        return "1";
+    }
 
     // 将作者信息添加到json中
     private void addAuthors2Json(List<Author> authorList, JSONObject jsonAuthors) {

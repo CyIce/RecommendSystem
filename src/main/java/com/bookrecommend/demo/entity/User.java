@@ -134,8 +134,12 @@ public class User {
         this.age = age;
     }
 
-    public Boolean getGender() {
-        return gender;
+    public String getGender() {
+        if (gender) {
+            return "男";
+        } else {
+            return "女";
+        }
     }
 
     public void setGender(Boolean gender) {

@@ -13,9 +13,12 @@ public class UserLabel {
     private Integer id;
 
     // 标签
-    @OneToOne
-    @JoinColumn(name = "label_id")
-    private Label label;
+    @Column(name = "label_id", nullable = false, length = 11)
+    private Integer labelId;
+
+    // 用户
+    @Column(name = "user_id", nullable = false, length = 11)
+    private Integer userId;
 
     // 用户对标签的喜爱程度
     @Column(name = "value", nullable = false, length = 11)
@@ -32,12 +35,20 @@ public class UserLabel {
         this.id = id;
     }
 
-    public Label getLabel() {
-        return label;
+    public Integer getLabelId() {
+        return labelId;
     }
 
-    public void setLabel(Label label) {
-        this.label = label;
+    public void setLabelId(Integer labelId) {
+        this.labelId = labelId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Integer getValue() {

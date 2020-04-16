@@ -13,12 +13,10 @@ public class BookLabel {
     private Integer id;
 
     // 标签
-//    @ManyToOne
-//    @JoinColumn(name = "label_id")
-//    private Label label;
     @Column(name = "label_id", nullable = false, length = 11)
     private Integer labelId;
 
+    // 书籍
     @Column(name = "book_id", nullable = false, length = 11)
     private Integer bookId;
 
