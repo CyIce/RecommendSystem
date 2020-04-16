@@ -123,9 +123,10 @@ public class BookController {
         for (int i = 0; i < commentList.size(); i++) {
             JSONObject temp = new JSONObject();
             Comment comment = commentList.get(i);
-            temp.put("userId", comment.getUser().getId());
-            temp.put("userName", comment.getUser().getName());
-            temp.put("userPhoto", comment.getUser().getPhoto());
+            User user = userRepository.getOne(comment.getUserId());
+            temp.put("userId", user.getId());
+            temp.put("userName", user.getName());
+            temp.put("userPhoto", user.getPhoto());
             temp.put("comment", comment.getComment());
             temp.put("date", Utils.Date2String(comment.getDate(), false));
             jsonComments.put(Integer.toString(i), temp);

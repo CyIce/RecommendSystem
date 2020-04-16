@@ -44,6 +44,9 @@ public class UserController {
     @Autowired
     private LabelRepository labelRepository;
 
+    @Autowired
+    private CommentRepository commentRepository;
+
 
     // 获取用户基本信息
     @GetMapping("/information")
@@ -463,15 +466,73 @@ public class UserController {
 
     // 获取用户评论
     @GetMapping("/comment")
-    public String getComment(@RequestParam("user_id") Integer userId) {
-        return "1";
+    public String getComment(@RequestParam("user_id") Integer userId,
+                             @RequestParam(value = "offset", defaultValue = "0") Integer offset,
+                             @RequestParam(value = "limit", defaultValue = "10") Integer limit) {
+        offset = offset < 0 ? 0 : offset;
+        Sort sort = Sort.by(Sort.Order.desc("date"));
+        Pageable pageable = PageRequest.of(offset, limit, sort);
+        List<Comment> commentList = commentRepository.findCommentsByUserId(pageable, userId).toList();
+        JSONObject jsonCommnets = new JSONObject();
+        for (Comment comment : commentList) {
+            JSONObject temp = new JSONObject();
+            Book book = bookRepository.getOne(comment.getBookId());
+            User user = userRepository.getOne(comment.getUserId());
+            temp.put("bookNameCn", book.getNameCn());
+            temp.put("bookNameEng", book.getNameEng());
+            temp.put("bookId", book.getId());
+            temp.put("bookPhoto", book.getPhoto());
+            temp.put("comment", comment.getComment());
+            temp.put("date", Utils.Date2String(comment.getDate(), false));
+            jsonCommnets.put(comment.getId().toString(), temp);
+        }
+
+
+        return jsonCommnets.toJSONString();
     }
 
     // 用户评论书籍
     @PostMapping("/comment")
-    public String comment(@RequestBody JSONObject comment) {
-        return "1";
+    public String comment(@RequestBody JSONObject jsonObject) {
+        if (userRepository.existsById(jsonObject.getInteger("userId"))
+                && bookRepository.existsById(jsonObject.getInteger("bookId"))) {
+            Comment comment = new Comment();
+            comment.setUserId(jsonObject.getInteger("userId"));
+            comment.setBookId(jsonObject.getInteger("bookId"));
+            comment.setComment(jsonObject.getString("comment"));
+            comment.setDate(new Date());
+            commentRepository.save(comment);
+            return "1";
+        }
+        return "-1";
     }
+
+    // 修改用户评论
+    @PostMapping("updatecomment")
+    public String updateComment(@RequestBody JSONObject jsonObject) {
+        if (commentRepository.existsById(jsonObject.getInteger("commentId"))) {
+            Comment comment = commentRepository.getOne(jsonObject.getInteger("commentId"));
+            comment.setComment(jsonObject.getString("comment"));
+            comment.setDate(new Date());
+            commentRepository.save(comment);
+            return "1";
+        }
+
+        return "-1";
+    }
+
+    // 删除用户评论
+    @DeleteMapping("/deletecomment")
+    public String deleteComment(@RequestParam("user_id") Integer userId,
+                                @RequestParam("comment_id") Integer commentId) {
+        if (commentRepository.existsById(commentId)) {
+            commentRepository.deleteById(commentId);
+            return "1";
+        }
+        return "-1";
+    }
+
+
 
     // 将作者信息添加到json中
     private void addAuthors2Json(List<Author> authorList, JSONObject jsonAuthors) {

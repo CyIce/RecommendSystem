@@ -1,7 +1,6 @@
 package com.bookrecommend.demo.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -16,17 +15,14 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    // 用户
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
 
     // 书籍
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id")
-    private Book book;
+    @Column(name = "book_id", nullable = false, length = 11)
+    private Integer bookId;
+
+    // 用户
+    @Column(name = "user_id", nullable = false, length = 11)
+    private Integer userId;
 
     // 评论内容
     @Column(name = "comment", columnDefinition = "text", nullable = false, length = 2000)
@@ -48,20 +44,20 @@ public class Comment {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public Integer getBookId() {
+        return bookId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setBookId(Integer bookId) {
+        this.bookId = bookId;
     }
 
-    public Book getBook() {
-        return book;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setBook(Book book) {
-        this.book = book;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getComment() {
