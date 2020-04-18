@@ -1,11 +1,9 @@
 package com.bookrecommend.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 // 用户订单表
 @Entity
@@ -52,12 +50,6 @@ public class UserOrder {
     // 签收状态
     @Column(name = "receive_status", nullable = false)
     private Boolean receiveStatus;
-
-    // 购物订单
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_order_id")
-    private List<ShopingOrder> shopingOrderList;
 
     public Integer getId() {
         return id;
@@ -134,11 +126,4 @@ public class UserOrder {
         this.receiveStatus = receiveStatus;
     }
 
-    public List<ShopingOrder> getShopingOrderList() {
-        return shopingOrderList;
-    }
-
-    public void setShopingOrderList(List<ShopingOrder> shopingOrderList) {
-        this.shopingOrderList = shopingOrderList;
-    }
 }

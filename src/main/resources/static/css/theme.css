@@ -16,3 +16,12 @@ body {
 .theme-showcase .navbar .container {
     width: auto;
 }
+
+.book-cover {
+    /*max-width: 175px;*/
+    max-height: 300px;
+    margin-left: unset;
+    margin-right: unset;
+}
+
+

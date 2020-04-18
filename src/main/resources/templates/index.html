@@ -8,67 +8,31 @@
     <!--<link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">-->
     <!--<link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">-->
 
-    <title>Title</title>
+    <title>藏经阁</title>
 </head>
 <body>
 
 <div class="container theme-showcase" role="main">
 
-    <nav class="navbar navbar-default">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed"
-                        data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">藏经阁</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">首页</a></li>
-                    <li><a href="#about">书库</a></li>
-                    <li><a href="#contact">购物车</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">登录</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false">个人中心 <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">我的资料</a></li>
-                            <li><a href="#">我的收藏</a></li>
-                            <li><a href="#">我的评论</a></li>
-                            <li><a href="#">我的消息</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">退出登录</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div><!--/.nav-collapse -->
-        </div>
-    </nav>
+    <!--导航栏-->
+    <nav class="navbar navbar-default" th:insert="~{public :: public_top}"></nav>
 
     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
             <li data-target="#carousel-example-generic" data-slide-to="1"></li>
             <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="4"></li>
+
         </ol>
         <div class="carousel-inner" role="listbox">
-            <div class="item active">
-                <img th:src="@{/img/2.jpeg}" width="1140" height="350" alt="First slide">
-                <!--<img data-src="holder.js/1140x500/auto/#777:#555/text:First slide" alt="First slide">-->
-            </div>
-            <div class="item">
-                <img th:src="@{/img/2.jpeg}" width="1140" height="350" alt="First slide">
-                <!--<img data-src="holder.js/1140x500/auto/#666:#444/text:Second slide" alt="Second slide">-->
-            </div>
-            <div class="item">
-                <img th:src="@{/img/2.jpeg}" width="1140" height="350" alt="First slide">
-                <!--<img data-src="holder.js/1140x500/auto/#555:#333/text:Third slide" alt="Third slide">-->
+
+            <div th:each="b,bStat:${top5Books}" th:classappend="${bStat.index == 0} ? 'item active' : 'item'">
+                <a th:href="@{'/book?book_id='+${b.getId()}}">
+                    <img th:src="${b.getBigPicture()}" width="1140" height="350">
+                </a>
+
             </div>
         </div>
         <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
@@ -85,63 +49,62 @@
         <h1><a href="#"></a>个性推荐</h1>
     </div>
 
-    <!--<div class="row">-->
-    <!--<div class="col-sm-6 col-md-4">-->
-    <!--<div class="thumbnail">-->
-    <!--<img th:src="@{/img/book1.jpg}" alt="..." style="width: 175px;">-->
-    <!--<div class="caption">-->
-    <!--<h3>七个疯子</h3>-->
-    <!--<p>...</p>-->
-    <!--<p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <div class="bs-example" data-example-id="simple-thumbnails">
+    <!--个性推荐-->
+    <div class="bs-example" data-example-id="thumbnails-with-custom-content">
         <div class="row">
-            <div class="col-xs-6 col-md-3" style="width: 180px;height: 265px;">
-                <a href="#" class="thumbnail">
-                    <img th:src="@{/img/book1.jpg}" alt="..." style="width: 175px;">
-                </a>
-                <div class="caption">
-                    <a href="#">
-                        <h3>七个疯子</h3>
+            <div th:each="b:${recommendBooks}" class="col-sm-6 col-md-4" style="width: 20%;">
+                <div class="thumbnail">
+                    <a th:href="@{'/book?book_id='+${b.getId()}}">
+                        <img class="book-cover" th:src="@{/img/cover/{bookId}(bookId=${b.getId().toString()+'.jpg'})}">
                     </a>
+                    <div class="caption">
+                        <h3><a th:href="@{'/book?book_id='+${b.getId()}}" style="font-size: 15px;"
+                               th:text="${b.getNameCn()}"></a></h3>
+                        <p th:text="${b.getAuthorsName()}"></p>
+                    </div>
                 </div>
             </div>
-            <div class="col-xs-6 col-md-3" style="width: 180px;height: 265px;">
-                <a href="#" class="thumbnail">
-                    <img th:src="@{/img/book2.jpg}" alt="..." style="width: 175px;">
-                </a>
-                <div class="caption">
-                    <a href="#">
-                        <h3>程序员修炼之道</h3>
-                    </a>
-                </div>
-            </div>
-            <div class="col-xs-6 col-md-3" style="width: 180px;height: 265px;">
-                <a href="#" class="thumbnail">
-                    <img th:src="@{/img/book1.jpg}" alt="..." style="width: 175px;">
-                </a>
-            </div>
-            <div class="col-xs-6 col-md-3" style="width: 180px;height: 265px;">
-                <a href="#" class="thumbnail">
-                    <img th:src="@{/img/book2.jpg}" alt="..." style="width: 175px;">
-                </a>
-            </div>
-        </div>
-
-        <div class="page-header">
-            <h1><a href="#"></a>热门书籍</h1>
         </div>
 
     </div>
 
 
-    <script type="text/javascript" th:src="@{/jquery/jquery-3.3.1.min.js}"></script>
-    <script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
-    <!--<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>-->
-    <!--<script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+    <div class="page-header">
+        <h1><a href="#"></a>热门书籍</h1>
+    </div>
+
+    <!--热门书籍-->
+    <div class="bs-example" data-example-id="thumbnails-with-custom-content">
+        <div class="row">
+            <div th:each="b:${hotBooks}" class="col-sm-6 col-md-4" style="width: 33%;">
+                <div class="thumbnail" style="display: flex">
+                    <a th:href="@{'/book?book_id='+${b.getId()}}">
+                        <img class="book-cover" th:src="@{/img/cover/{bookId}(bookId=${b.getId().toString()+'.jpg'})}"
+                             style="margin: unset;">
+                    </a>
+
+                    <div class="caption" style="float: right;padding-left: 10px;padding-top: 0px;">
+                        <h5>书名：<a th:href="@{'/book?book_id='+${b.getId()}}" th:text="${b.getNameCn()}"></a></h5>
+                        <h5>作者：<span th:text="${b.getAuthorsName()}"></span></h5>
+                        <h5>评分：<span th:text="${b.getScore()}"></span></h5>
+                        <h5>字数：<span th:text="${b.getWordCount()}"></span></h5>
+                        <h5>类别:<a th:each="label:${b.getLabels()}" href="#" th:text="${label.getLabel()}"
+                                  style="margin-right: 5px"></a>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script type="text/javascript" th:src="@{/jquery/jquery-3.3.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+<!--<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>-->
+<!--<script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
 
 </body>
 </html>

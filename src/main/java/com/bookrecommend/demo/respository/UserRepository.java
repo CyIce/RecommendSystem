@@ -7,5 +7,4 @@ import javax.transaction.Transactional;
 
 @Transactional
 public interface UserRepository extends JpaRepository<User, Integer> {
-
 }
