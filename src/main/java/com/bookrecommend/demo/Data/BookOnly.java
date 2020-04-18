@@ -1,8 +1,10 @@
 package com.bookrecommend.demo.Data;
 
 
+import com.bookrecommend.demo.util.Utils;
 import lombok.Data;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -88,4 +90,12 @@ public class BookOnly {
         return String.join(" ", nameList);
     }
 
+    public String getPrice() {
+        DecimalFormat decimalFormat = new DecimalFormat(".00");
+        return decimalFormat.format(price);
+    }
+
+    public String getPublicationDate() {
+        return Utils.Date2String(publicationDate, true);
+    }
 }
