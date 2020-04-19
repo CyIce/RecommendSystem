@@ -9,12 +9,15 @@ import com.bookrecommend.demo.respository.BookRepository;
 import com.bookrecommend.demo.respository.CommentRepository;
 import com.bookrecommend.demo.respository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -66,21 +69,55 @@ public class BookController {
     @GetMapping(value = "/book")
     public String getBook(@RequestParam("book_id") Integer bookId,
                           @RequestParam("comment_order_type") String commentOrderType,
+                          @RequestParam("offset") Integer offset,
+                          @RequestParam("limit") Integer limit,
                           Model model) {
+        offset -= 1;
+
+        Sort sort = Sort.by(Sort.Order.desc(commentOrderType));
+        Pageable pageable = PageRequest.of(offset, limit, sort);
+
+
         BookOnly book = bookRepository.findBookByBookId(bookId);
         book.setLabels(bookRepository.findBookLabelsByBookId(bookId));
         book.setAuthors(authorRepository.findAuthorsInfoByBookId(bookId));
         model.addAttribute("book", book);
 
-        List<CommentOnly> comments = new ArrayList<CommentOnly>();
-        if (commentOrderType.equals("hot")) {
-            comments = commentRepository.findCommentsByBookIdOrOrderByHot(bookId);
-        } else if (commentOrderType.equals("date")) {
-            comments = commentRepository.findCommentsByBookIdOrOrderByDate(bookId);
-        }
-        model.addAttribute("commentsNumber", comments.size());
+        Page<CommentOnly> comments = commentRepository.findCommentsByBookId(pageable, bookId);
+
+        model.addAttribute("currentPage", offset + 1);
         model.addAttribute("commentOrderType", commentOrderType);
-        model.addAttribute("comments", comments.subList(0, 10));
+        model.addAttribute("totalPages", comments.getTotalPages());
+        model.addAttribute("commentsNumber", comments.getTotalElements());
+        model.addAttribute("commentOrderType", commentOrderType);
+        model.addAttribute("comments", comments.toList());
+
+        boolean isCollected = false;
+        boolean isWant = false;
+        boolean isReading = false;
+        boolean isHaveRead = false;
+        boolean inShopingCart = false;
+
+        if (userRepository.isCollectedByUserIdAndBookId(1, bookId) > 0) {
+            isCollected = true;
+        }
+        model.addAttribute("isCollected", isCollected);
+        if (userRepository.isWantByUserIdAndBookId(1, bookId) > 0) {
+            isWant = true;
+        }
+        model.addAttribute("isWant", isWant);
+        if (userRepository.isReadingByUserIdAndBookId(1, bookId) > 0) {
+            isReading = true;
+        }
+        model.addAttribute("isReading", isReading);
+        if (userRepository.isHaveReadByUserIdAndBookId(1, bookId) > 0) {
+            isHaveRead = true;
+        }
+        model.addAttribute("isHaveRead", isHaveRead);
+        if (userRepository.inShopingCartByUserIdAndBookId(1, bookId) > 0) {
+            inShopingCart = true;
+        }
+        model.addAttribute("inShopingCart", inShopingCart);
 
         return "book";
     }

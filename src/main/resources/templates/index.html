@@ -29,7 +29,7 @@
         <div class="carousel-inner" role="listbox">
 
             <div th:each="b,bStat:${top5Books}" th:classappend="${bStat.index == 0} ? 'item active' : 'item'">
-                <a th:href="@{'/book?book_id='+${b.getId()}}">
+                <a th:href="@{'/book?book_id='+${b.getId()}+'&comment_order_type=date&offset=1&limit=5'}">
                     <img th:src="${b.getBigPicture()}" width="1140" height="350">
                 </a>
 
@@ -54,11 +54,12 @@
         <div class="row">
             <div th:each="b:${recommendBooks}" class="col-sm-6 col-md-4" style="width: 20%;">
                 <div class="thumbnail">
-                    <a th:href="@{'/book?book_id='+${b.getId()}}">
+                    <a th:href="@{'/book?book_id='+${b.getId()}}+'&comment_order_type=date&offset=1&limit=5'">
                         <img class="book-cover" th:src="@{/img/cover/{bookId}(bookId=${b.getId().toString()+'.jpg'})}">
                     </a>
                     <div class="caption">
-                        <h3><a th:href="@{'/book?book_id='+${b.getId()}}" style="font-size: 15px;"
+                        <h3><a th:href="@{'/book?book_id='+${b.getId()}}+'&comment_order_type=date&offset=1&limit=5'"
+                               style="font-size: 15px;"
                                th:text="${b.getNameCn()}"></a></h3>
                         <p th:text="${b.getAuthorsName()}"></p>
                     </div>
@@ -78,13 +79,14 @@
         <div class="row">
             <div th:each="b:${hotBooks}" class="col-sm-6 col-md-4" style="width: 33%;">
                 <div class="thumbnail" style="display: flex">
-                    <a th:href="@{'/book?book_id='+${b.getId()}}">
+                    <a th:href="@{'/book?book_id='+${b.getId()}}+'&comment_order_type=date&offset=1&limit=5'">
                         <img class="book-cover" th:src="@{/img/cover/{bookId}(bookId=${b.getId().toString()+'.jpg'})}"
-                             style="margin: unset;">
+                             style="margin: unset; max-width: unset">
                     </a>
 
                     <div class="caption" style="float: right;padding-left: 10px;padding-top: 0px;">
-                        <h5>书名：<a th:href="@{'/book?book_id='+${b.getId()}}" th:text="${b.getNameCn()}"></a></h5>
+                        <h5>书名：<a th:href="@{'/book?book_id='+${b.getId()}}+'&comment_order_type=date&offset=1&limit=5'"
+                                  th:text="${b.getNameCn()}"></a></h5>
                         <h5>作者：<span th:text="${b.getAuthorsName()}"></span></h5>
                         <h5>评分：<span th:text="${b.getScore()}"></span></h5>
                         <h5>字数：<span th:text="${b.getWordCount()}"></span></h5>

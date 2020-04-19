@@ -12,6 +12,8 @@ public class CommentOnly {
 
     private String userName;
 
+    private String userPhoto;
+
     private String comment;
 
     private Integer hot;
@@ -20,15 +22,17 @@ public class CommentOnly {
 
     private Date date;
 
-    public CommentOnly(Integer userId, String userName, String comment, Integer hot, Date date) {
+    public CommentOnly(Integer userId, String userName, String userPhoto, String comment, Integer score, Integer hot, Date date) {
         this.userId = userId;
         this.userName = userName;
+        this.userPhoto = userPhoto;
         this.comment = comment;
+        this.score = score;
         this.hot = hot;
         this.date = date;
     }
 
     public String getDate() {
-        return Utils.Date2String(date, true);
+        return Utils.Date2String(date, false);
     }
 }

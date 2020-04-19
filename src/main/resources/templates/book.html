@@ -20,7 +20,7 @@
     </div>
 
     <!--书籍基本信息-->
-    <div class="col-sm-6 col-md-5" style="padding-left: 0px; float:unset;">
+    <div class="col-sm-6 col-md-5" style="padding-left: 0px; float:left;">
         <div class="thumbnail" style="display: flex">
             <img class="book-cover" th:src="@{/img/cover/{bookId}(bookId=${book.getId().toString()+'.jpg'})}"
                  style="margin: unset;">
@@ -40,19 +40,39 @@
         </div>
     </div>
 
+    <!--评分-->
+    <div style="float: left;margin-left: 6%;margin-top: 1%;padding-left: 20px;font-size: 14px;color: #9b9b9b;border-left: 1px solid #9b9b9b">
+        <span>藏金阁评分</span>
+        <div class="show-score">
+            <strong th:text="${book.getScore()}" style="font-size: 28px;color: #494949;"></strong>
+        </div>
+        <div class="book-score" th:style="'width: '+${book.score*10}+'%;'">
+        </div>
+    </div>
 
-    <div class="page-header">
+
+    <!--收藏、想读、在读、已读标签-->
+    <div class="page-header" style="clear: left;">
         <a class="btn btn-default btn-sm" style="float: left;margin-right: 7px;: 7px;display: block;">
-            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> 收藏
+            <span class="glyphicon" th:classappend="${isCollected}?'glyphicon-star':'glyphicon-star-empty'"
+                  aria-hidden="true"></span> 收藏
         </a>
         <a class="btn btn-default btn-sm" style="float: left;margin-right: 7px;display: block;">
-            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> 想读
+            <span class="glyphicon" th:classappend="${isWant}?'glyphicon-star':'glyphicon-star-empty'"
+                  aria-hidden="true"></span> 想读
         </a>
         <a class="btn btn-default btn-sm" style="float: left;margin-right: 7px;display: block;">
-            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> 在读
+            <span class="glyphicon" th:classappend="${isReading}?'glyphicon-star':'glyphicon-star-empty'"
+                  aria-hidden="true"></span> 在读
         </a>
         <a class="btn btn-default btn-sm" style="float: left;margin-right: 7px;display: block;">
-            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> 已读
+            <span class="glyphicon" th:classappend="${isHaveRead}?'glyphicon-star':'glyphicon-star-empty'"
+                  aria-hidden="true"></span> 已读
+        </a>
+        <a class="btn btn-default btn-sm" style="float: left;margin-right: 7px;display: block;">
+            <span class="glyphicon"
+                  th:classappend="${inShopingCart}?'glyphicon-shopping-cart-star':'glyphicon-shopping-cart-star-empty'"
+                  th:text="${inShopingCart}?'已加入购物车':'加入购物车'" aria-hidden="true"></span>
         </a>
 
         <div style="float: left; margin-top: 6px;">
@@ -109,7 +129,7 @@
     </div>
 
     <div style="padding-top: 66px;" th:if="${commentOrderType.equals('date')}">
-        <a th:href="@{'/book?book_id='+${book.getId()}+'&comment_order_type=hot#comments'}">热门</a>
+        <a th:href="@{'/book?book_id='+${book.getId()}+'&comment_order_type=hot&offset=1&limit=5#comments'}">热门</a>
         /
         <span>最新</span>
     </div>
@@ -117,12 +137,61 @@
     <div style="padding-top: 66px;" th:if="${commentOrderType.equals('hot')}">
         <span>热门</span>
         /
-        <a th:href="@{'/book?book_id='+${book.getId()}+'&comment_order_type=date#comments'}">最新</a>
+        <a th:href="@{'/book?book_id='+${book.getId()}+'&comment_order_type=date&offset=1&limit=5#comments'}">最新</a>
     </div>
 
-</div>
-</div>
+    <div th:each="c:${comments}" class="comments-list" style="margin-top: 20px">
+        <hr>
+        <div>
+            <header>
+                <a href="#">
+                    <img width="24" height="24" th:src="${c.getUserPhoto()}">
+                </a>
+                <a href="#" th:text="${c.getUserName()}"></a>
+                <span th:text="${c.getScore()}"></span>
+                <span th:text="${c.getDate()}"></span>
+                <a href="$" style="float: right;margin-left: 3px;">有用</a>
+                <span th:text="${c.getHot()}" style="float: right;"></span>
 
+            </header>
+
+            <div style="margin-top: 20px">
+                <span th:text="${c.getComment()}"></span>
+            </div>
+
+
+        </div>
+    </div>
+
+    <nav aria-label="Page navigation">
+        <ul th:each="i:${#numbers.sequence(1,totalPages)}" class="pagination">
+            <li th:if="${i == 1 and i != currentPage}">
+                <a th:href="@{'/book?book_id='+${book.getId()}+'&comment_order_type='+${commentOrderType}+'&offset='+${currentPage+-1}+'&limit=5#comments'}"
+                   aria-label="Previous">
+                    <span aria-hidden="true">上一页</span>
+                </a>
+            </li>
+            <li th:if="${i == 1 and i == currentPage}">
+                <span aria-hidden="true">上一页</span>
+            </li>
+
+
+            <li th:class="${i == currentPage}? 'active':''">
+                <a th:href="@{'/book?book_id='+${book.getId()}+'&comment_order_type='+${commentOrderType}+'&offset='+${i}+'&limit=5#comments'}"
+                   th:text="${i}"></a></li>
+
+            <li th:if="${i == totalPages and i != currentPage}">
+                <a th:href="@{'/book?book_id='+${book.getId()}+'&comment_order_type='+${commentOrderType}+'&offset='+${currentPage+1}+'&limit=5#comments'}"
+                   aria-label="Next">
+                    <span aria-hidden="true">下一页</span>
+                </a>
+            </li>
+
+            <li th:if="${i == totalPages and i == currentPage}">
+                <span aria-hidden="true">下一页</span>
+            </li>
+        </ul>
+    </nav>
 </div>
 
 

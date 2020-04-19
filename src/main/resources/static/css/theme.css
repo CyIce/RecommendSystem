@@ -23,8 +23,7 @@ body {
 }
 
 .book-cover {
-    /*max-width: 175px;*/
-    max-height: 300px;
+    max-height: 267px;
     margin-left: unset;
     margin-right: unset;
 }
@@ -36,6 +35,21 @@ body {
     padding: 0 0 0 15px;
     border-left: 1px solid #eaeaea;
     color: #9b9b9b;
+}
+
+hr {
+
+    width: 100%;
+    border-top: 1px solid black;
+}
+
+.book-score {
+    display: block;
+    /*width: 80px;*/
+    height: 15px;
+    margin-left: 50px;
+    margin-top: -38px;
+    background: url("../img/star.jpg");
 }
 
 
