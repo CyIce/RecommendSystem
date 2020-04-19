@@ -15,4 +15,10 @@ public interface AuthorRepository extends JpaRepository<Author, Integer> {
             "where a.id = ab.authorId " +
             "and ab.bookId = :bookId")
     List<AuthorOnly> findAuthorsByBookId(@Param("bookId") Integer bookId);
+
+    @Query(value = "select new com.bookrecommend.demo.Data.AuthorOnly(a.id,a.nameCn,a.introduction,a.score) " +
+            "from Author  a,AuthorToBook ab " +
+            "where a.id = ab.authorId " +
+            "and ab.bookId = :bookId")
+    List<AuthorOnly> findAuthorsInfoByBookId(@Param("bookId") Integer bookId);
 }

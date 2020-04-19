@@ -8,7 +8,7 @@
     <!--<link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">-->
     <!--<link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">-->
 
-    <title th:text="${book.getNameCn()}+'  (藏经阁)'"></title>
+    <title th:text="${book.getNameCn()}+'&nbsp;&nbsp;&nbsp;(藏经阁)'"></title>
 </head>
 <body>
 <div class="container theme-showcase" role="main">
@@ -18,7 +18,9 @@
     <div class="page-header">
         <h1 th:text="${book.getNameCn()}"></h1>
     </div>
-    <div class="col-sm-6 col-md-5" style="padding-left: 0px">
+
+    <!--书籍基本信息-->
+    <div class="col-sm-6 col-md-5" style="padding-left: 0px; float:unset;">
         <div class="thumbnail" style="display: flex">
             <img class="book-cover" th:src="@{/img/cover/{bookId}(bookId=${book.getId().toString()+'.jpg'})}"
                  style="margin: unset;">
@@ -37,17 +39,87 @@
             </div>
         </div>
     </div>
-    <div id="interest_sectl" class="">
-        <div class="rating_wrap clearbox" rel="v:rating">
-            <div class="rating_logo">豆瓣评分</div>
-            <div class="rating_self clearfix" typeof="v:Rating">
-                <strong class="ll rating_num " property="v:average"> 9.8 </strong>
-                <div class="rating_right ">
-                    <div class="ll bigstar50"></div>
-                </div>
-            </div>
+
+
+    <div class="page-header">
+        <a class="btn btn-default btn-sm" style="float: left;margin-right: 7px;: 7px;display: block;">
+            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> 收藏
+        </a>
+        <a class="btn btn-default btn-sm" style="float: left;margin-right: 7px;display: block;">
+            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> 想读
+        </a>
+        <a class="btn btn-default btn-sm" style="float: left;margin-right: 7px;display: block;">
+            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> 在读
+        </a>
+        <a class="btn btn-default btn-sm" style="float: left;margin-right: 7px;display: block;">
+            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> 已读
+        </a>
+
+        <div style="float: left; margin-top: 6px;">
+            评价:
         </div>
     </div>
+
+    <!--内容介绍-->
+    <div style="margin-top: 50px;">
+        <h3 style="color: #007722;">
+            <span>内容简介</span>
+            &nbsp;·&nbsp;·&nbsp;·&nbsp;·&nbsp;·&nbsp;·
+        </h3>
+
+        <span th:text="${book.getIntroduction()}"></span>
+    </div>
+
+
+    <!--作者介绍-->
+    <div style="margin-top: 50px;">
+        <h3 style="color: #007722;">
+            <span>作者介绍</span>
+            &nbsp;·&nbsp;·&nbsp;·&nbsp;·&nbsp;·&nbsp;·
+        </h3>
+        <div th:each="author:${book.getAuthors()}">
+            <span th:text="${author.getNameCn()}+': '" style="font-size: 25px;"></span>
+            <span th:text="${author.getIntroduction()}"></span>
+            <br>
+            <br>
+        </div>
+    </div>
+
+    <!--目录-->
+    <div style="margin-top: 50px;">
+        <h3 style="color: #007722;">
+            <span>目录</span>
+            &nbsp;·&nbsp;·&nbsp;·&nbsp;·&nbsp;·&nbsp;·
+        </h3>
+
+        <span th:text="${book.getCatalog()}" style="white-space:pre-wrap;padding-left: 2px;"></span>
+    </div>
+
+
+    <!--书评-->
+    <a name="comments"></a>
+    <div style="margin-top: 50px;">
+        <h3 style="color: #007722; float: left;">
+            <span th:text="${book.getNameCn()}+'的书评'"></span>
+            &nbsp;·&nbsp;·&nbsp;·&nbsp;·&nbsp;·&nbsp;·
+        </h3>
+        <div style="float: left;margin: 23px auto;">
+            <span>（<a href="#" th:text="'全部&nbsp;'+${commentsNumber}+'&nbsp;条'"></a>）</span>
+        </div>
+    </div>
+
+    <div style="padding-top: 66px;" th:if="${commentOrderType.equals('date')}">
+        <a th:href="@{'/book?book_id='+${book.getId()}+'&comment_order_type=hot#comments'}">热门</a>
+        /
+        <span>最新</span>
+    </div>
+
+    <div style="padding-top: 66px;" th:if="${commentOrderType.equals('hot')}">
+        <span>热门</span>
+        /
+        <a th:href="@{'/book?book_id='+${book.getId()}+'&comment_order_type=date#comments'}">最新</a>
+    </div>
+
 </div>
 </div>
 

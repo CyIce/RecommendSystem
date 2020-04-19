@@ -26,4 +26,10 @@ public class AuthorOnly {
         this.nameCn = nameCn;
     }
 
+    public AuthorOnly(Integer id, String nameCn, String introduction, Float score) {
+        this.id = id;
+        this.nameCn = nameCn;
+        this.introduction = introduction;
+        this.score = score;
+    }
 }
