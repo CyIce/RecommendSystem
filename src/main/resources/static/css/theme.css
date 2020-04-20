@@ -6,6 +6,7 @@
 body {
     /*padding-top: 70px;*/
     padding-bottom: 30px;
+    -webkit-font-smoothing: antialiased;
 }
 
 .theme-dropdown .dropdown-menu {
@@ -43,7 +44,7 @@ hr {
     border-top: 1px solid black;
 }
 
-.book-score-hollow {
+.book-star-hollow {
     display: block;
     width: 80px;
     height: 15px;
@@ -51,15 +52,18 @@ hr {
     margin-top: -38px;
     background: url("../img/star_hollow.png");
     overflow: hidden;
+    z-index: 1;
 }
-.book-score {
+
+.book-star {
     display: block;
     /*width: 80px;*/
     height: 15px;
     margin-left: 50px;
     margin-top: -38px;
-    background: url("../img/star.jpg");
+    background: url("../img/star.png");
     overflow: hidden;
+    z-index: 2;
 }
 
 .power {
@@ -71,4 +75,78 @@ hr {
 
 .power-percent {
     margin-left: 3px;
+}
+
+.category-list {
+    margin-bottom: 15px;
+    margin-top: 25px;
+}
+
+.category, .category-selected {
+    overflow: hidden;
+    margin-bottom: -5px;
+}
+
+.category > li {
+    float: left;
+    height: 20px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    padding: 0 4px;
+    text-align: center;
+    list-style: none outside none;
+}
+
+.category-selected > li > button {
+    font: 12px/18px PingFangSC-Regular, '-apple-system', Simsun;
+    position: relative;
+    float: left;
+    padding: 0px;;
+}
+
+.select-wrap {
+    margin-top: 50px;
+    padding-left: 10px;
+    background: #F5F3EF;
+    height: 44px;
+    width: 100%;
+    text-align: left;
+
+}
+
+.category > li > a {
+    text-decoration: none;
+    outline: 0;
+    color: #262626;
+    font: 12px/20px PingFangSC-Regular, '-apple-system', Simsun;
+}
+
+.select-wrap > div > a {
+    text-decoration: none;
+    outline: 0;
+    color: #262626;
+    font: 15px/20px PingFangSC-Regular, '-apple-system', Simsun;
+}
+
+.category > li > a:hover, .category-selected > li > button:hover, .select-wrap > div > a:hover {
+    color: orangered;
+}
+
+.book-cover-img {
+    height: 180px;
+}
+
+.book-introduction {
+    font-size: 14px;
+    overflow: hidden;
+    height: 120px;
+    margin-bottom: 8px;
+    color: #666;
+}
+
+.media-book {
+    width: 416px;
+    height: 180px;
+    float: left;
+    margin: 10px 25px 30px 10px;
 }

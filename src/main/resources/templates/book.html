@@ -33,7 +33,7 @@
                 <h5>评分：<span th:text="${book.getScore()}"></span></h5>
                 <h5>定价：<span th:text="${book.getPrice()}+'元'"></span></h5>
                 <h5>字数：<span th:text="${book.getWordCount()}"></span></h5>
-                <h5>类别:<a th:each="label:${book.getLabels()}" href="#" th:text="${label.getLabel()}"
+                <h5>类别:<a th:each="label:${book.getKinds()}" href="#" th:text="${label.getLabel()}"
                           style="margin-right: 4px"></a>
                 </h5>
             </div>
@@ -47,8 +47,7 @@
             <strong th:text="${book.getScore()}" style="font-size: 28px;color: #494949;"></strong>
         </div>
 
-        <!--<div class="book-score-hollow"></div>-->
-        <div class="book-score" th:style="'width: '+${book.score*7}+'px;'"></div>
+        <div class="book-star" th:style="'width: '+${book.score*7}+'px;'"></div>
         <div th:text="${scoreNumber}+'人评价'" style="padding-left: 50px;"></div>
 
         <div class="power-list">

@@ -1,34 +1,31 @@
 package com.bookrecommend.demo.entity;
 
-
 import lombok.Data;
 
 import javax.persistence.*;
 
-// 书籍标签表
 @Data
 @Entity
-@Table(name = "book_label")
-public class BookLabel {
+@Table(name = "book_kind")
+public class BookKind {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     // 标签
-    @Column(name = "label_id", nullable = false, length = 11)
-    private Integer labelId;
+    @Column(name = "kind_id", nullable = false, length = 11)
+    private Integer kindId;
 
     // 书籍
     @Column(name = "book_id", nullable = false, length = 11)
     private Integer bookId;
 
-    // 该标签与书籍的相似程
+    // 该类别与书籍的相似程
     @Column(name = "value", nullable = false, length = 11)
     private Integer value;
 
-    public BookLabel() {
+    public BookKind() {
     }
 
 }
-

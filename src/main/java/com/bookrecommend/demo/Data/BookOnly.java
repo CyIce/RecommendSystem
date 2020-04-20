@@ -37,6 +37,7 @@ public class BookOnly {
     private String introduction;
 
     private List<BookLabelOnly> labels;
+    private List<BookLabelOnly> kinds;
 
     private String press;
 
@@ -81,11 +82,39 @@ public class BookOnly {
         this.press = press;
     }
 
+    public BookOnly(Integer id, String nameCn, String picture, float score, String introduction) {
+        this.id = id;
+        this.nameCn = nameCn;
+        this.picture = picture;
+        this.score = score;
+        this.introduction = introduction;
+    }
+
     public String getAuthorsName() {
         List<String> nameList = new ArrayList<String>();
 
-        for (AuthorOnly author : authors) {
-            nameList.add(author.getNameCn());
+
+        for (int i = 0; i <= 3 && i < authors.size(); i++) {
+            nameList.add(authors.get(i).getNameCn());
+        }
+        return String.join(" ", nameList);
+    }
+
+    public String labelsToString() {
+        List<String> nameList = new ArrayList<String>();
+
+        for (int i = 0; i <= 3 && i < labels.size(); i++) {
+            nameList.add(labels.get(i).getLabel());
+        }
+
+        return String.join(" ", nameList);
+    }
+
+    public String kindToString() {
+        List<String> nameList = new ArrayList<String>();
+
+        for (int i = 0; i <= 3 && i < kinds.size(); i++) {
+            nameList.add(kinds.get(i).getLabel());
         }
         return String.join(" ", nameList);
     }

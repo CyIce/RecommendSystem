@@ -3,6 +3,10 @@ package com.bookrecommend.demo.respository;
 import com.bookrecommend.demo.Data.BookLabelOnly;
 import com.bookrecommend.demo.Data.BookOnly;
 import com.bookrecommend.demo.entity.Book;
+import com.bookrecommend.demo.entity.Kind;
+import com.bookrecommend.demo.entity.Label;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -37,6 +41,11 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
             "order by b.hot")
     List<BookOnly> findHotBooks();
 
+    @Query(value = "select new com.bookrecommend.demo.Data.BookLabelOnly(b.id,k.kind) " +
+            "from BookKind b,Kind k " +
+            "where b.kindId = k.id and b.bookId = :bookId " +
+            "order by b.value desc ")
+    List<BookLabelOnly> findBookKindsByBookId(@Param("bookId") Integer bookId);
 
     @Query(value = "select new com.bookrecommend.demo.Data.BookLabelOnly(b.id,l.label) " +
             "from BookLabel b,Label l " +
@@ -49,4 +58,16 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
             "where b.pressId = p.id " +
             "and b.id = :bookId")
     BookOnly findBookByBookId(@Param("bookId") Integer bookId);
+
+
+    @Query(value = "select k from Kind k order by hot desc ")
+    List<Kind> findAllKind();
+
+    @Query(value = "select l from Label l order by hot desc ")
+    List<Label> findAllLabel();
+
+
+    @Query(value = "select new com.bookrecommend.demo.Data.BookOnly(b.id,b.nameCn,b.picture,b.score,b.introduction) " +
+            "from Book b")
+    Page<BookOnly> findAllBook(Pageable pageable);
 }

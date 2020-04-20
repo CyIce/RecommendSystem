@@ -76,6 +76,22 @@ public class Book {
     @Column(name = "month_hot", nullable = false, length = 11)
     private Integer monthHot;
 
+    // 收藏人数
+    @Column(name = "collection_num", nullable = false, length = 11)
+    private Integer collectionNum;
+
+    // 想看人数
+    @Column(name = "want_num", nullable = false, length = 11)
+    private Integer wantNum;
+
+    // 看过的人数
+    @Column(name = "have_read_num", nullable = false, length = 11)
+    private Integer haveReadNum;
+
+    // 正在看的人数
+    @Column(name = "reading_num", nullable = false, length = 11)
+    private Integer readingNum;
+
     // 书籍加入数据库时间
     @Column(name = "create_time", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

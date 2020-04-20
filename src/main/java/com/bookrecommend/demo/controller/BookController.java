@@ -4,6 +4,8 @@ import com.bookrecommend.demo.Data.AuthorOnly;
 import com.bookrecommend.demo.Data.BookLabelOnly;
 import com.bookrecommend.demo.Data.BookOnly;
 import com.bookrecommend.demo.Data.CommentOnly;
+import com.bookrecommend.demo.entity.Kind;
+import com.bookrecommend.demo.entity.Label;
 import com.bookrecommend.demo.respository.*;
 import com.bookrecommend.demo.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,8 +58,8 @@ public class BookController {
         // 获取热门书籍
         List<BookOnly> hotBooks = bookRepository.findHotBooks().subList(0, 12);
         for (BookOnly bookOnly : hotBooks) {
-            List<BookLabelOnly> labels = bookRepository.findBookLabelsByBookId(bookOnly.getId());
-            bookOnly.setLabels(labels);
+            List<BookLabelOnly> labels = bookRepository.findBookKindsByBookId(bookOnly.getId());
+            bookOnly.setKinds(labels);
             List<AuthorOnly> authors = authorRepository.findAuthorsByBookId(bookOnly.getId());
             bookOnly.setAuthors(authors);
         }
@@ -81,7 +83,7 @@ public class BookController {
 
 
         BookOnly book = bookRepository.findBookByBookId(bookId);
-        book.setLabels(bookRepository.findBookLabelsByBookId(bookId));
+        book.setKinds(bookRepository.findBookKindsByBookId(bookId));
         book.setAuthors(authorRepository.findAuthorsInfoByBookId(bookId));
         model.addAttribute("book", book);
 
@@ -140,5 +142,44 @@ public class BookController {
         model.addAttribute("inShopingCart", inShopingCart);
 
         return "book";
+    }
+
+
+    @GetMapping(value = "/library")
+    public String getLibrary(@RequestParam("book_order_type") String bookOrderType,
+                             @RequestParam("offset") Integer offset,
+                             @RequestParam("limit") Integer limit, Model model) {
+
+        offset -= 1;
+
+        Sort sort = Sort.by(Sort.Order.desc(bookOrderType));
+        Pageable pageable = PageRequest.of(offset, limit, sort);
+
+
+        List<Kind> kinds = bookRepository.findAllKind();
+        List<Label> labels = bookRepository.findAllLabel();
+
+        model.addAttribute("kinds", kinds);
+        model.addAttribute("kindsNumber", kinds.size());
+        model.addAttribute("labels", labels);
+        model.addAttribute("labelsNumber", labels.size());
+
+        Page<BookOnly> booksPage = bookRepository.findAllBook(pageable);
+        List<BookOnly> books = booksPage.toList();
+
+        for (BookOnly book : books) {
+            book.setAuthors(authorRepository.findAuthorsInfoByBookId(book.getId()));
+            book.setKinds(bookRepository.findBookKindsByBookId(book.getId()));
+            book.setLabels(bookRepository.findBookLabelsByBookId(book.getId()));
+        }
+
+        model.addAttribute("booksNumber", booksPage.getTotalElements());
+        model.addAttribute("currentPage", offset + 1);
+        model.addAttribute("bookOrderType", bookOrderType);
+        model.addAttribute("totalPages", booksPage.getTotalPages());
+        model.addAttribute("books", books);
+
+
+        return "library";
     }
 }

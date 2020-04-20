@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap-theme.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/theme.css}" type="text/css">
+    <!--<link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">-->
+    <!--<link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">-->
+    <title>书库&nbsp;&nbsp;&nbsp;(藏经阁)</title>
+</head>
+<body>
+<div class="container theme-showcase" role="main">
+    <!--导航栏-->
+    <nav class="navbar navbar-default" th:insert="~{public :: public_top}"></nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar" style="margin-top: 28px;">
+                <div class="category-list">
+                    <p>已选</p>
+                    <ul class="category-selected">
+                        <li>
+                            <button style="outline: none" type="button" class="btn btn-sm" aria-label="Left Ailgn">
+                                科幻<span class="glyphicon glyphicon-remove"></span>
+                            </button>
+                        </li>
+                    </ul>
+
+                </div>
+                <div class="category-list">
+                    <p>分类</p>
+                    <ul class="category">
+                        <li th:each="kind:${kinds}">
+                            <a href="#" th:text="${kind.getKind()}"></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="category-list">
+                    <p>标签</p>
+                    <ul class="category">
+                        <li th:each="label:${labels}">
+                            <a href="#" th:text="${label.getLabel()}"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-sm-9 col-md-8 main" style="width: 83%">
+                <div class="select-wrap">
+                    <div style="padding-top: 13px;">
+                        <span style="float: right;margin-right: 10px;" th:text="${'共 '+booksNumber+' 条记录'}"></span>
+                        <a th:href="@{'/library?&book_order_type=hot&offset=1&limit=10'}">热门</a>
+                        /
+                        <a th:href="@{'/library?&book_order_type=collectionNum&offset=1&limit=10'}">总收藏</a>
+                        /
+                        <a th:href="@{'/library?&book_order_type=wantNum&offset=1&limit=10'}">总想看</a>
+                        /
+                        <a th:href="@{'/library?&book_order_type=haveReadNum&offset=1&limit=10'}">总看过</a>
+                        /
+                        <a th:href="@{'/library?&book_order_type=readingNum&offset=1&limit=10'}">总在看</a>
+                    </div>
+                </div>
+
+
+                <div style="margin-top: 24px;margin-left: 14px">
+
+                    <div class="media-book" th:each="book:${books}">
+                        <div class="media-left">
+                            <a th:href="@{'/book?book_id='+${book.getId()}+'&comment_order_type=date&offset=1&limit=5'}">
+                                <img class="media-object book-cover-img"
+                                     th:src="@{/img/cover/{bookId}(bookId=${book.getId().toString()+'.jpg'})}">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading" th:text="${book.getNameCn()}"></h4>
+                            <p th:text="${book.getAuthorsName()+'/'+book.kindToString()}"></p>
+                            <!--<p th:text="${book.getScore()}"></p>-->
+                            <p class="book-introduction" th:text="${book.getIntroduction()}"></p>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <nav aria-label="Page navigation" style="float: right;">
+        <ul th:each="i:${#numbers.sequence(1,totalPages)}" class="pagination">
+            <li th:if="${i == 1 and i != currentPage}">
+                <a th:href="@{'/library?&book_order_type='+${bookOrderType}+'&offset='+${currentPage+-1}+'&limit=10'}"
+                   aria-label="Previous">
+                    <span aria-hidden="true">上一页</span>
+                </a>
+            </li>
+            <li th:if="${i == 1 and i == currentPage}">
+                <span aria-hidden="true">上一页</span>
+            </li>
+
+
+            <li th:class="${i == currentPage}? 'active':''">
+                <a th:href="@{'/library?&book_order_type='+${bookOrderType}+'&offset='+${i}+'&limit=10'}"
+                   th:text="${i}"></a></li>
+
+            <li th:if="${i == totalPages and i != currentPage}">
+                <a th:href="@{'/library?&book_order_type='+${bookOrderType}+'&offset='+${currentPage+1}+'&limit=10'}"
+                   aria-label="Next">
+                    <span aria-hidden="true">下一页</span>
+                </a>
+            </li>
+
+            <li th:if="${i == totalPages and i == currentPage}">
+                <span aria-hidden="true">下一页</span>
+            </li>
+        </ul>
+    </nav>
+
+
+</div>
+
+
+<script type="text/javascript" th:src="@{/jquery/jquery-3.3.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+<!--<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>-->
+<!--<script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+</body>
+</html>
