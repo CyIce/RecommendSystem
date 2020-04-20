@@ -4,10 +4,8 @@ import com.bookrecommend.demo.Data.AuthorOnly;
 import com.bookrecommend.demo.Data.BookLabelOnly;
 import com.bookrecommend.demo.Data.BookOnly;
 import com.bookrecommend.demo.Data.CommentOnly;
-import com.bookrecommend.demo.respository.AuthorRepository;
-import com.bookrecommend.demo.respository.BookRepository;
-import com.bookrecommend.demo.respository.CommentRepository;
-import com.bookrecommend.demo.respository.UserRepository;
+import com.bookrecommend.demo.respository.*;
+import com.bookrecommend.demo.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -34,6 +33,9 @@ public class BookController {
 
     @Autowired
     private CommentRepository commentRepository;
+
+    @Autowired
+    private ScoreRepository scoreRepository;
 
     @GetMapping(value = {"/", "/index"})
     public String index(@RequestParam("user_id") Integer userId, Model model) {
@@ -91,6 +93,24 @@ public class BookController {
         model.addAttribute("commentsNumber", comments.getTotalElements());
         model.addAttribute("commentOrderType", commentOrderType);
         model.addAttribute("comments", comments.toList());
+        Integer scoreNumber = scoreRepository.findScoreNumberByBookId(bookId);
+        model.addAttribute("scoreNumber", scoreNumber);
+        if (scoreNumber == 0) {
+            scoreNumber = 1;
+        }
+
+        List<Double> starsPercent = new ArrayList<Double>();
+//        float score=0;
+        for (int i = 1; i <= 5; i++) {
+            starsPercent.add(100.0 * scoreRepository.findScoreNumberByBookIdAndScore(bookId, i * 2) / scoreNumber);
+//            score+=(starsPercent.get(i-1)*i*2);
+        }
+
+        model.addAttribute("fiveStarPercent", Utils.DoubleToFormat(starsPercent.get(4)));
+        model.addAttribute("fourStarPercent", Utils.DoubleToFormat(starsPercent.get(3)));
+        model.addAttribute("threeStarPercent", Utils.DoubleToFormat(starsPercent.get(2)));
+        model.addAttribute("towStarPercent", Utils.DoubleToFormat(starsPercent.get(1)));
+        model.addAttribute("oneStarPercent", Utils.DoubleToFormat(starsPercent.get(0)));
 
         boolean isCollected = false;
         boolean isWant = false;

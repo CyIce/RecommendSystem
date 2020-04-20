@@ -19,4 +19,5 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
             "where c.bookId = :bookId and c.userId = u.id")
     Page<CommentOnly> findCommentsByBookId(Pageable pageable, @Param("bookId") Integer bookId);
 
+
 }

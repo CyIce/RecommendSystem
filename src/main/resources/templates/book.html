@@ -41,13 +41,53 @@
     </div>
 
     <!--评分-->
-    <div style="float: left;margin-left: 6%;margin-top: 1%;padding-left: 20px;font-size: 14px;color: #9b9b9b;border-left: 1px solid #9b9b9b">
+    <div style="float: left;width: 300px;margin-left: 6%;margin-top: 1%;padding-left: 20px;font-size: 14px;color: #9b9b9b;border-left: 1px solid #9b9b9b">
         <span>藏金阁评分</span>
         <div class="show-score">
             <strong th:text="${book.getScore()}" style="font-size: 28px;color: #494949;"></strong>
         </div>
-        <div class="book-score" th:style="'width: '+${book.score*10}+'%;'">
+
+        <!--<div class="book-score-hollow"></div>-->
+        <div class="book-score" th:style="'width: '+${book.score*7}+'px;'"></div>
+        <div th:text="${scoreNumber}+'人评价'" style="padding-left: 50px;"></div>
+
+        <div class="power-list">
+            <span style="float: left;margin-right: 5px;">5星</span>
+            <div class="power" th:style="'width: '+${fiveStarPercent}+'px;'"></div>
+            <span class="power-percent" th:text="${fiveStarPercent}+'%'"></span>
+            <br>
         </div>
+
+        <div>
+            <span style="float: left;margin-right: 5px;">4星</span>
+            <div class="power" th:style="'width: '+${fourStarPercent}+'px;'">
+            </div>
+            <span class="power-percent" th:text="${fourStarPercent}+'%'"></span>
+            <br>
+        </div>
+
+        <div>
+            <span style="float: left;margin-right: 5px;">3星</span>
+            <div class="power" th:style="'width: '+${threeStarPercent}+'px;'"></div>
+            <span class="power-percent" th:text="${threeStarPercent}+'%'"></span>
+            <br>
+        </div>
+
+        <div>
+            <span style="float: left;margin-right: 5px;">2星</span>
+            <div class="power" th:style="'width: '+${towStarPercent}+'px;'"></div>
+            <span class="power-percent" th:text="${towStarPercent}+'%'"></span>
+            <br>
+        </div>
+
+        <div>
+            <span style="float: left;margin-right: 5px;">1星</span>
+            <div class="power" th:style="'width: '+${oneStarPercent}+'px;'"></div>
+            <span class="power-percent" th:text="${oneStarPercent}+'%'"></span>
+            <br>
+        </div>
+
+
     </div>
 
 

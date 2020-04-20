@@ -1,12 +1,14 @@
 package com.bookrecommend.demo.entity;
 
 
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
 
 // 评分表
+@Data
 @Entity
 @Table(name = "score")
 public class Score {
@@ -21,7 +23,7 @@ public class Score {
 
     // 书籍id
     @Column(name = "book_id", nullable = false, length = 11)
-    private Integer book_id;
+    private Integer bookId;
 
     // 用户对书籍的评分
     @Column(name = "score", nullable = false, length = 11)
@@ -35,43 +37,4 @@ public class Score {
     public Score() {
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Integer getBook_id() {
-        return book_id;
-    }
-
-    public void setBook_id(Integer book_id) {
-        this.book_id = book_id;
-    }
-
-    public Integer getScore() {
-        return score;
-    }
-
-    public void setScore(Integer score) {
-        this.score = score;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
 }

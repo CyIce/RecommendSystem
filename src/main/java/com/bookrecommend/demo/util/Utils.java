@@ -1,5 +1,6 @@
 package com.bookrecommend.demo.util;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,5 +45,10 @@ public class Utils {
 
     }
 
+    public static double DoubleToFormat(double number) {
+        BigDecimal bigDecimal = new BigDecimal(number);
+
+        return bigDecimal.setScale(1, BigDecimal.ROUND_UP).doubleValue();
+    }
 
 }

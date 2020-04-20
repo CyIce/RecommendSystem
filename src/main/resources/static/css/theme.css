@@ -43,6 +43,15 @@ hr {
     border-top: 1px solid black;
 }
 
+.book-score-hollow {
+    display: block;
+    width: 80px;
+    height: 15px;
+    margin-left: 50px;
+    margin-top: -38px;
+    background: url("../img/star_hollow.png");
+    overflow: hidden;
+}
 .book-score {
     display: block;
     /*width: 80px;*/
@@ -50,6 +59,16 @@ hr {
     margin-left: 50px;
     margin-top: -38px;
     background: url("../img/star.jpg");
+    overflow: hidden;
 }
 
+.power {
+    height: 14px;
+    background: #ffd596 none repeat scroll 0 0;
+    float: left;
+    font-size: 14px;
+}
 
+.power-percent {
+    margin-left: 3px;
+}
