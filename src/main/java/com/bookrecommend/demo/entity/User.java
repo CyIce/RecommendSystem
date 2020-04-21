@@ -1,13 +1,11 @@
 package com.bookrecommend.demo.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 
 // 用户表
@@ -53,18 +51,6 @@ public class User {
     @Column(name = "registration_date",nullable = false)
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date registrationDate;
-
-    // 用户收藏
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private List<Collection> collectionList;
-
-    // 用户购物车
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private List<ShopingCart> shopingCartList;
 
 
     public User() {

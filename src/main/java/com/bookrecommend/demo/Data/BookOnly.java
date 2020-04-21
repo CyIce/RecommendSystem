@@ -50,6 +50,7 @@ public class BookOnly {
         this.bigPicture = bigPicture;
     }
 
+
     public BookOnly(Integer id, String nameCn, String nameEng, String picture) {
         this.id = id;
         this.nameCn = nameCn;

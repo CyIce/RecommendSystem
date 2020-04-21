@@ -86,4 +86,26 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
             "from Book b,BookLabel l where " +
             "b.id = l.bookId and l.labelId = :labelId")
     Page<BookOnly> findAllBookByLabelId(Pageable pageable, @Param("labelId") Integer labelId);
+
+
+    // 获取用户在读的书籍
+    @Query(value = "select new com.bookrecommend.demo.Data.BookOnly(b.id,b.nameCn,b.nameEng,b.picture) " +
+            "from Book b,ReadingRecord r " +
+            "where b.id = r.bookId and r.userId = :userId " +
+            "order by r.date desc ")
+    Page<BookOnly> findReadingBooksByUserId(Pageable pageable, @Param("userId") Integer userId);
+
+    // 获取用户想读的书籍
+    @Query(value = "select new com.bookrecommend.demo.Data.BookOnly(b.id,b.nameCn,b.nameEng,b.picture) " +
+            "from Book b,Want w " +
+            "where b.id = w.bookId and w.userId = :userId " +
+            "order by w.date desc ")
+    Page<BookOnly> findWantBooksByUserId(Pageable pageable, @Param("userId") Integer userId);
+
+    // 获取用户已读的书籍
+    @Query(value = "select new com.bookrecommend.demo.Data.BookOnly(b.id,b.nameCn,b.nameEng,b.picture) " +
+            "from Book b,HaveRead h " +
+            "where b.id = h.bookId and h.userId = :userId " +
+            "order by h.date desc ")
+    Page<BookOnly> findHaveReadBooksByUserId(Pageable pageable, @Param("userId") Integer userId);
 }

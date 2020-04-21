@@ -150,3 +150,30 @@ hr {
     float: left;
     margin: 10px 25px 30px 10px;
 }
+
+.user-menu {
+    background: #F5F3EF;
+    height: 44px;
+    width: 100%;
+}
+
+.user-menu > div > ul > li {
+    float: left;
+    list-style: none outside none;
+    margin-right: 15px;
+}
+
+.show-books {
+    clear: both;
+    height: 160px;
+}
+
+.show-books > ul > li {
+    float: left;
+    list-style: none outside none;
+    margin-right: 15px;
+}
+
+.show-books > ul > li > a > img {
+    height: 160px;
+}

@@ -7,10 +7,137 @@
     <link rel="stylesheet" th:href="@{/css/theme.css}" type="text/css">
     <!--<link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">-->
     <!--<link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">-->
-    <title>书库&nbsp;&nbsp;&nbsp;(藏经阁)</title>
+    <title th:text="${user.getName()+'&nbsp;&nbsp;&nbsp;(藏经阁)'}"></title>
 </head>
 <body>
+<div class="container theme-showcase" role="main">
+    <!--导航栏-->
+    <nav class="navbar navbar-default" th:insert="~{public :: public_top}"></nav>
 
+    <div style="margin-left: 50px; margin-top: 55px;">
+        <div class="media">
+            <div class="media-left">
+                <a href="#">
+                    <img style="height: 80px;" class="media-object" th:src="${user.getPhoto()}">
+                </a>
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading" th:text="${user.getName()}"></h4>
+                <h5 th:text="${user.getIntroduction()}"></h5>
+            </div>
+        </div>
+
+        <div class="user-menu">
+            <div style="padding-top: 13px;">
+                <ul style="margin-left: 85px;">
+                    <li><a href="#">我的主页</a></li>
+                    <li><a href="#">在读</a></li>
+                    <li><a href="#">想读</a></li>
+                    <li><a href="#">读过</a></li>
+                    <li><a href="#">评论</a></li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-left: 50px">
+        <!--在读-->
+        <div style="margin-top: 50px;">
+            <h3 style="color: #007722; float: left;">
+                <span>在读</span>
+                &nbsp;·&nbsp;·&nbsp;·&nbsp;·&nbsp;·&nbsp;·
+            </h3>
+            <div style="float: left;margin: 23px auto;">
+                <span>（<a href="#" th:text="${'共 '+readingNum+' 本'}"></a>）</span>
+            </div>
+        </div>
+        <div class="show-books">
+            <ul>
+                <li th:each="book:${readingBooks}">
+                    <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getBookUrl(book.getId(),'date',1,5)}}">
+                        <img th:src="@{'/img/cover/'+${book.getId()}+'.jpg'}">
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!--想读-->
+        <div style="margin-top: 50px;">
+            <h3 style="color: #007722; float: left;">
+                <span>想读</span>
+                &nbsp;·&nbsp;·&nbsp;·&nbsp;·&nbsp;·&nbsp;·
+            </h3>
+            <div style="float: left;margin: 23px auto;">
+                <span>（<a href="#" th:text="${'共 '+wantNum+' 本'}"></a>）</span>
+            </div>
+        </div>
+        <div class="show-books">
+            <ul>
+                <li th:each="book:${wantBooks}">
+                    <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getBookUrl(book.getId(),'date',1,5)}}">
+                        <img th:src="@{'/img/cover/'+${book.getId()}+'.jpg'}">
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!--读过-->
+        <div style="margin-top: 50px;">
+            <h3 style="color: #007722; float: left;">
+                <span>读过</span>
+                &nbsp;·&nbsp;·&nbsp;·&nbsp;·&nbsp;·&nbsp;·
+            </h3>
+            <div style="float: left;margin: 23px auto;">
+                <span>（<a href="#" th:text="${'共 '+haveReadNum+' 本'}"></a>）</span>
+            </div>
+        </div>
+        <div class="show-books">
+            <ul>
+                <li th:each="book:${haveReadBooks}">
+                    <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getBookUrl(book.getId(),'date',1,5)}}">
+                        <img th:src="@{'/img/cover/'+${book.getId()}+'.jpg'}">
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+
+        <!--书评-->
+        <div style="margin-top: 50px;">
+            <h3 style="color: #007722; float: left;">
+                <span>书评</span>
+                &nbsp;·&nbsp;·&nbsp;·&nbsp;·&nbsp;·&nbsp;·
+            </h3>
+            <div style="float: left;margin: 23px auto;">
+                <span>（<a href="#" th:text="${'共 '+commentNum+' 条'}"></a>）</span>
+            </div>
+        </div>
+
+        <div th:each="c:${comments}" class="comments-list" style="margin-top: 20px">
+            <hr>
+            <div>
+                <header>
+                    <a href="#">
+                        <img width="24" height="24" th:src="${c.getBookPicture()}">
+                    </a>
+                    <a href="#" th:text="${c.getBookName()}"></a>
+                    <span th:text="${c.getScore()/2}+'分'"></span>
+                    <span th:text="${c.getDate()}"></span>
+
+                </header>
+
+                <div style="margin-top: 20px">
+                    <span th:text="${c.getComment()}"></span>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
 
 <script type="text/javascript" th:src="@{/jquery/jquery-3.3.1.min.js}"></script>
 <script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>

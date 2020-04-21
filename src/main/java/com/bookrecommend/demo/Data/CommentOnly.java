@@ -14,6 +14,10 @@ public class CommentOnly {
 
     private String userPhoto;
 
+    private String bookName;
+
+    private String bookPicture;
+
     private String comment;
 
     private Integer hot;
@@ -29,6 +33,14 @@ public class CommentOnly {
         this.comment = comment;
         this.score = score;
         this.hot = hot;
+        this.date = date;
+    }
+
+    public CommentOnly(String bookName, String bookPicture, String comment, Integer score, Date date) {
+        this.bookName = bookName;
+        this.bookPicture = bookPicture;
+        this.comment = comment;
+        this.score = score;
         this.date = date;
     }
 
