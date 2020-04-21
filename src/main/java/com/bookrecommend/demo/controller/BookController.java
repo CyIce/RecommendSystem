@@ -39,6 +39,12 @@ public class BookController {
     @Autowired
     private ScoreRepository scoreRepository;
 
+    @Autowired
+    private KindRepository kindRepository;
+
+    @Autowired
+    private LabelRepository labelRepository;
+
     @GetMapping(value = {"/", "/index"})
     public String index(@RequestParam("user_id") Integer userId, Model model) {
 
@@ -148,6 +154,8 @@ public class BookController {
     @GetMapping(value = "/library")
     public String getLibrary(@RequestParam("book_order_type") String bookOrderType,
                              @RequestParam("offset") Integer offset,
+                             @RequestParam("kind_id") Integer kindId,
+                             @RequestParam("label_id") Integer labelId,
                              @RequestParam("limit") Integer limit, Model model) {
 
         offset -= 1;
@@ -164,7 +172,22 @@ public class BookController {
         model.addAttribute("labels", labels);
         model.addAttribute("labelsNumber", labels.size());
 
-        Page<BookOnly> booksPage = bookRepository.findAllBook(pageable);
+        Page<BookOnly> booksPage;
+
+        if (kindId <= 0 && labelId <= 0) {
+            booksPage = bookRepository.findAllBook(pageable);
+        } else if (kindId > 0 && labelId <= 0) {
+            model.addAttribute("kindName", kindRepository.getOne(kindId).getKind());
+            booksPage = bookRepository.findAllBookByKindId(pageable, kindId);
+        } else if (kindId <= 0) {
+            model.addAttribute("labelName", labelRepository.getOne(labelId).getLabel());
+            booksPage = bookRepository.findAllBookByLabelId(pageable, labelId);
+        } else {
+            model.addAttribute("kindName", kindRepository.getOne(kindId).getKind());
+            model.addAttribute("labelName", labelRepository.getOne(labelId).getLabel());
+            booksPage = bookRepository.findAllBookByKindIdAndLabelId(pageable, kindId, labelId);
+        }
+
         List<BookOnly> books = booksPage.toList();
 
         for (BookOnly book : books) {
@@ -173,6 +196,8 @@ public class BookController {
             book.setLabels(bookRepository.findBookLabelsByBookId(book.getId()));
         }
 
+        model.addAttribute("kindId", kindId);
+        model.addAttribute("labelId", labelId);
         model.addAttribute("booksNumber", booksPage.getTotalElements());
         model.addAttribute("currentPage", offset + 1);
         model.addAttribute("bookOrderType", bookOrderType);

@@ -70,4 +70,20 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Query(value = "select new com.bookrecommend.demo.Data.BookOnly(b.id,b.nameCn,b.picture,b.score,b.introduction) " +
             "from Book b")
     Page<BookOnly> findAllBook(Pageable pageable);
+
+    @Query(value = "select new com.bookrecommend.demo.Data.BookOnly(b.id,b.nameCn,b.picture,b.score,b.introduction) " +
+            "from Book b,BookKind k,BookLabel l where " +
+            "b.id = k.bookId and k.kindId = :kindId " +
+            "and b.id = l.bookId and l.labelId = :labelId")
+    Page<BookOnly> findAllBookByKindIdAndLabelId(Pageable pageable, @Param("kindId") Integer kindId, @Param("labelId") Integer labelId);
+
+    @Query(value = "select new com.bookrecommend.demo.Data.BookOnly(b.id,b.nameCn,b.picture,b.score,b.introduction) " +
+            "from Book b,BookKind k where " +
+            "b.id = k.bookId and k.kindId = :kindId")
+    Page<BookOnly> findAllBookByKindId(Pageable pageable, @Param("kindId") Integer kindId);
+
+    @Query(value = "select new com.bookrecommend.demo.Data.BookOnly(b.id,b.nameCn,b.picture,b.score,b.introduction) " +
+            "from Book b,BookLabel l where " +
+            "b.id = l.bookId and l.labelId = :labelId")
+    Page<BookOnly> findAllBookByLabelId(Pageable pageable, @Param("labelId") Integer labelId);
 }

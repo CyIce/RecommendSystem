@@ -168,7 +168,7 @@
     </div>
 
     <div style="padding-top: 66px;" th:if="${commentOrderType.equals('date')}">
-        <a th:href="@{'/book?book_id='+${book.getId()}+'&comment_order_type=hot&offset=1&limit=5#comments'}">热门</a>
+        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getBookUrl(book.getId(),'hot',1,5)}}">热门</a>
         /
         <span>最新</span>
     </div>
@@ -205,7 +205,7 @@
     <nav aria-label="Page navigation">
         <ul th:each="i:${#numbers.sequence(1,totalPages)}" class="pagination">
             <li th:if="${i == 1 and i != currentPage}">
-                <a th:href="@{'/book?book_id='+${book.getId()}+'&comment_order_type='+${commentOrderType}+'&offset='+${currentPage+-1}+'&limit=5#comments'}"
+                <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getBookUrl(book.getId(),commentOrderType,currentPage+-1,5)}}"
                    aria-label="Previous">
                     <span aria-hidden="true">上一页</span>
                 </a>
@@ -216,11 +216,11 @@
 
 
             <li th:class="${i == currentPage}? 'active':''">
-                <a th:href="@{'/book?book_id='+${book.getId()}+'&comment_order_type='+${commentOrderType}+'&offset='+${i}+'&limit=5#comments'}"
+                <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getBookUrl(book.getId(),commentOrderType,i,5)}}"
                    th:text="${i}"></a></li>
 
             <li th:if="${i == totalPages and i != currentPage}">
-                <a th:href="@{'/book?book_id='+${book.getId()}+'&comment_order_type='+${commentOrderType}+'&offset='+${currentPage+1}+'&limit=5#comments'}"
+                <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getBookUrl(book.getId(),commentOrderType,currentPage+1,5)}}"
                    aria-label="Next">
                     <span aria-hidden="true">下一页</span>
                 </a>

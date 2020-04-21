@@ -18,29 +18,46 @@
         <div class="row">
             <div class="col-sm-3 col-md-2 sidebar" style="margin-top: 28px;">
                 <div class="category-list">
-                    <p>已选</p>
-                    <ul class="category-selected">
-                        <li>
-                            <button style="outline: none" type="button" class="btn btn-sm" aria-label="Left Ailgn">
-                                科幻<span class="glyphicon glyphicon-remove"></span>
-                            </button>
+                    <h4 style="color: #007722;">已选</h4>
+                    <ul class="category">
+                        <li th:if="${kindId>0}">
+                            <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getLibraryUrl(bookOrderType,1,10,0,labelId)}}">
+                                <span th:text="${kindName}"></span>
+                                <span style="margin-left: -4px;" class="glyphicon glyphicon-remove"></span>
+                            </a>
+                            <!--</button>-->
                         </li>
+
+                        <li th:if="${labelId>0}">
+                            <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getLibraryUrl(bookOrderType,1,10,kindId,0)}}">
+                                <span th:text="${labelName}"></span>
+                                <span style="margin-left: -4px;" class="glyphicon glyphicon-remove"></span>
+                            </a>
+                        </li>
+
+
+                        <li th:if="${kindId<=0 && labelId<=0}">
+                            <span>全选</span>
+                        </li>
+
                     </ul>
 
                 </div>
                 <div class="category-list">
-                    <p>分类</p>
+                    <h4 style="color: #007722;">分类</h4>
                     <ul class="category">
                         <li th:each="kind:${kinds}">
-                            <a href="#" th:text="${kind.getKind()}"></a>
+                            <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getLibraryUrl(bookOrderType,1,10,kind.getId(),labelId)}}"
+                               th:text="${kind.getKind()}"></a>
                         </li>
                     </ul>
                 </div>
                 <div class="category-list">
-                    <p>标签</p>
+                    <h4 style="color: #007722;">标签</h4>
                     <ul class="category">
                         <li th:each="label:${labels}">
-                            <a href="#" th:text="${label.getLabel()}"></a>
+                            <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getLibraryUrl(bookOrderType,1,10,kindId,label.getId())}}"
+                               th:text="${label.getLabel()}"></a>
                         </li>
                     </ul>
                 </div>
@@ -50,15 +67,15 @@
                 <div class="select-wrap">
                     <div style="padding-top: 13px;">
                         <span style="float: right;margin-right: 10px;" th:text="${'共 '+booksNumber+' 条记录'}"></span>
-                        <a th:href="@{'/library?&book_order_type=hot&offset=1&limit=10'}">热门</a>
+                        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getLibraryUrl('hot',1,10,kindId,labelId)}}">热门</a>
                         /
-                        <a th:href="@{'/library?&book_order_type=collectionNum&offset=1&limit=10'}">总收藏</a>
+                        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getLibraryUrl('collectionNum',1,10,kindId,labelId)}}">总收藏</a>
                         /
-                        <a th:href="@{'/library?&book_order_type=wantNum&offset=1&limit=10'}">总想看</a>
+                        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getLibraryUrl('wantNum',1,10,kindId,labelId)}}">总想看</a>
                         /
-                        <a th:href="@{'/library?&book_order_type=haveReadNum&offset=1&limit=10'}">总看过</a>
+                        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getLibraryUrl('haveReadNum',1,10,kindId,labelId)}}">总看过</a>
                         /
-                        <a th:href="@{'/library?&book_order_type=readingNum&offset=1&limit=10'}">总在看</a>
+                        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getLibraryUrl('readingNum',1,10,kindId,labelId)}}">总在看</a>
                     </div>
                 </div>
 
@@ -90,7 +107,7 @@
     <nav aria-label="Page navigation" style="float: right;">
         <ul th:each="i:${#numbers.sequence(1,totalPages)}" class="pagination">
             <li th:if="${i == 1 and i != currentPage}">
-                <a th:href="@{'/library?&book_order_type='+${bookOrderType}+'&offset='+${currentPage+-1}+'&limit=10'}"
+                <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getLibraryUrl(bookOrderType,currentPage+-1,10,kindId,labelId)}}"
                    aria-label="Previous">
                     <span aria-hidden="true">上一页</span>
                 </a>
@@ -101,11 +118,11 @@
 
 
             <li th:class="${i == currentPage}? 'active':''">
-                <a th:href="@{'/library?&book_order_type='+${bookOrderType}+'&offset='+${i}+'&limit=10'}"
+                <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getLibraryUrl(bookOrderType,i,10,kindId,labelId)}}"
                    th:text="${i}"></a></li>
 
             <li th:if="${i == totalPages and i != currentPage}">
-                <a th:href="@{'/library?&book_order_type='+${bookOrderType}+'&offset='+${currentPage+1}+'&limit=10'}"
+                <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getLibraryUrl(bookOrderType,currentPage+1,10,kindId,labelId)}}"
                    aria-label="Next">
                     <span aria-hidden="true">下一页</span>
                 </a>
