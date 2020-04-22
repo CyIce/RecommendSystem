@@ -1,12 +1,14 @@
 package com.bookrecommend.demo.entity;
 
 
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
 
 // 用户点击记录表
+@Data
 @Entity
 @Table(name = "click_record")
 public class ClickRecord {
@@ -32,43 +34,4 @@ public class ClickRecord {
     public ClickRecord() {
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Integer getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(Integer bookId) {
-        this.bookId = bookId;
-    }
-
-    public Integer getClickTimes() {
-        return clickTimes;
-    }
-
-    public void setClickTimes(Integer clickTimes) {
-        this.clickTimes = clickTimes;
-    }
-
-    public Date getLastClickTime() {
-        return lastClickTime;
-    }
-
-    public void setLastClickTime(Date lastClickTime) {
-        this.lastClickTime = lastClickTime;
-    }
 }

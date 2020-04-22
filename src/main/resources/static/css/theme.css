@@ -177,3 +177,21 @@ hr {
 .show-books > ul > li > a > img {
     height: 160px;
 }
+
+.collected-book {
+    height: 200px;
+    width: 400px;
+    float: left;
+    margin: 10px 100px 10px 60px;
+}
+
+.collected-book > div > a > img {
+    height: 180px;
+}
+
+.short-note {
+    background: #f8f8f8;
+    padding: 5px 10px;
+    height: 60px;
+    width: 380px;
+}

@@ -1,12 +1,14 @@
 package com.bookrecommend.demo.entity;
 
 
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
 
 // 消息表
+@Data
 @Entity
 @Table(name = "message")
 public class Message {
@@ -34,44 +36,5 @@ public class Message {
 
     public Message() {
     }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getContend() {
-        return contend;
-    }
-
-    public void setContend(String contend) {
-        this.contend = contend;
-    }
-
-    public Boolean getState() {
-        return state;
-    }
-
-    public void setState(Boolean state) {
-        this.state = state;
-    }
-
-    public Boolean getType() {
-        return type;
-    }
-
-    public void setType(Boolean type) {
-        this.type = type;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
 }
+

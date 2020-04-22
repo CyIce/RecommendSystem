@@ -1,12 +1,14 @@
 package com.bookrecommend.demo.entity;
 
 
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
 
 // 阅读记录表
+@Data
 @Entity
 @Table(name = "reading_record")
 public class ReadingRecord {
@@ -36,54 +38,5 @@ public class ReadingRecord {
     private Integer readingTime;
 
     public ReadingRecord() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-
-    public Integer getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(Integer bookId) {
-        this.bookId = bookId;
-    }
-
-    public Integer getPosition() {
-        return position;
-    }
-
-    public void setPosition(Integer position) {
-        this.position = position;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Integer getReadingTime() {
-        return readingTime;
-    }
-
-    public void setReadingTime(Integer readingTime) {
-        this.readingTime = readingTime;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 }

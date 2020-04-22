@@ -27,6 +27,7 @@ public class BookOnly {
     private String catalog;
 
     private Date publicationDate;
+    private Date date;
 
     private int wordCount;
 
@@ -35,6 +36,8 @@ public class BookOnly {
     private float score;
 
     private String introduction;
+
+    private boolean existInShopingCart;
 
     private List<BookLabelOnly> labels;
     private List<BookLabelOnly> kinds;
@@ -91,6 +94,19 @@ public class BookOnly {
         this.introduction = introduction;
     }
 
+
+    public BookOnly(Integer id, String nameCn, String picture, Date publicationDate, Date date, float price, float score, String press, Integer wordCount) {
+        this.id = id;
+        this.nameCn = nameCn;
+        this.picture = picture;
+        this.publicationDate = publicationDate;
+        this.date = date;
+        this.price = price;
+        this.score = score;
+        this.press = press;
+        this.wordCount = wordCount;
+    }
+
     public String getAuthorsName() {
         List<String> nameList = new ArrayList<String>();
 
@@ -127,5 +143,9 @@ public class BookOnly {
 
     public String getPublicationDate() {
         return Utils.Date2String(publicationDate, true);
+    }
+
+    public String getDate() {
+        return Utils.Date2String(date, true);
     }
 }

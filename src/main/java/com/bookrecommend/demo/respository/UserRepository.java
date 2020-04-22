@@ -46,6 +46,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "from User u,Comment c,Book b where " +
             "u.id = c.userId and c.bookId = b.id and u.id = :userId " +
             "order by c.date")
-    Page<CommentOnly> findCommentsByUserId(Pageable pageable, @Param("userId") Integer userId);
+    Page<CommentOnly> findCommentsByUserIdOrderByDate(Pageable pageable, @Param("userId") Integer userId);
+
+
 
 }

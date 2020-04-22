@@ -93,19 +93,56 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
             "from Book b,ReadingRecord r " +
             "where b.id = r.bookId and r.userId = :userId " +
             "order by r.date desc ")
-    Page<BookOnly> findReadingBooksByUserId(Pageable pageable, @Param("userId") Integer userId);
+    Page<BookOnly> findReadingBooksByUserIdOrderByDate(Pageable pageable, @Param("userId") Integer userId);
 
     // 获取用户想读的书籍
     @Query(value = "select new com.bookrecommend.demo.Data.BookOnly(b.id,b.nameCn,b.nameEng,b.picture) " +
             "from Book b,Want w " +
             "where b.id = w.bookId and w.userId = :userId " +
             "order by w.date desc ")
-    Page<BookOnly> findWantBooksByUserId(Pageable pageable, @Param("userId") Integer userId);
+    Page<BookOnly> findWantBooksByUserIdOrderByDate(Pageable pageable, @Param("userId") Integer userId);
 
     // 获取用户已读的书籍
     @Query(value = "select new com.bookrecommend.demo.Data.BookOnly(b.id,b.nameCn,b.nameEng,b.picture) " +
             "from Book b,HaveRead h " +
             "where b.id = h.bookId and h.userId = :userId " +
             "order by h.date desc ")
-    Page<BookOnly> findHaveReadBooksByUserId(Pageable pageable, @Param("userId") Integer userId);
+    Page<BookOnly> findHaveReadBooksByUserIdOrderByDate(Pageable pageable, @Param("userId") Integer userId);
+
+    // 想看
+    @Query(value = "select new com.bookrecommend.demo.Data.BookOnly(b.id,b.nameCn,b.picture,b.publicationDate,w.date,b.price,b.score,p.name,b.wordCount) " +
+            "from Book b,Press p,Want w " +
+            "where b.pressId = p.id and b.id = w.bookId and w.userId = :userId " +
+            "order by w.date desc ")
+    Page<BookOnly> findWantBooksAllInfoByUserIdOrderByDate(Pageable pageable, @Param("userId") Integer userId);
+
+    @Query(value = "select new com.bookrecommend.demo.Data.BookOnly(b.id,b.nameCn,b.picture,b.publicationDate,w.date,b.price,b.score,p.name,b.wordCount) " +
+            "from Book b,Press p,Want w " +
+            "where b.pressId = p.id and b.id = w.bookId and w.userId = :userId ")
+    Page<BookOnly> findWantBooksAllInfoByUserId(Pageable pageable, @Param("userId") Integer userId);
+
+    // 在看
+    @Query(value = "select new com.bookrecommend.demo.Data.BookOnly(b.id,b.nameCn,b.picture,b.publicationDate,r.date,b.price,b.score,p.name,b.wordCount) " +
+            "from Book b,Press p,ReadingRecord r " +
+            "where b.pressId = p.id and b.id = r.bookId and r.userId = :userId " +
+            "order by r.date desc ")
+    Page<BookOnly> findReadingBooksAllInfoByUserIdOrderByDate(Pageable pageable, @Param("userId") Integer userId);
+
+    @Query(value = "select new com.bookrecommend.demo.Data.BookOnly(b.id,b.nameCn,b.picture,b.publicationDate,r.date,b.price,b.score,p.name,b.wordCount) " +
+            "from Book b,Press p,ReadingRecord r " +
+            "where b.pressId = p.id and b.id = r.bookId and r.userId = :userId ")
+    Page<BookOnly> findReadingBooksAllInfoByUserId(Pageable pageable, @Param("userId") Integer userId);
+
+    // 看过
+    @Query(value = "select new com.bookrecommend.demo.Data.BookOnly(b.id,b.nameCn,b.picture,b.publicationDate,h.date,b.price,b.score,p.name,b.wordCount) " +
+            "from Book b,Press p,HaveRead h " +
+            "where b.pressId = p.id and b.id = h.bookId and h.userId = :userId " +
+            "order by h.date desc ")
+    Page<BookOnly> findHaveReadBooksAllInfoByUserIdOrderByDate(Pageable pageable, @Param("userId") Integer userId);
+
+    @Query(value = "select new com.bookrecommend.demo.Data.BookOnly(b.id,b.nameCn,b.picture,b.publicationDate,h.date,b.price,b.score,p.name,b.wordCount) " +
+            "from Book b,Press p,HaveRead h  " +
+            "where b.pressId = p.id and b.id = h.bookId and h.userId = :userId ")
+    Page<BookOnly> findHaveReadBooksAllInfoByUserId(Pageable pageable, @Param("userId") Integer userId);
+
 }

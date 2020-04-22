@@ -70,7 +70,7 @@ public class BookController {
             bookOnly.setAuthors(authors);
         }
         model.addAttribute("hotBooks", hotBooks);
-
+        model.addAttribute("userId", userId);
 
         return "index";
     }
@@ -96,7 +96,6 @@ public class BookController {
         Page<CommentOnly> comments = commentRepository.findCommentsByBookId(pageable, bookId);
 
         model.addAttribute("currentPage", offset + 1);
-        model.addAttribute("commentOrderType", commentOrderType);
         model.addAttribute("totalPages", comments.getTotalPages());
         model.addAttribute("commentsNumber", comments.getTotalElements());
         model.addAttribute("commentOrderType", commentOrderType);

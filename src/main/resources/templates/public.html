@@ -56,6 +56,39 @@
             </div><!--/.nav-collapse -->
         </div>
     </nav>
+
+    <div style="margin-left: 50px; margin-top: 55px;" th:fragment="public_user_menu">
+        <div class="media">
+            <div class="media-left">
+                <a href="#">
+                    <img style="height: 80px;" class="media-object" th:src="${user.getPhoto()}">
+                </a>
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading" th:text="${user.getName()}"></h4>
+                <h5 th:text="${user.getIntroduction()}"></h5>
+            </div>
+        </div>
+
+        <div class="user-menu">
+            <div style="padding-top: 13px;">
+                <ul style="margin-left: 85px;">
+                    <li><a href="http://127.0.0.1:8081/user?user_id=1">我的主页</a></li>
+                    <li>
+                        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl('reading',userId,'date',1,10)}}">在读</a>
+                    </li>
+                    <li>
+                        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl('want',userId,'date',1,10)}}">想读</a>
+                    </li>
+                    <li>
+                        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl('have_read',userId,'date',1,10)}}">读过</a>
+                    </li>
+                    <li><a href="#">评论</a></li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
 </div>
 
 

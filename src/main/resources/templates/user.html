@@ -14,32 +14,8 @@
     <!--导航栏-->
     <nav class="navbar navbar-default" th:insert="~{public :: public_top}"></nav>
 
-    <div style="margin-left: 50px; margin-top: 55px;">
-        <div class="media">
-            <div class="media-left">
-                <a href="#">
-                    <img style="height: 80px;" class="media-object" th:src="${user.getPhoto()}">
-                </a>
-            </div>
-            <div class="media-body">
-                <h4 class="media-heading" th:text="${user.getName()}"></h4>
-                <h5 th:text="${user.getIntroduction()}"></h5>
-            </div>
-        </div>
-
-        <div class="user-menu">
-            <div style="padding-top: 13px;">
-                <ul style="margin-left: 85px;">
-                    <li><a href="#">我的主页</a></li>
-                    <li><a href="#">在读</a></li>
-                    <li><a href="#">想读</a></li>
-                    <li><a href="#">读过</a></li>
-                    <li><a href="#">评论</a></li>
-                </ul>
-
-            </div>
-        </div>
-    </div>
+    <!--用户菜单-->
+    <div th:insert="~{public :: public_user_menu}"></div>
 
     <div style="margin-left: 50px">
         <!--在读-->

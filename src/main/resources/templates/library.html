@@ -84,7 +84,7 @@
 
                     <div class="media-book" th:each="book:${books}">
                         <div class="media-left">
-                            <a th:href="@{'/book?book_id='+${book.getId()}+'&comment_order_type=date&offset=1&limit=5'}">
+                            <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getBookUrl(book.getId(),'date',1,5)}}">
                                 <img class="media-object book-cover-img"
                                      th:src="@{/img/cover/{bookId}(bookId=${book.getId().toString()+'.jpg'})}">
                             </a>
@@ -96,8 +96,6 @@
                             <p class="book-introduction" th:text="${book.getIntroduction()}"></p>
                         </div>
                     </div>
-
-
                 </div>
 
             </div>

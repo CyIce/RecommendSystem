@@ -21,4 +21,5 @@ public interface AuthorRepository extends JpaRepository<Author, Integer> {
             "where a.id = ab.authorId " +
             "and ab.bookId = :bookId")
     List<AuthorOnly> findAuthorsInfoByBookId(@Param("bookId") Integer bookId);
+
 }
