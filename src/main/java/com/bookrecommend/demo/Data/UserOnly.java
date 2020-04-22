@@ -39,4 +39,14 @@ public class UserOnly {
         this.photo = photo;
         this.introduction = introduction;
     }
+
+    public UserOnly(Integer id) {
+        this.id = id;
+    }
+
+    public UserOnly(Integer id, String name, String photo) {
+        this.id = id;
+        this.name = name;
+        this.photo = photo;
+    }
 }

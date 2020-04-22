@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,8 +46,10 @@ public class BookController {
     @Autowired
     private LabelRepository labelRepository;
 
-    @GetMapping(value = {"/", "/index"})
-    public String index(@RequestParam("user_id") Integer userId, Model model) {
+    @GetMapping(value = "/index")
+    public String index(Model model, HttpServletRequest request) {
+
+        int userId = Utils.SetLoginInfo(model, request, userRepository);
 
         // 轮播图书籍
         List<BookOnly> top5Books = bookRepository.findBooksByMonthHot().subList(0, 5);
@@ -81,7 +84,9 @@ public class BookController {
                           @RequestParam("comment_order_type") String commentOrderType,
                           @RequestParam("offset") Integer offset,
                           @RequestParam("limit") Integer limit,
-                          Model model) {
+                          Model model,
+                          HttpServletRequest request) {
+        int userId = Utils.SetLoginInfo(model, request, userRepository);
         offset -= 1;
 
         Sort sort = Sort.by(Sort.Order.desc(commentOrderType));
@@ -155,7 +160,10 @@ public class BookController {
                              @RequestParam("offset") Integer offset,
                              @RequestParam("kind_id") Integer kindId,
                              @RequestParam("label_id") Integer labelId,
-                             @RequestParam("limit") Integer limit, Model model) {
+                             @RequestParam("limit") Integer limit,
+                             Model model,
+                             HttpServletRequest request) {
+        int userId = Utils.SetLoginInfo(model, request, userRepository);
 
         offset -= 1;
 

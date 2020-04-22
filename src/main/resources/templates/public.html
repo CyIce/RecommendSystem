@@ -27,7 +27,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="#">首页</a></li>
+                    <li><a th:href="@{/index}">首页</a></li>
                     <li><a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getLibraryUrl('hot',1,10,-1,-1)}}">书库</a>
                     </li>
                     <li><a href="#">购物车</a></li>
@@ -39,7 +39,11 @@
                     <button type="submit" class="btn btn-default">搜索</button>
                 </form>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">登录</a></li>
+
+                    <!--<li><a href="#">登录</a></li>-->
+                    <li th:if="${isLogin}"><a th:href="@{/user}" th:text="${user.getName()}"></a></li>
+                    <li th:unless="${isLogin}"><a th:href="@{/}">登录</a></li>
+
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">个人中心 <span class="caret"></span></a>
@@ -49,7 +53,7 @@
                             <li><a href="#">我的评论</a></li>
                             <li><a href="#">我的消息</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#">退出登录</a></li>
+                            <li><a th:href="@{/user/logout}">退出登录</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -75,15 +79,16 @@
                 <ul style="margin-left: 85px;">
                     <li><a href="http://127.0.0.1:8081/user?user_id=1">我的主页</a></li>
                     <li>
-                        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl('reading',userId,'date',1,10)}}">在读</a>
+                        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl('reading','date',1,10)}}">在读</a>
                     </li>
                     <li>
-                        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl('want',userId,'date',1,10)}}">想读</a>
+                        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl('want','date',1,10)}}">想读</a>
                     </li>
                     <li>
-                        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl('have_read',userId,'date',1,10)}}">读过</a>
+                        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl('have_read','date',1,10)}}">读过</a>
                     </li>
-                    <li><a href="#">评论</a></li>
+                    <li><a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCommentUrl('date',1,10)}}">评论</a>
+                    </li>
                 </ul>
 
             </div>

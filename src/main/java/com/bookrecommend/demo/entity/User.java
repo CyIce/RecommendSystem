@@ -20,8 +20,15 @@ public class User {
     private Integer id;
 
     // 姓名
-    @Column(name = "name",unique = true,nullable = false,length = 31)
+    @Column(name = "name", nullable = false, length = 31)
     private  String name;
+
+    // 邮箱地址
+    @Column(name = "email", nullable = false, length = 31)
+    private String email;
+
+    @Column(name = "password", nullable = false, length = 31)
+    private String password;
 
     // 年龄
     @Column(name = "age",nullable = false,length = 11)
@@ -42,10 +49,6 @@ public class User {
     // 手机号码
     @Column(name = "phone_number",nullable = false,length = 31)
     private String phoneNumber;
-
-    // 邮箱地址
-    @Column(name = "email",nullable = false,length = 31)
-    private String email;
 
     // 注册日期
     @Column(name = "registration_date",nullable = false)

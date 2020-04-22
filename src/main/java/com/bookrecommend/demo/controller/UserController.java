@@ -5,6 +5,7 @@ import com.bookrecommend.demo.Data.BookOnly;
 import com.bookrecommend.demo.Data.CommentOnly;
 import com.bookrecommend.demo.Data.UserOnly;
 import com.bookrecommend.demo.respository.*;
+import com.bookrecommend.demo.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -37,9 +39,9 @@ public class UserController {
 
 
     @GetMapping(value = "/user")
-    public String index(@RequestParam("user_id") Integer userId, Model model) {
+    public String index(Model model, HttpServletRequest request) {
 
-
+        int userId = Utils.SetLoginInfo(model, request, userRepository);
         UserOnly user = userRepository.findUserBaseInfoByUserId(userId);
         model.addAttribute("user", user);
 
@@ -66,12 +68,12 @@ public class UserController {
     }
 
     @GetMapping(value = "/user/want")
-    public String wantBook(@RequestParam("user_id") Integer userId,
-                           @RequestParam("book_order_type") String bookOrderType,
+    public String wantBook(@RequestParam("book_order_type") String bookOrderType,
                            @RequestParam("offset") Integer offset,
                            @RequestParam("limit") Integer limit,
-                           Model model) {
-
+                           Model model,
+                           HttpServletRequest request) {
+        int userId = Utils.SetLoginInfo(model, request, userRepository);
         UserOnly user = userRepository.findUserBaseInfoByUserId(userId);
         model.addAttribute("user", user);
 
@@ -108,12 +110,12 @@ public class UserController {
     }
 
     @GetMapping(value = "/user/reading")
-    public String readingBook(@RequestParam("user_id") Integer userId,
-                              @RequestParam("book_order_type") String bookOrderType,
+    public String readingBook(@RequestParam("book_order_type") String bookOrderType,
                               @RequestParam("offset") Integer offset,
                               @RequestParam("limit") Integer limit,
-                              Model model) {
-
+                              Model model,
+                              HttpServletRequest request) {
+        int userId = Utils.SetLoginInfo(model, request, userRepository);
         UserOnly user = userRepository.findUserBaseInfoByUserId(userId);
         model.addAttribute("user", user);
 
@@ -152,12 +154,12 @@ public class UserController {
 
 
     @GetMapping(value = "/user/have_read")
-    public String haveReadBook(@RequestParam("user_id") Integer userId,
-                               @RequestParam("book_order_type") String bookOrderType,
+    public String haveReadBook(@RequestParam("book_order_type") String bookOrderType,
                                @RequestParam("offset") Integer offset,
                                @RequestParam("limit") Integer limit,
-                               Model model) {
-
+                               Model model,
+                               HttpServletRequest request) {
+        int userId = Utils.SetLoginInfo(model, request, userRepository);
         UserOnly user = userRepository.findUserBaseInfoByUserId(userId);
         model.addAttribute("user", user);
 
@@ -195,12 +197,12 @@ public class UserController {
     }
 
     @GetMapping(value = "/user/comment")
-    public String userComments(@RequestParam("user_id") Integer userId,
-                               @RequestParam("comment_order_type") String commentOrderType,
+    public String userComments(@RequestParam("comment_order_type") String commentOrderType,
                                @RequestParam("offset") Integer offset,
                                @RequestParam("limit") Integer limit,
-                               Model model) {
-
+                               Model model,
+                               HttpServletRequest request) {
+        int userId = Utils.SetLoginInfo(model, request, userRepository);
         UserOnly user = userRepository.findUserBaseInfoByUserId(userId);
         model.addAttribute("user", user);
         offset -= 1;

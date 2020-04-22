@@ -41,6 +41,11 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "where u.id = :userId")
     UserOnly findUserBaseInfoByUserId(@Param("userId") Integer UserId);
 
+    @Query(value = "select new com.bookrecommend.demo.Data.UserOnly(u.id,u.name,u.photo) " +
+            "from User u " +
+            "where u.id = :userId")
+    UserOnly findUserNameAndPhotoByUserId(@Param("userId") Integer UserId);
+
 
     @Query(value = "select new com.bookrecommend.demo.Data.CommentOnly(b.nameCn,b.picture,c.comment,c.score,c.date) " +
             "from User u,Comment c,Book b where " +
@@ -49,5 +54,11 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Page<CommentOnly> findCommentsByUserIdOrderByDate(Pageable pageable, @Param("userId") Integer userId);
 
 
+    boolean existsUserByEmailAndPassword(String email, String password);
+
+    @Query(value = "select new com.bookrecommend.demo.Data.UserOnly(u.id) " +
+            "from User u " +
+            "where u.email = :email")
+    UserOnly findUserByEmail(@Param("email") String email);
 
 }
