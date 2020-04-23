@@ -11,8 +11,8 @@ public class MyUrl {
         return "/book?book_id=" + bookId + "&comment_order_type=" + commentOrderType + "&offset=" + offset + "&limit=" + limit;
     }
 
-    public static String getUserCollectionUrl(String collectType, String bookOrderType, int offser, int limit) {
-        return "/user/" + collectType + "?&book_order_type=" + bookOrderType + "&offset=" + offser + "&limit=" + limit;
+    public static String getUserCollectionUrl(String status, String bookOrderType, int offser, int limit) {
+        return "/user/collection?status=" + status + "&book_order_type=" + bookOrderType + "&offset=" + offser + "&limit=" + limit;
     }
 
     public static String getUserCommentUrl(String commentOrderType, int offser, int limit) {

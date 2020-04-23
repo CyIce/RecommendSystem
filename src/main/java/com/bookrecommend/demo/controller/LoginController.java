@@ -74,7 +74,6 @@ public class LoginController {
 
 
     @PostMapping(value = "/user/register")
-//    @ResponseBody
     public String register(@RequestBody JSONObject json) {
 
 

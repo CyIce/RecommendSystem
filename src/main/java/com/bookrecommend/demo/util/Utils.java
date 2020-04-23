@@ -73,4 +73,13 @@ public class Utils {
         }
 
     }
+
+
+    public static int GetUserId(HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        Object userIdObj = session.getAttribute("userId");
+        return Integer.parseInt(userIdObj.toString());
+
+    }
 }

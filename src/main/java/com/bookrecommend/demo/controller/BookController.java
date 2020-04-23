@@ -4,6 +4,7 @@ import com.bookrecommend.demo.Data.AuthorOnly;
 import com.bookrecommend.demo.Data.BookLabelOnly;
 import com.bookrecommend.demo.Data.BookOnly;
 import com.bookrecommend.demo.Data.CommentOnly;
+import com.bookrecommend.demo.entity.Collection;
 import com.bookrecommend.demo.entity.Kind;
 import com.bookrecommend.demo.entity.Label;
 import com.bookrecommend.demo.respository.*;
@@ -124,28 +125,16 @@ public class BookController {
         model.addAttribute("towStarPercent", Utils.DoubleToFormat(starsPercent.get(1)));
         model.addAttribute("oneStarPercent", Utils.DoubleToFormat(starsPercent.get(0)));
 
-        boolean isCollected = false;
-        boolean isWant = false;
-        boolean isReading = false;
-        boolean isHaveRead = false;
+        int collectedStatus = -1;
         boolean inShopingCart = false;
 
-        if (userRepository.isCollectedByUserIdAndBookId(userId, bookId) > 0) {
-            isCollected = true;
+        Collection c = userRepository.isCollectedByUserIdAndBookId(userId, bookId);
+        if (c != null) {
+            collectedStatus = c.getStatus();
         }
-        model.addAttribute("isCollected", isCollected);
-        if (userRepository.isWantByUserIdAndBookId(userId, bookId) > 0) {
-            isWant = true;
-        }
-        model.addAttribute("isWant", isWant);
-        if (userRepository.isReadingByUserIdAndBookId(userId, bookId) > 0) {
-            isReading = true;
-        }
-        model.addAttribute("isReading", isReading);
-        if (userRepository.isHaveReadByUserIdAndBookId(userId, bookId) > 0) {
-            isHaveRead = true;
-        }
-        model.addAttribute("isHaveRead", isHaveRead);
+
+        model.addAttribute("collectedStatus", collectedStatus);
+
         if (userRepository.inShopingCartByUserIdAndBookId(userId, bookId) > 0) {
             inShopingCart = true;
         }

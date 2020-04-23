@@ -12,6 +12,8 @@
 </head>
 <body>
 <div class="container theme-showcase" role="main">
+    <input type="hidden" th:value="${book.getId()}" id="book_id">
+
     <!--导航栏-->
     <nav class="navbar navbar-default" th:insert="~{public :: public_top}"></nav>
 
@@ -92,27 +94,31 @@
 
     <!--收藏、想读、在读、已读标签-->
     <div class="page-header" style="clear: left;">
-        <a class="btn btn-default btn-sm" style="float: left;margin-right: 7px;: 7px;display: block;">
-            <span class="glyphicon" th:classappend="${isCollected}?'glyphicon-star':'glyphicon-star-empty'"
+        <button type="button" name="collection" class="btn btn-default btn-sm"
+                style="float: left;margin-right: 7px;: 7px;display: block;">
+            <span class="glyphicon" th:classappend="${collectedStatus==0}?'glyphicon-star':'glyphicon-star-empty'"
                   aria-hidden="true"></span> 收藏
-        </a>
-        <a class="btn btn-default btn-sm" style="float: left;margin-right: 7px;display: block;">
-            <span class="glyphicon" th:classappend="${isWant}?'glyphicon-star':'glyphicon-star-empty'"
+        </button>
+        <button type="button" name="want" class="btn btn-default btn-sm"
+                style="float: left;margin-right: 7px;display: block;">
+            <span class="glyphicon" th:classappend="${collectedStatus==1}?'glyphicon-star':'glyphicon-star-empty'"
                   aria-hidden="true"></span> 想读
-        </a>
-        <a class="btn btn-default btn-sm" style="float: left;margin-right: 7px;display: block;">
-            <span class="glyphicon" th:classappend="${isReading}?'glyphicon-star':'glyphicon-star-empty'"
+        </button>
+        <button type="button" name="reading" class="btn btn-default btn-sm"
+                style="float: left;margin-right: 7px;display: block;">
+            <span class="glyphicon" th:classappend="${collectedStatus==2}?'glyphicon-star':'glyphicon-star-empty'"
                   aria-hidden="true"></span> 在读
-        </a>
-        <a class="btn btn-default btn-sm" style="float: left;margin-right: 7px;display: block;">
-            <span class="glyphicon" th:classappend="${isHaveRead}?'glyphicon-star':'glyphicon-star-empty'"
+        </button>
+        <button type="button" name="have_read" class="btn btn-default btn-sm"
+                style="float: left;margin-right: 7px;display: block;">
+            <span class="glyphicon" th:classappend="${collectedStatus==3}?'glyphicon-star':'glyphicon-star-empty'"
                   aria-hidden="true"></span> 已读
-        </a>
-        <a class="btn btn-default btn-sm" style="float: left;margin-right: 7px;display: block;">
-            <span class="glyphicon"
-                  th:classappend="${inShopingCart}?'glyphicon-shopping-cart-star':'glyphicon-shopping-cart-star-empty'"
+        </button>
+        <button type="button" name="shoping_cart" class="btn btn-default btn-sm"
+                style="float: left;margin-right: 7px;display: block;">
+            <span class="glyphicon glyphicon-shopping-cart"
                   th:text="${inShopingCart}?'已加入购物车':'加入购物车'" aria-hidden="true"></span>
-        </a>
+        </button>
 
         <div style="float: left; margin-top: 6px;">
             评价:
@@ -236,6 +242,7 @@
 
 <script type="text/javascript" th:src="@{/jquery/jquery-3.3.1.min.js}"></script>
 <script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/book.js}"></script>
 <!--<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>-->
 <!--<script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
 

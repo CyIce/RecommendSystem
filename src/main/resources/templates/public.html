@@ -79,13 +79,13 @@
                 <ul style="margin-left: 85px;">
                     <li><a href="http://127.0.0.1:8081/user?user_id=1">我的主页</a></li>
                     <li>
-                        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl('reading','date',1,10)}}">在读</a>
+                        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl(2,'date',1,10)}}">在读</a>
                     </li>
                     <li>
-                        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl('want','date',1,10)}}">想读</a>
+                        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl(1,'date',1,10)}}">想读</a>
                     </li>
                     <li>
-                        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl('have_read','date',1,10)}}">读过</a>
+                        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl(3,'date',1,10)}}">读过</a>
                     </li>
                     <li><a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCommentUrl('date',1,10)}}">评论</a>
                     </li>

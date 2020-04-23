@@ -21,6 +21,7 @@ public class LoginConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/index", "/", "/login", "/user/login", "/user/logout", "/book", "/library",
                         "/error", "/user/register", "/register", "/existemail",
-                        "/**/*.css", "/**/*.js", "/**/*.jpg", "/**/*.png", "/**/*.map", "/**/*.ttf");
+                        "/**/*.css", "/**/*.js", "/**/*.jpg", "/**/*.png", "/**/*.map", "/**/*.ttf",
+                        "/**/*.woff", "/**/*.woff2");
     }
 }

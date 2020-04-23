@@ -19,11 +19,11 @@
 
     <div style="margin-top: 20px;margin-left: 50px;">
         <span style="float: right;margin-right: 10px;" th:text="${'共 '+booksNum+' 条记录'}"></span>
-        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl(collectType,'date',1,10)}}">按时间排序</a>
+        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl(collectedStatus,'date',1,10)}}">按时间排序</a>
         /
-        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl(collectType,'score',1,10)}}">按评分排序</a>
+        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl(collectedStatus,'score',1,10)}}">按评分排序</a>
         /
-        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl(collectType,'wantNum',1,10)}}">按想看人数排序</a>
+        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl(collectedStatus,'wantNum',1,10)}}">按想看人数排序</a>
     </div>
 
     <div style="margin-top: 24px;margin-left: 14px">
@@ -63,7 +63,7 @@
         <nav aria-label="Page navigation" style="float: right;">
             <ul th:each="i:${#numbers.sequence(1,totalPages)}" class="pagination">
                 <li th:if="${i == 1 and i != currentPage}">
-                    <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl(collectType,bookOrderType,currentPage+-1,10)}}"
+                    <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl(collectedStatus,bookOrderType,currentPage+-1,10)}}"
                        aria-label="Previous">
                         <span aria-hidden="true">上一页</span>
                     </a>
@@ -75,11 +75,11 @@
 
 
                 <li th:class="${i == currentPage}? 'active':''">
-                    <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl(collectType,bookOrderType,i,10)}}"
+                    <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl(collectedStatus,bookOrderType,i,10)}}"
                        th:text="${i}"></a></li>
 
                 <li th:if="${i == totalPages and i != currentPage}">
-                    <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl(collectType,bookOrderType,currentPage+1,10)}}"
+                    <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl(collectedStatus,bookOrderType,currentPage+1,10)}}"
                        aria-label="Next">
                         <span aria-hidden="true">下一页</span>
                     </a>

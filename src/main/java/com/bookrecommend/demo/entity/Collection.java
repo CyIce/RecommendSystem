@@ -25,6 +25,9 @@ public class Collection {
     @Column(name = "user_id", nullable = false, length = 11)
     private Integer userId;
 
+    @Column(name = "status", nullable = false, length = 11)
+    private Integer status;
+
     // 收藏日期
     @Column(name = "date", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -33,5 +36,11 @@ public class Collection {
     public Collection() {
     }
 
+    public Collection(Integer userId, Integer bookId, Integer status, Date date) {
+        this.bookId = bookId;
+        this.userId = userId;
+        this.status = status;
+        this.date = date;
+    }
 }
 
