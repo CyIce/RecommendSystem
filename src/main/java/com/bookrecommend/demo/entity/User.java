@@ -31,7 +31,7 @@ public class User {
     private String password;
 
     // 年龄
-    @Column(name = "age",nullable = false,length = 11)
+    @Column(name = "age", length = 11)
     private Integer age;
 
     // 性别，0为女性，1为男性
@@ -47,7 +47,7 @@ public class User {
     private String introduction;
 
     // 手机号码
-    @Column(name = "phone_number",nullable = false,length = 31)
+    @Column(name = "phone_number", length = 31)
     private String phoneNumber;
 
     // 注册日期
@@ -59,5 +59,12 @@ public class User {
     public User() {
     }
 
-
+    public User(String name, String email, String password, Boolean gender, String photo, Date registrationDate) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.gender = gender;
+        this.photo = photo;
+        this.registrationDate = registrationDate;
+    }
 }

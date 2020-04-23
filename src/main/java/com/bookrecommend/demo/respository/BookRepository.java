@@ -41,6 +41,10 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
             "order by b.hot")
     List<BookOnly> findHotBooks();
 
+    @Query(value = "select new com.bookrecommend.demo.Data.BookOnly(b.id) " +
+            "from Book b order by b.weekHot desc ")
+    List<BookOnly> findBookIdOrderByWeekHot();
+
     @Query(value = "select new com.bookrecommend.demo.Data.BookLabelOnly(b.id,k.kind) " +
             "from BookKind b,Kind k " +
             "where b.kindId = k.id and b.bookId = :bookId " +

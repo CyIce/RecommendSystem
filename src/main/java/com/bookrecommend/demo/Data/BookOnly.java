@@ -47,6 +47,10 @@ public class BookOnly {
     public BookOnly() {
     }
 
+    public BookOnly(Integer id) {
+        this.id = id;
+    }
+
     public BookOnly(Integer id, String nameCn, String bigPicture) {
         this.id = id;
         this.nameCn = nameCn;

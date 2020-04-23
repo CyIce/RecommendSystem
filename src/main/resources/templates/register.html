@@ -9,29 +9,33 @@
     <!--<link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">-->
     <!--<link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">-->
 
-    <title>登录</title>
+    <title>注册</title>
 </head>
 <body>
 <div class="container">
 
-    <form class="form-signin" action="/user/login" method="post">
-        <h2 class="form-signin-heading">登录藏经阁</h2>
-        <label for="inputEmail" class="sr-only">Email address</label>
+    <form class="form-signin">
+        <h2 class="form-signin-heading">注册藏经阁账号</h2>
+        <input name="name" type="email" class="form-control" placeholder="请输入姓名" required autofocus>
         <input name="email" type="email" id="inputEmail" class="form-control" placeholder="请输入邮箱地址" required
                autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input name="password" type="password" id="inputPassword" class="form-control" placeholder="请输入密码" required>
+        <input name="password1" type="password" id="inputPassword" class="form-control" placeholder="请输入密码" required>
+        <input name="password2" type="password" class="form-control" placeholder="请确认密码" required>
         <div class="checkbox">
-            <label>
-                <input type="checkbox" value="remember-me"> 保存登录账号
-            </label>
+            <label style="padding-left: 0px;" for="male">性别：</label>
+            <label style="margin-left: -25px;margin-right: 4px;" for="male">男</label>
+            <input name="gender" id="male" type="radio" checked="checked">
+            <label style="margin-left: -5px;margin-right: 4px;" for="female">女</label>
+            <input name="gender" id="female" type="radio">
         </div>
-        <button class="btn btn-lg btn-primary btn-block" id="submit" type="submit">登录</button>
+
+        <button class="btn btn-lg btn-primary btn-block" id="submit" type="button">注册</button>
     </form>
 
 </div> <!-- /container -->
 <script type="text/javascript" th:src="@{/jquery/jquery-3.3.1.min.js}"></script>
 <script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/register.js}"></script>
 <!--<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>-->
 <!--<script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
 

@@ -61,7 +61,7 @@
                         <h3><a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getBookUrl(b.getId(),'date',1,5)}}"
                                style="font-size: 15px;"
                                th:text="${b.getNameCn()}"></a></h3>
-                        <p th:text="${b.getAuthorsName()}"></p>
+                        <p class="p-format" th:text="${b.getAuthorsName()}"></p>
                     </div>
                 </div>
             </div>

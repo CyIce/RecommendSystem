@@ -139,9 +139,11 @@ hr {
 .book-introduction {
     font-size: 14px;
     overflow: hidden;
-    height: 120px;
     margin-bottom: 8px;
     color: #666;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
 }
 
 .media-book {
@@ -195,3 +197,11 @@ hr {
     height: 60px;
     width: 380px;
 }
+
+.p-format {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+

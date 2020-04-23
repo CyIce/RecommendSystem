@@ -130,23 +130,23 @@ public class BookController {
         boolean isHaveRead = false;
         boolean inShopingCart = false;
 
-        if (userRepository.isCollectedByUserIdAndBookId(1, bookId) > 0) {
+        if (userRepository.isCollectedByUserIdAndBookId(userId, bookId) > 0) {
             isCollected = true;
         }
         model.addAttribute("isCollected", isCollected);
-        if (userRepository.isWantByUserIdAndBookId(1, bookId) > 0) {
+        if (userRepository.isWantByUserIdAndBookId(userId, bookId) > 0) {
             isWant = true;
         }
         model.addAttribute("isWant", isWant);
-        if (userRepository.isReadingByUserIdAndBookId(1, bookId) > 0) {
+        if (userRepository.isReadingByUserIdAndBookId(userId, bookId) > 0) {
             isReading = true;
         }
         model.addAttribute("isReading", isReading);
-        if (userRepository.isHaveReadByUserIdAndBookId(1, bookId) > 0) {
+        if (userRepository.isHaveReadByUserIdAndBookId(userId, bookId) > 0) {
             isHaveRead = true;
         }
         model.addAttribute("isHaveRead", isHaveRead);
-        if (userRepository.inShopingCartByUserIdAndBookId(1, bookId) > 0) {
+        if (userRepository.inShopingCartByUserIdAndBookId(userId, bookId) > 0) {
             inShopingCart = true;
         }
         model.addAttribute("inShopingCart", inShopingCart);
