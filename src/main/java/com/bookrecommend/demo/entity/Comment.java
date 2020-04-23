@@ -45,4 +45,13 @@ public class Comment {
 
     public Comment() {
     }
+
+    public Comment(Integer userId, Integer bookId, String comment, Integer score, Integer hot, Date date) {
+        this.bookId = bookId;
+        this.userId = userId;
+        this.comment = comment;
+        this.hot = hot;
+        this.score = score;
+        this.date = date;
+    }
 }

@@ -79,7 +79,10 @@ public class Utils {
 
         HttpSession session = request.getSession();
         Object userIdObj = session.getAttribute("userId");
-        return Integer.parseInt(userIdObj.toString());
+        if (userIdObj != null) {
+            return Integer.parseInt(userIdObj.toString());
+        }
+        return -1;
 
     }
 }

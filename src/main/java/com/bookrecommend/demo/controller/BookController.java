@@ -1,12 +1,10 @@
 package com.bookrecommend.demo.controller;
 
-import com.bookrecommend.demo.Data.AuthorOnly;
-import com.bookrecommend.demo.Data.BookLabelOnly;
-import com.bookrecommend.demo.Data.BookOnly;
-import com.bookrecommend.demo.Data.CommentOnly;
+import com.bookrecommend.demo.Data.*;
 import com.bookrecommend.demo.entity.Collection;
 import com.bookrecommend.demo.entity.Kind;
 import com.bookrecommend.demo.entity.Label;
+import com.bookrecommend.demo.entity.Score;
 import com.bookrecommend.demo.respository.*;
 import com.bookrecommend.demo.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,7 +85,7 @@ public class BookController {
                           @RequestParam("limit") Integer limit,
                           Model model,
                           HttpServletRequest request) {
-        int userId = Utils.SetLoginInfo(model, request, userRepository);
+        int userId = Utils.GetUserId(request);
         offset -= 1;
 
         Sort sort = Sort.by(Sort.Order.desc(commentOrderType));
@@ -127,18 +125,37 @@ public class BookController {
 
         int collectedStatus = -1;
         boolean inShopingCart = false;
+        boolean isLogin = false;
 
-        Collection c = userRepository.isCollectedByUserIdAndBookId(userId, bookId);
-        if (c != null) {
-            collectedStatus = c.getStatus();
+        if (userId != -1) {
+            isLogin = true;
+
+            UserOnly user = userRepository.findUserNameAndPhotoByUserId(userId);
+            model.addAttribute("user", user);
+
+            Collection c = userRepository.isCollectedByUserIdAndBookId(userId, bookId);
+            if (c != null) {
+                collectedStatus = c.getStatus();
+            }
+
+            model.addAttribute("collectedStatus", collectedStatus);
+
+            if (userRepository.inShopingCartByUserIdAndBookId(userId, bookId) > 0) {
+                inShopingCart = true;
+            }
+            model.addAttribute("inShopingCart", inShopingCart);
+
+            Score score = scoreRepository.findScoreByUserIdAndBookId(userId, bookId);
+            if (score != null) {
+                model.addAttribute("userScore", score.getScore());
+            } else {
+                model.addAttribute("userScore", 0);
+            }
+        } else {
+            model.addAttribute("userScore", 0);
         }
+        model.addAttribute("isLogin", isLogin);
 
-        model.addAttribute("collectedStatus", collectedStatus);
-
-        if (userRepository.inShopingCartByUserIdAndBookId(userId, bookId) > 0) {
-            inShopingCart = true;
-        }
-        model.addAttribute("inShopingCart", inShopingCart);
 
         return "book";
     }

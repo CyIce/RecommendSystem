@@ -50,4 +50,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "where u.email = :email")
     UserOnly findUserByEmail(@Param("email") String email);
 
+
 }

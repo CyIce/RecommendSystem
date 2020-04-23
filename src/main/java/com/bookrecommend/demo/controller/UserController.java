@@ -6,6 +6,8 @@ import com.bookrecommend.demo.Data.BookOnly;
 import com.bookrecommend.demo.Data.CommentOnly;
 import com.bookrecommend.demo.Data.UserOnly;
 import com.bookrecommend.demo.entity.Collection;
+import com.bookrecommend.demo.entity.Comment;
+import com.bookrecommend.demo.entity.Score;
 import com.bookrecommend.demo.entity.ShopingCart;
 import com.bookrecommend.demo.respository.*;
 import com.bookrecommend.demo.util.Utils;
@@ -44,6 +46,9 @@ public class UserController {
 
     @Autowired
     private CollectionRepository collectionRepository;
+
+    @Autowired
+    private ScoreRepository scoreRepository;
 
 
     @GetMapping(value = "/user")
@@ -226,6 +231,43 @@ public class UserController {
             return "1";
         }
 
+    }
+
+    @PostMapping(value = "/user/addscore")
+    @ResponseBody
+    public String addScore(@RequestBody JSONObject json,
+                           HttpServletRequest request) {
+        Integer userId = Utils.GetUserId(request);
+        Integer bookId = json.getInteger("bookId");
+        Integer score = json.getInteger("score");
+
+        Score s = scoreRepository.findScoreByUserIdAndBookId(userId, bookId);
+        if (s != null) {
+            s.setScore(score);
+            s.setDate(new Date());
+            scoreRepository.save(s);
+        } else {
+            s = new Score(userId, bookId, score, new Date());
+            scoreRepository.save(s);
+        }
+
+        return "1";
+
+    }
+
+
+    @PostMapping(value = "/user/addcomment")
+    @ResponseBody
+    public String addComment(@RequestBody JSONObject json,
+                             HttpServletRequest request) {
+        Integer userId = Utils.GetUserId(request);
+        Integer bookId = json.getInteger("bookId");
+        String comment = json.getString("comment");
+        Integer score = json.getInteger("score");
+
+        Comment c = new Comment(userId, bookId, comment, score, 0, new Date());
+        commentRepository.save(c);
+        return "1";
     }
 
 }

@@ -205,3 +205,26 @@ hr {
     text-overflow: ellipsis;
 }
 
+.btn-comment {
+    color: #fff;
+    background-color: #3ab143;
+    border-color: #399c3f;
+    float: right;
+    margin-top: 10px;
+}
+
+.btn-comment:hover {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+
+.star > img {
+    width: 14px;
+    height: 16px;
+    max-width: 100%;
+}
+
+.star {
+    font-size: 12px;
+}

@@ -13,6 +13,8 @@
 <body>
 <div class="container theme-showcase" role="main">
     <input type="hidden" th:value="${book.getId()}" id="book_id">
+    <input type="hidden" th:value="${isLogin}" id="is_login">
+    <input type="hidden" th:value="${userScore}" id="user_score">
 
     <!--导航栏-->
     <nav class="navbar navbar-default" th:insert="~{public :: public_top}"></nav>
@@ -121,7 +123,20 @@
         </button>
 
         <div style="float: left; margin-top: 6px;">
-            评价:
+            <span>评价:</span>
+            <div id="evaluate" style="float:right;width: 76px;font-size: 0;margin-left: 7px;">
+                <a href="javascript:void(0);" onclick="pscore(this)" class="star" id=0 name="star-hollow"><img
+                        th:src="@{/img/star_hollow.png}"></a>
+                <a href="javascript:void(0);" onclick="pscore(this)" class="star" id=1 name="star-hollow"><img
+                        th:src="@{/img/star_hollow.png}"></a>
+                <a href="javascript:void(0);" onclick="pscore(this)" class="star" id=2 name="star-hollow"><img
+                        th:src="@{/img/star_hollow.png}"></a>
+                <a href="javascript:void(0);" onclick="pscore(this)" class="star" id=3 name="star-hollow"><img
+                        th:src="@{/img/star_hollow.png}"></a>
+                <a href="javascript:void(0);" onclick="pscore(this)" class="star" id=4 name="star-hollow"><img
+                        th:src="@{/img/star_hollow.png}"></a>
+            </div>
+
         </div>
     </div>
 
@@ -208,7 +223,7 @@
         </div>
     </div>
 
-    <nav aria-label="Page navigation">
+    <nav aria-label="Page navigation" style="float: right;">
         <ul th:each="i:${#numbers.sequence(1,totalPages)}" class="pagination">
             <li th:if="${i == 1 and i != currentPage}">
                 <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getBookUrl(book.getId(),commentOrderType,currentPage+-1,5)}}"
@@ -237,6 +252,13 @@
             </li>
         </ul>
     </nav>
+
+    <div>
+        <textarea style="height: 200px;width: 100%;font-size: 16px;" name="comment_text" id="textarea"
+                  placeholder="您有什么想说的吗？"></textarea>
+        <button onclick="comment()" class="btn btn-comment" id="submit" type="button">发表评论</button>
+    </div>
+
 </div>
 
 

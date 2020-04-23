@@ -37,4 +37,10 @@ public class Score {
     public Score() {
     }
 
+    public Score(Integer userId, Integer bookId, Integer score, Date date) {
+        this.userId = userId;
+        this.bookId = bookId;
+        this.score = score;
+        this.date = date;
+    }
 }
