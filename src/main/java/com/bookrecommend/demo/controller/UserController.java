@@ -1,10 +1,8 @@
 package com.bookrecommend.demo.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.bookrecommend.demo.Data.AuthorOnly;
-import com.bookrecommend.demo.Data.BookOnly;
-import com.bookrecommend.demo.Data.CommentOnly;
-import com.bookrecommend.demo.Data.UserOnly;
+import com.bookrecommend.demo.Data.*;
 import com.bookrecommend.demo.entity.Collection;
 import com.bookrecommend.demo.entity.Comment;
 import com.bookrecommend.demo.entity.Score;
@@ -63,12 +61,16 @@ public class UserController {
         Page<BookOnly> wantBooks = bookRepository.findCollectionsByUserIdOrderByDate(pageable, userId, 1);
         Page<BookOnly> readingBooks = bookRepository.findCollectionsByUserIdOrderByDate(pageable, userId, 2);
         Page<BookOnly> haveReadBooks = bookRepository.findCollectionsByUserIdOrderByDate(pageable, userId, 3);
+        Page<BookOnly> collectionBooks = bookRepository.findCollectionsByUserIdOrderByDate(pageable, userId, 0);
+
         model.addAttribute("readingNum", readingBooks.getTotalElements());
         model.addAttribute("readingBooks", readingBooks.toList());
         model.addAttribute("wantNum", wantBooks.getTotalElements());
         model.addAttribute("wantBooks", wantBooks.toList());
         model.addAttribute("haveReadNum", haveReadBooks.getTotalElements());
         model.addAttribute("haveReadBooks", haveReadBooks.toList());
+        model.addAttribute("collectionNum", collectionBooks.getTotalElements());
+        model.addAttribute("collectionBooks", collectionBooks.toList());
 
         model.addAttribute("userId", userId);
 
@@ -270,4 +272,54 @@ public class UserController {
         return "1";
     }
 
+    @GetMapping(value = "/user/shopingcart")
+    public String shopingCart() {
+
+        return "shopingcart";
+    }
+
+    @GetMapping(value = "/user/getshopingcart")
+    @ResponseBody
+    public String getShopingCart(HttpServletRequest request) {
+        Integer userId = Utils.GetUserId(request);
+        List<ShopingCartOnly> goods = shopingCartRepository.findShopingCartsByUserIdOrderByDateDesc(userId);
+
+        return JSON.toJSONString(goods);
+    }
+
+    @PostMapping(value = "/user/updatecart")
+    @ResponseBody
+    public String updateCart(HttpServletRequest request, @RequestBody JSONObject json) {
+        Integer userId = Utils.GetUserId(request);
+        Integer cartId = json.getInteger("cartId");
+        Integer number = json.getInteger("number");
+
+        ShopingCart cart = shopingCartRepository.findShopingCartByIdAndUserId(cartId, userId);
+        if (cart == null) {
+            log.info("该订单不存在");
+            return "-1";
+        } else if (number >= 0) {
+            cart.setNumber(number);
+            shopingCartRepository.save(cart);
+            return "1";
+        } else {
+            log.info("数量小于0");
+            return "-1";
+        }
+    }
+
+    @PostMapping(value = "/user/deletecart")
+    @ResponseBody
+    public String deleteCart(HttpServletRequest request, @RequestBody JSONObject json) {
+        Integer userId = Utils.GetUserId(request);
+        Integer cartId = json.getInteger("cartId");
+        ShopingCart cart = shopingCartRepository.findShopingCartByIdAndUserId(cartId, userId);
+        if (cart == null) {
+            log.info("订单不存在");
+            return "-1";
+        } else {
+            shopingCartRepository.delete(cart);
+            return "1";
+        }
+    }
 }

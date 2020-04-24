@@ -30,7 +30,7 @@
                     <li><a th:href="@{/index}">首页</a></li>
                     <li><a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getLibraryUrl('hot',1,10,-1,-1)}}">书库</a>
                     </li>
-                    <li><a href="#">购物车</a></li>
+                    <li><a th:href="@{/user/shopingcart}">购物车</a></li>
                 </ul>
                 <form class="navbar-form navbar-left">
                     <div class="form-group">
@@ -87,7 +87,11 @@
                     <li>
                         <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl(3,'date',1,10)}}">读过</a>
                     </li>
-                    <li><a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCommentUrl('date',1,10)}}">评论</a>
+                    <li>
+                        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl(0,'date',1,10)}}">收藏</a>
+                    </li>
+                    <li>
+                        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCommentUrl('date',1,10)}}">评论</a>
                     </li>
                 </ul>
 
