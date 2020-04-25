@@ -17,11 +17,6 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
 //    Book findBookById(Integer bookId);
 
-//    // 根据关键字搜索书籍
-//    @Query(value = "select distinct b from Book b,BookLabel label where " +
-//            "(b.nameCn like %:keyword% or b.nameEng like %:keyword%) " +
-//            "and (label.bookId = b.id) and (label.labelId in (:labelIdList))")
-//    Page<Book> searchByKeyword(Pageable pageable, @Param("keyword") String keyword, @Param("labelIdList") List<Integer> labelIdList);
 
 
     @Query(value = "select new com.bookrecommend.demo.Data.BookOnly(b.id,b.nameCn,b.bigPicture) " +
@@ -72,24 +67,27 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
 
     @Query(value = "select new com.bookrecommend.demo.Data.BookOnly(b.id,b.nameCn,b.picture,b.score,b.introduction) " +
-            "from Book b")
-    Page<BookOnly> findAllBook(Pageable pageable);
+            "from Book b where  b.nameCn like %:keyword%")
+    Page<BookOnly> findAllBook(Pageable pageable, @Param("keyword") String keyword);
 
     @Query(value = "select new com.bookrecommend.demo.Data.BookOnly(b.id,b.nameCn,b.picture,b.score,b.introduction) " +
             "from Book b,BookKind k,BookLabel l where " +
             "b.id = k.bookId and k.kindId = :kindId " +
-            "and b.id = l.bookId and l.labelId = :labelId")
-    Page<BookOnly> findAllBookByKindIdAndLabelId(Pageable pageable, @Param("kindId") Integer kindId, @Param("labelId") Integer labelId);
+            "and b.id = l.bookId and l.labelId = :labelId " +
+            "and b.nameCn like %:keyword%")
+    Page<BookOnly> findAllBookByKindIdAndLabelId(Pageable pageable, @Param("kindId") Integer kindId, @Param("labelId") Integer labelId, @Param("keyword") String keyword);
 
     @Query(value = "select new com.bookrecommend.demo.Data.BookOnly(b.id,b.nameCn,b.picture,b.score,b.introduction) " +
             "from Book b,BookKind k where " +
-            "b.id = k.bookId and k.kindId = :kindId")
-    Page<BookOnly> findAllBookByKindId(Pageable pageable, @Param("kindId") Integer kindId);
+            "b.id = k.bookId and k.kindId = :kindId " +
+            "and b.nameCn like %:keyword%")
+    Page<BookOnly> findAllBookByKindId(Pageable pageable, @Param("kindId") Integer kindId, @Param("keyword") String keyword);
 
     @Query(value = "select new com.bookrecommend.demo.Data.BookOnly(b.id,b.nameCn,b.picture,b.score,b.introduction) " +
             "from Book b,BookLabel l where " +
-            "b.id = l.bookId and l.labelId = :labelId")
-    Page<BookOnly> findAllBookByLabelId(Pageable pageable, @Param("labelId") Integer labelId);
+            "b.id = l.bookId and l.labelId = :labelId " +
+            "and b.nameCn like %:keyword%")
+    Page<BookOnly> findAllBookByLabelId(Pageable pageable, @Param("labelId") Integer labelId, @Param("keyword") String keyword);
 
 
 

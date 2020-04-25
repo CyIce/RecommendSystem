@@ -3,10 +3,7 @@ package com.bookrecommend.demo.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.bookrecommend.demo.Data.*;
-import com.bookrecommend.demo.entity.Collection;
-import com.bookrecommend.demo.entity.Comment;
-import com.bookrecommend.demo.entity.Score;
-import com.bookrecommend.demo.entity.ShopingCart;
+import com.bookrecommend.demo.entity.*;
 import com.bookrecommend.demo.respository.*;
 import com.bookrecommend.demo.util.Utils;
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +44,12 @@ public class UserController {
 
     @Autowired
     private ScoreRepository scoreRepository;
+
+    @Autowired
+    private UserOrderRepository userOrderRepository;
+
+    @Autowired
+    private ShopingOrderRepository shopingOrderRepository;
 
 
     @GetMapping(value = "/user")
@@ -273,8 +276,12 @@ public class UserController {
     }
 
     @GetMapping(value = "/user/shopingcart")
-    public String shopingCart() {
+    public String shopingCart(Model model,
+                              HttpServletRequest request) {
 
+        int userId = Utils.SetLoginInfo(model, request, userRepository);
+        UserOnly user = userRepository.findUserBaseInfoByUserId(userId);
+        model.addAttribute("user", user);
         return "shopingcart";
     }
 
@@ -321,5 +328,66 @@ public class UserController {
             shopingCartRepository.delete(cart);
             return "1";
         }
+    }
+
+
+    @PostMapping(value = "/user/adduserorder")
+    @ResponseBody
+    public String addUserOrder(HttpServletRequest request, @RequestBody JSONObject json) {
+        Integer userId = Utils.GetUserId(request);
+
+        int len = json.getInteger("len");
+
+        UserOrder userOrder = new UserOrder(userId, new Date(), false, false, false);
+        userOrderRepository.save(userOrder);
+        Integer userOrderId = userOrder.getId();
+
+        for (int i = 0; i < len; i++) {
+            int carId = json.getInteger(Integer.toString(i));
+            ShopingCart cart = shopingCartRepository.getOne(carId);
+            ShopingOrder sOrder = new ShopingOrder(cart.getBookId(), cart.getPrice(), cart.getNumber(), userOrderId);
+            shopingOrderRepository.save(sOrder);
+            shopingCartRepository.delete(cart);
+        }
+
+        return "1";
+    }
+
+    @GetMapping(value = "/user/userorder")
+    public String userOrder(@RequestParam("offset") Integer offset,
+                            @RequestParam("limit") Integer limit,
+                            Model model,
+                            HttpServletRequest request) {
+
+        int userId = Utils.SetLoginInfo(model, request, userRepository);
+        UserOnly user = userRepository.findUserBaseInfoByUserId(userId);
+        model.addAttribute("user", user);
+
+        offset -= 1;
+        Pageable pageable = PageRequest.of(offset, limit);
+        Page<UserOrderOnly> userOrderPage = userRepository.findUserOrdersByUserId(pageable, userId);
+
+        List<UserOrderOnly> userOrder = userOrderPage.toList();
+
+        for (UserOrderOnly uOrder : userOrder) {
+            float totalMoney = 0;
+            int totalNumber = 0;
+            List<ShopingOrderOnly> sOrder = userRepository.findShopingOrdersByOrderId(uOrder.getId());
+            uOrder.setShopingOrders(sOrder);
+            for (ShopingOrderOnly s : sOrder) {
+                totalMoney += (s.getNumber() * s.getPrice());
+                totalNumber += s.getNumber();
+                s.setTotalMoney(s.getNumber() * s.getPrice());
+            }
+            uOrder.setTotalMoney(totalMoney);
+            uOrder.setTotalNumber(totalNumber);
+        }
+
+        model.addAttribute("userOrders", userOrder);
+        model.addAttribute("currentPage", offset + 1);
+        model.addAttribute("userOrderNumber", userOrderPage.getTotalElements());
+        model.addAttribute("totalPages", userOrderPage.getTotalPages());
+
+        return "userorder";
     }
 }

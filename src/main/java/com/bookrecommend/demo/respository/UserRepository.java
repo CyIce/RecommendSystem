@@ -1,7 +1,9 @@
 package com.bookrecommend.demo.respository;
 
 import com.bookrecommend.demo.Data.CommentOnly;
+import com.bookrecommend.demo.Data.ShopingOrderOnly;
 import com.bookrecommend.demo.Data.UserOnly;
+import com.bookrecommend.demo.Data.UserOrderOnly;
 import com.bookrecommend.demo.entity.Collection;
 import com.bookrecommend.demo.entity.User;
 import org.springframework.data.domain.Page;
@@ -11,6 +13,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Transactional
 public interface UserRepository extends JpaRepository<User, Integer> {
@@ -50,5 +53,15 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "where u.email = :email")
     UserOnly findUserByEmail(@Param("email") String email);
 
+
+    @Query(value = "select new com.bookrecommend.demo.Data.UserOrderOnly(u.id,u.createTime,u.paymentTime,u.deliverTime,u.paymentStatus,u.deliverStatus,u.receiveStatus) " +
+            "from UserOrder u where u.userId = :userId order by u.createTime desc ")
+    Page<UserOrderOnly> findUserOrdersByUserId(Pageable pageable, @Param("userId") Integer userId);
+
+
+    @Query(value = "select new com.bookrecommend.demo.Data.ShopingOrderOnly(s.id,b.id,b.nameCn,b.picture,s.price,s.number) " +
+            "from ShopingOrder s,Book b " +
+            "where s.userOrderId = :orderId and s.bookId = b.id")
+    List<ShopingOrderOnly> findShopingOrdersByOrderId(@Param("orderId") Integer orderId);
 
 }

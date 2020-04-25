@@ -1,11 +1,13 @@
 package com.bookrecommend.demo.entity;
 
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
 
 // 用户订单表
+@Data
 @Entity
 @Table(name = "user_order")
 public class UserOrder {
@@ -51,79 +53,15 @@ public class UserOrder {
     @Column(name = "receive_status", nullable = false)
     private Boolean receiveStatus;
 
-    public Integer getId() {
-        return id;
-    }
-
     public UserOrder() {
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
+    public UserOrder(Integer userId, Date createTime, Boolean paymentStatus, Boolean deliverStatus, Boolean receiveStatus) {
         this.userId = userId;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
-    }
-
-    public Date getPaymentTime() {
-        return paymentTime;
-    }
-
-    public void setPaymentTime(Date paymentTime) {
-        this.paymentTime = paymentTime;
-    }
-
-    public Date getDeliverTime() {
-        return deliverTime;
-    }
-
-    public void setDeliverTime(Date deliverTime) {
-        this.deliverTime = deliverTime;
-    }
-
-    public Date getReceiveTime() {
-        return receiveTime;
-    }
-
-    public void setReceiveTime(Date receiveTime) {
-        this.receiveTime = receiveTime;
-    }
-
-    public Boolean getPaymentStatus() {
-        return paymentStatus;
-    }
-
-    public void setPaymentStatus(Boolean paymentStatus) {
         this.paymentStatus = paymentStatus;
-    }
-
-    public Boolean getDeliverStatus() {
-        return deliverStatus;
-    }
-
-    public void setDeliverStatus(Boolean deliverStatus) {
         this.deliverStatus = deliverStatus;
-    }
-
-    public Boolean getReceiveStatus() {
-        return receiveStatus;
-    }
-
-    public void setReceiveStatus(Boolean receiveStatus) {
         this.receiveStatus = receiveStatus;
     }
-
 }

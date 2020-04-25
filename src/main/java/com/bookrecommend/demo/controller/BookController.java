@@ -165,6 +165,7 @@ public class BookController {
     public String getLibrary(@RequestParam("book_order_type") String bookOrderType,
                              @RequestParam("offset") Integer offset,
                              @RequestParam("kind_id") Integer kindId,
+                             @RequestParam("keyword") String keyword,
                              @RequestParam("label_id") Integer labelId,
                              @RequestParam("limit") Integer limit,
                              Model model,
@@ -188,17 +189,17 @@ public class BookController {
         Page<BookOnly> booksPage;
 
         if (kindId <= 0 && labelId <= 0) {
-            booksPage = bookRepository.findAllBook(pageable);
+            booksPage = bookRepository.findAllBook(pageable, keyword);
         } else if (kindId > 0 && labelId <= 0) {
             model.addAttribute("kindName", kindRepository.getOne(kindId).getKind());
-            booksPage = bookRepository.findAllBookByKindId(pageable, kindId);
+            booksPage = bookRepository.findAllBookByKindId(pageable, kindId, keyword);
         } else if (kindId <= 0) {
             model.addAttribute("labelName", labelRepository.getOne(labelId).getLabel());
-            booksPage = bookRepository.findAllBookByLabelId(pageable, labelId);
+            booksPage = bookRepository.findAllBookByLabelId(pageable, labelId, keyword);
         } else {
             model.addAttribute("kindName", kindRepository.getOne(kindId).getKind());
             model.addAttribute("labelName", labelRepository.getOne(labelId).getLabel());
-            booksPage = bookRepository.findAllBookByKindIdAndLabelId(pageable, kindId, labelId);
+            booksPage = bookRepository.findAllBookByKindIdAndLabelId(pageable, kindId, labelId, keyword);
         }
 
         List<BookOnly> books = booksPage.toList();
@@ -209,6 +210,7 @@ public class BookController {
             book.setLabels(bookRepository.findBookLabelsByBookId(book.getId()));
         }
 
+        model.addAttribute("keyword", keyword);
         model.addAttribute("kindId", kindId);
         model.addAttribute("labelId", labelId);
         model.addAttribute("booksNumber", booksPage.getTotalElements());

@@ -18,86 +18,14 @@ $(document).ready(function () {
         }
     });
 
-    function showGoods() {
-        $.when(getGoodsAjax).done(function () {
-            if (!Status) {
-                return;
-            }
-            // console.log(Goods[0]["bookName"])
+    showGoods(getGoodsAjax);
 
-            loadGoods();
-        })
-    }
 
-    showGoods();
-
-    $('#check-goods-all').on('change', function () {
-        if (this.checked) {
-            $('#checked-all-bottom').prop('checked', true);
-        } else {
-            $('#checked-all-bottom').prop('checked', false);
-        }
-        checkedAll(this);
-    });
-    $('#checked-all-bottom').on('change', function () {
-        if (this.checked) {
-            $('#check-goods-all').prop('checked', true);
-        } else {
-            $('#check-goods-all').prop('checked', false);
-        }
-        checkedAll(this);
-    });
-    $('.goods-list-item').on('change', function () {
-        var tmpCheckEl = $(this);
-        var checkEvent = new ShoppingCarObserver(tmpCheckEl, null);
-        checkEvent.checkedChange();
-        checkEvent.checkIsAll();
-    });
-    $('.goods-content').on('click', '.car-decrease', function () {
-        var goodsInput = $(this).parents('.input-group').find('.goods-count');
-        var decreaseCount = new ShoppingCarObserver(goodsInput, false);
-        decreaseCount.showCount();
-        decreaseCount.computeGoodsMoney();
-    });
-    $('.goods-content').on('click', '.car-add', function () {
-        var goodsInput = $(this).parents('.input-group').find('.goods-count');
-        var addCount = new ShoppingCarObserver(goodsInput, true);
-        addCount.showCount();
-        addCount.computeGoodsMoney();
-    });
-    $('.goods-content').on('click', '.item-delete', function () {
-        var goodsInput = $(this).parents('.goods-item').find('.goods-list-item');
-        deleteGoods = new ShoppingCarObserver(goodsInput, null);
-        $('#deleteItemTip').modal('show');
-    });
-    $('.deleteSure').on('click', function () {
-        if (deleteGoods !== null) {
-            deleteGoods.deleteGoods();
-        }
-        $('#deleteItemTip').modal('hide');
-    });
-    $('#deleteMulty').on('click', function () {
-        if ($('.goods-list-item:checked').length <= 0) {
-            $('#selectItemTip').modal('show');
-        } else {
-            $('#deleteMultyTip').modal('show');
-        }
-    });
-    $('.deleteMultySure').on('click', function () {
-        for (var i = 0; i < $('.goods-list-item:checked').length; i++) {
-            var multyDelete = new ShoppingCarObserver($('.goods-list-item:checked').eq(i), null);
-            multyDelete.deleteGoods();
-            i--;
-        }
-        multyDelete.checkOptions();
-        $('#deleteMultyTip').modal('hide');
-    });
 
 });
 
 
 function loadGoods() {
-    // $.each(goodsList, function(i, item) {
     for (var i = 0; i < Goods.length; i++) {
         var item = Goods[i];
         var goodsHtml = '<div class="goods-item">' +
@@ -114,7 +42,7 @@ function loadGoods() {
             '</span>' +
             '</div>' +
             '<div class="col-md-2 car-goods-info goods-params">' + item["date"] + '</div>' +
-            '<div class="col-md-1 car-goods-info goods-price"><span>￥</span><span class="single-price">' + parseInt(item["price"]) * parseInt(item["number"]) + '</span></div>' +
+            '<div class="col-md-1 car-goods-info goods-price"><span>￥</span><span class="single-price">' + parseInt(item["price"]) + '</span></div>' +
             '<div class="col-md-1 car-goods-info goods-counts" style="width: 13%;">' +
             '<div class="input-group">' +
             '<div class="input-group-btn">' +
@@ -126,7 +54,7 @@ function loadGoods() {
             '</div>' +
             '</div>' +
             '</div>' +
-            '<div class="col-md-1 car-goods-info goods-money-count"><span>￥</span><span class="single-total">' + item["price"] + '</span></div>' +
+            '<div class="col-md-1 car-goods-info goods-money-count"><span>￥</span><span class="single-total">' + item["price"] * parseInt(item["number"]) + '</span></div>' +
             '<div class="col-md-1 car-goods-info goods-operate">' +
             '<button type="button" class="btn btn-danger item-delete">删除</button>' +
             '</div>' +
@@ -148,7 +76,6 @@ function ShoppingCarObserver(elInput, isAdd) {
     this.computeGoodsMoney = function () {
         var moneyCount = this.count * this.singlePrice;
         var singleTotalEl = this.parents.find('.single-total');
-        console.log(moneyCount);
         singleTotalEl.empty().append(moneyCount);
     };
     this.showCount = function () {
@@ -190,6 +117,7 @@ function ShoppingCarObserver(elInput, isAdd) {
         }
     };
     this.checkedChange = function (isChecked) {
+
         if (isChecked === undefined) {
             var isChecked = this.parents.find('.goods-list-item')[0].checked;
         }
@@ -236,6 +164,23 @@ function ShoppingCarObserver(elInput, isAdd) {
         this.parents.remove();
         this.checkOptions();
     };
+    this.updateNumber = function () {
+        $.ajax({
+            type: "POST",
+            url: MyUrl + "/user/updatecart",
+            dataType: "text",
+            data: JSON.stringify({"cartId": this.id, "number": this.count}),
+            contentType: 'application/json; charset=UTF-8',
+            success: function (data) {
+                if (data === "1") {
+                    console.log("修改成功");
+                } else if (data === "-1") {
+                    console.log("修改失败");
+                }
+            }
+        });
+    };
+
     this.checkOptions = function () {
         if ($('#check-goods-all')[0].checked) {
             if ($('.goods-list-item').length <= 0) {
@@ -271,4 +216,119 @@ function checkedAll(_this) {
             }
         }
     }
+}
+
+function showGoods(opt) {
+    $.when(opt).done(function () {
+        if (!Status) {
+            return;
+        }
+        loadGoods();
+        $('#check-goods-all').on('change', function () {
+            if (this.checked) {
+                $('#checked-all-bottom').prop('checked', true);
+            } else {
+                $('#checked-all-bottom').prop('checked', false);
+            }
+            checkedAll(this);
+        });
+        $('#checked-all-bottom').on('change', function () {
+            if (this.checked) {
+                $('#check-goods-all').prop('checked', true);
+            } else {
+                $('#check-goods-all').prop('checked', false);
+            }
+            checkedAll(this);
+        });
+        $('.goods-list-item').on('change', function () {
+            console.log("change");
+            var tmpCheckEl = $(this);
+            var checkEvent = new ShoppingCarObserver(tmpCheckEl, null);
+            checkEvent.checkedChange();
+            checkEvent.checkIsAll();
+        });
+
+        $('.goods-content').on('click', '.car-decrease', function () {
+            var goodsInput = $(this).parents('.input-group').find('.goods-count');
+            var decreaseCount = new ShoppingCarObserver(goodsInput, false);
+            decreaseCount.showCount();
+            decreaseCount.computeGoodsMoney();
+            decreaseCount.updateNumber();
+        });
+        $('.goods-content').on('click', '.car-add', function () {
+            var goodsInput = $(this).parents('.input-group').find('.goods-count');
+            var addCount = new ShoppingCarObserver(goodsInput, true);
+            addCount.showCount();
+            addCount.computeGoodsMoney();
+            addCount.updateNumber();
+        });
+
+        $('.goods-content').on('click', '.item-delete', function () {
+            var goodsInput = $(this).parents('.goods-item').find('.goods-list-item');
+            deleteGoods = new ShoppingCarObserver(goodsInput, null);
+            $('#deleteItemTip').modal('show');
+        });
+
+        $('.deleteSure').on('click', function () {
+            if (deleteGoods !== null) {
+                deleteGoods.deleteGoods();
+            }
+            $('#deleteItemTip').modal('hide');
+        });
+        $('#deleteMulty').on('click', function () {
+            if ($('.goods-list-item:checked').length <= 0) {
+                $('#selectItemTip').modal('show');
+            } else {
+                $('#deleteMultyTip').modal('show');
+            }
+        });
+        $('.deleteMultySure').on('click', function () {
+            for (var i = 0; i < $('.goods-list-item:checked').length; i++) {
+                var multyDelete = new ShoppingCarObserver($('.goods-list-item:checked').eq(i), null);
+                multyDelete.deleteGoods();
+                i--;
+            }
+            multyDelete.checkOptions();
+            $('#deleteMultyTip').modal('hide');
+        });
+    })
+}
+
+function submitOrder() {
+    var cartIdList = [];
+    for (var i = 0; i < $('.goods-item').length; i++) {
+        var elInput = $('.goods-item').eq(i).find('.goods-list-item');
+        var isChecked = $('.goods-item').eq(i).find('.goods-list-item')[0].checked;
+        if (isChecked) {
+            var parents = elInput.parents('.goods-item');
+            var id = parseInt(parents.children("input[name='id']").val());
+            cartIdList.push(id);
+        }
+    }
+    if (cartIdList.length === 0) {
+        return;
+    } else {
+        // var json = JSON.stringify(cartIdList);
+
+        var json = {};
+        for (var i = 0; i < cartIdList.length; i++) {
+            json[i] = cartIdList[i];
+        }
+        json["len"] = cartIdList.length;
+
+        $.ajax({
+            type: "POST",
+            url: MyUrl + "/user/adduserorder",
+            dataType: "text",
+            data: JSON.stringify(json),
+            contentType: 'application/json; charset=UTF-8',
+            success: function (data) {
+                console.log("结算成功");
+                window.location.reload();
+            }
+        });
+
+    }
+
+
 }

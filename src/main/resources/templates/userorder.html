@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap-theme.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/theme.css}" type="text/css">
+    <!--<link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">-->
+    <!--<link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">-->
+    <title th:text="${user.getName()+'&nbsp;&nbsp;&nbsp;(藏经阁)'}"></title>
+</head>
+<body>
+<div class="container theme-showcase" role="main">
+    <!--导航栏-->
+    <nav class="navbar navbar-default" th:insert="~{public :: public_top}"></nav>
+
+    <!--用户菜单-->
+    <div th:insert="~{public :: public_user_menu}"></div>
+
+    <div style="margin-top: 20px;margin-left: 50px;">
+        <span style="float: right;margin-right: 10px;" th:text="${'共 '+userOrderNumber+' 条记录'}"></span>
+
+        <a href="#">按时间排序</a>
+        /
+        <a href="#">按热度排序</a>
+        /
+        <a href="#">按评分排序</a>
+        <div style="margin-top: 30px;margin-left: 25px;">
+            <div class="row">
+                <div class="col-md-4 car-menu">商品信息</div>
+                <div class="col-md-2 car-menu">购买日期</div>
+                <div class="col-md-2 car-menu">单价</div>
+                <div class="col-md-2 car-menu" style="width: 13%;">数量</div>
+                <div class="col-md-2 car-menu">金额</div>
+            </div>
+        </div>
+
+        <div th:each="userOrder:${userOrders}" style="margin-top: 30px;margin-left: 25px;">
+            <div th:each="shopingOrder:${userOrder.getShopingOrders()}" style="clear: both; padding-top: 20px;">
+                <div class="col-md-4">
+                    <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getBookUrl(shopingOrder.getBookId(),'date',1,5)}}">
+                        <img width="80px" th:src="${shopingOrder.getBookPicture()}">
+                    </a>
+                    <a style="margin-left: 20px"
+                       th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getBookUrl(shopingOrder.getBookId(),'date',1,5)}}"
+                       th:text="${shopingOrder.getBookName()}"></a>
+                </div>
+                <div style="padding-top: 50px;margin-left: -30px;" class="col-md-2">
+                    <span th:text="${userOrder.getCreateTime()}"></span>
+                </div>
+
+                <div style="padding-top: 50px;margin-left: 20px;" class="col-md-2">
+                    <span th:text="${shopingOrder.getPrice()}"></span>
+                </div>
+                <div style="padding-top: 50px;margin-left: 15px;" class="col-md-2">
+                    <span th:text="${shopingOrder.getNumber()}"></span>
+                </div>
+                <div style="padding-top: 50px;margin-left: -50px;" class="col-md-2">
+                    <span th:text="${shopingOrder.getTotalMoney()}"></span>
+                </div>
+            </div>
+            <div style="clear: both;float: right;margin-right: 123px;">
+                <span th:text="'共计 :'+${userOrder.getTotalMoney()}+' 元'"></span>
+            </div>
+            <hr>
+        </div>
+
+        <nav aria-label="Page navigation" style="float: right;">
+            <ul th:each="i:${#numbers.sequence(1,totalPages)}" class="pagination">
+                <li th:if="${i == 1 and i != currentPage}">
+                    <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserOrderUrl(currentPage+-1,5)}}"
+                       aria-label="Previous">
+                        <span aria-hidden="true">上一页</span>
+                    </a>
+                </li>
+                <li th:if="${i == 1 and i == currentPage}">
+                    <span aria-hidden="true">上一页</span>
+                </li>
+
+
+                <li th:class="${i == currentPage}? 'active':''">
+                    <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserOrderUrl(i,5)}}"
+                       th:text="${i}"></a></li>
+
+                <li th:if="${i == totalPages and i != currentPage}">
+                    <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserOrderUrl(currentPage+1,5)}}"
+                       aria-label="Next">
+                        <span aria-hidden="true">下一页</span>
+                    </a>
+                </li>
+
+                <li th:if="${i == totalPages and i == currentPage}">
+                    <span aria-hidden="true">下一页</span>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+</div>
+
+
+<script type="text/javascript" th:src="@{/jquery/jquery-3.3.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+<!--<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>-->
+<!--<script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+</body>
+</html>

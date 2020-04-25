@@ -1,8 +1,11 @@
 package com.bookrecommend.demo.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 // 购物订单表
+@Data
 @Entity
 @Table(name = "shoping_order")
 public class ShopingOrder {
@@ -30,43 +33,10 @@ public class ShopingOrder {
     public ShopingOrder() {
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(Integer bookId) {
+    public ShopingOrder(Integer bookId, Float price, Integer number, Integer userOrderId) {
         this.bookId = bookId;
-    }
-
-    public Float getPrice() {
-        return price;
-    }
-
-    public void setPrice(Float price) {
         this.price = price;
-    }
-
-    public Integer getNumber() {
-        return number;
-    }
-
-    public void setNumber(Integer number) {
         this.number = number;
-    }
-
-    public Integer getUserOrderId() {
-        return userOrderId;
-    }
-
-    public void setUserOrderId(Integer userOrderId) {
         this.userOrderId = userOrderId;
     }
 }
