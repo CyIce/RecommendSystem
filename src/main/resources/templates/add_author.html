@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap-theme.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/adddata.css}" type="text/css">
+    <!--<link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">-->
+    <!--<link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">-->
+
+    <title>管理员</title>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top" th:insert="~{admin_public.html :: public_top}"></nav>
+
+<div class="container theme-showcase" role="main">
+
+    <form class="my-input" action="/admin/addauthor" method="post">
+        <div>
+            <label for="name">作者姓名:</label>
+            <input id="name" name="name" type="text" placeholder="作者姓名" required>
+        </div>
+
+        <div>
+            <label for="picture">作者图片</label>
+            <input id="picture" name="picture" type="text" placeholder="作者图片">
+        </div>
+
+        <div>
+            <label for="introduction">作者简介:</label>
+            <textarea id="introduction" name="introduction" placeholder="作者简介" required></textarea>
+        </div>
+
+        <div>
+            <label for="score">作者评分:</label>
+            <input id="score" name="score" type="text" placeholder="作者评分">
+        </div>
+
+        <button type="submit">提交</button>
+
+    </form>
+
+</div>
+
+
+<script type="text/javascript" th:src="@{/jquery/jquery-3.3.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+
+<!--<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>-->
+<!--<script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+
+</body>
+</html>

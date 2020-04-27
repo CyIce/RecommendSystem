@@ -37,6 +37,7 @@ public class LoginController {
                         HttpServletRequest request) {
         String info = "登录逻辑";
         log.info(info);
+        log.info(password);
 
         if (userRepository.existsUserByEmailAndPassword(email, password)) {
             Integer userId = userRepository.findUserByEmail(email).getId();

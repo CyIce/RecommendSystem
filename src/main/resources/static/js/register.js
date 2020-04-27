@@ -26,13 +26,14 @@ $(document).ready(function () {
                 success: function (data) {
                     if (data === "true") {
                         console.log("用户名可以使用");
+                        var password = hex_md5(password1.val());
                         $.ajax({
                             type: "POST",
                             url: MyUrl + "/user/register",
                             data: JSON.stringify({
                                 "name": name.val(),
                                 "email": email.val(),
-                                "password": password1.val(),
+                                "password": password,
                                 "gender": gender.checked
                             }),
                             dataType: "html",

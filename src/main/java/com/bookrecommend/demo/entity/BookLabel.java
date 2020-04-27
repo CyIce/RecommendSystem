@@ -30,5 +30,10 @@ public class BookLabel {
     public BookLabel() {
     }
 
+    public BookLabel(Integer labelId, Integer bookId, Integer value) {
+        this.labelId = labelId;
+        this.bookId = bookId;
+        this.value = value;
+    }
 }
 

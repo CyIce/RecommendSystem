@@ -28,4 +28,9 @@ public class BookKind {
     public BookKind() {
     }
 
+    public BookKind(Integer kindId, Integer bookId, Integer value) {
+        this.kindId = kindId;
+        this.bookId = bookId;
+        this.value = value;
+    }
 }

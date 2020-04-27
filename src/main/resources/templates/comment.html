@@ -31,10 +31,12 @@
             <hr>
             <div>
                 <header>
-                    <a href="#">
-                        <img width="24" height="24" th:src="${c.getBookPicture()}">
+                    <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getBookUrl(c.getBookId(),'date',1,5)}}">
+                        <img width="24" height="24"
+                             th:src="@{/img/cover/{bookId}(bookId=${c.getBookId().toString()+'.jpg'})}">
                     </a>
-                    <a href="#" th:text="${c.getBookName()}"></a>
+                    <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getBookUrl(c.getBookId(),'date',1,5)}}"
+                       th:text="${c.getBookName()}"></a>
                     <span th:text="${c.getScore()}+'分'"></span>
                     <span th:text="${c.getDate()}"></span>
 

@@ -39,7 +39,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     UserOnly findUserNameAndPhotoByUserId(@Param("userId") Integer UserId);
 
 
-    @Query(value = "select new com.bookrecommend.demo.Data.CommentOnly(b.nameCn,b.picture,c.comment,c.score,c.date) " +
+    @Query(value = "select new com.bookrecommend.demo.Data.CommentOnly(b.id,b.nameCn,b.picture,c.comment,c.score,c.date) " +
             "from User u,Comment c,Book b where " +
             "u.id = c.userId and c.bookId = b.id and u.id = :userId " +
             "order by c.date")

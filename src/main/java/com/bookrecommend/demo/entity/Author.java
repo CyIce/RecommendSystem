@@ -38,4 +38,10 @@ public class Author {
     public Author() {
     }
 
+    public Author(String nameCn, String photo, String introduction, Float score) {
+        this.nameCn = nameCn;
+        this.photo = photo;
+        this.introduction = introduction;
+        this.score = score;
+    }
 }

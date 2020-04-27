@@ -96,25 +96,31 @@
             <div style="padding-top: 13px;">
                 <ul style="margin-left: 85px;">
                     <li>
-                        <a th:href="@{/user}">我的主页</a>
+                        <a th:styleappend="${address=='user'}?'color:red;':''" th:href="@{/user}">我的主页</a>
                     </li>
                     <li>
-                        <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserCollectionUrl(2,'date',1,10)}}">在读</a>
+                        <a th:styleappend="${address=='reading'}?'color:red;':''"
+                           th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserCollectionUrl(2,'date',1,10)}}">在读</a>
                     </li>
                     <li>
-                        <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserCollectionUrl(1,'date',1,10)}}">想读</a>
+                        <a th:styleappend="${address=='want'}?'color:red;':''"
+                           th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserCollectionUrl(1,'date',1,10)}}">想读</a>
                     </li>
                     <li>
-                        <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserCollectionUrl(3,'date',1,10)}}">读过</a>
+                        <a th:styleappend="${address=='have_read'}?'color:red;':''"
+                           th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserCollectionUrl(3,'date',1,10)}}">读过</a>
                     </li>
                     <li>
-                        <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserCollectionUrl(0,'date',1,10)}}">收藏</a>
+                        <a th:styleappend="${address=='collection'}?'color:red;':''"
+                           th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserCollectionUrl(0,'date',1,10)}}">收藏</a>
                     </li>
                     <li>
-                        <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserCommentUrl('date',1,10)}}">评论</a>
+                        <a th:styleappend="${address=='comment'}?'color:red;':''"
+                           th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserCommentUrl('date',1,10)}}">评论</a>
                     </li>
                     <li>
-                        <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserOrderUrl(1,5)}}">订单</a>
+                        <a th:styleappend="${address=='user_order'}?'color:red;':''"
+                           th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserOrderUrl(1,5)}}">订单</a>
                     </li>
                 </ul>
 

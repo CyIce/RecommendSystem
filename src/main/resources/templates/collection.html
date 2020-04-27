@@ -11,6 +11,7 @@
 </head>
 <body>
 <div class="container theme-showcase" role="main">
+    <input type="hidden" id="collected-status" th:value="${collectedStatus}">
     <!--导航栏-->
     <nav class="navbar navbar-default" th:insert="~{public :: public_top}"></nav>
 
@@ -19,11 +20,14 @@
 
     <div style="margin-top: 20px;margin-left: 50px;">
         <span style="float: right;margin-right: 10px;" th:text="${'共 '+booksNum+' 条记录'}"></span>
-        <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserCollectionUrl(collectedStatus,'date',1,10)}}">按时间排序</a>
+        <a th:styleappend="${bookOrderType=='date'}?'color:red;':''"
+           th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserCollectionUrl(collectedStatus,'date',1,10)}}">按时间排序</a>
         /
-        <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserCollectionUrl(collectedStatus,'score',1,10)}}">按评分排序</a>
+        <a th:styleappend="${bookOrderType=='score'}?'color:red;':''"
+           th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserCollectionUrl(collectedStatus,'score',1,10)}}">按评分排序</a>
         /
-        <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserCollectionUrl(collectedStatus,'wantNum',1,10)}}">按想看人数排序</a>
+        <a th:styleappend="${bookOrderType=='wantNum'}?'color:red;':''"
+           th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserCollectionUrl(collectedStatus,'wantNum',1,10)}}">按想看人数排序</a>
     </div>
 
     <div style="margin-top: 24px;margin-left: 14px">
@@ -32,7 +36,7 @@
             <div class="media-left">
                 <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getBookUrl(book.getId(),'date',1,5)}}">
                     <img class="media-object book-cover-img"
-                         th:src="${book.getPicture()}">
+                         th:src="@{/img/cover/{bookId}(bookId=${book.getId().toString()+'.jpg'})}">
                 </a>
             </div>
             <div class="media-body">
@@ -43,7 +47,7 @@
                     <span th:text="${book.getDate()+' 想读'}"></span>
                     <div>
                         <a href="#">修改</a>
-                        <a href="#">删除</a>
+                        <a href="javascript:void(0);" onclick="delete_collection(this)" th:id="${book.getId()}">删除</a>
                     </div>
                 </div>
                 <div th:if="${book.isExistInShopingCart()}">
@@ -98,6 +102,7 @@
 <script type="text/javascript" th:src="@{/jquery/jquery-3.3.1.min.js}"></script>
 <script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/search.js}"></script>
+<script type="text/javascript" th:src="@{/js/collection.js}"></script>
 <!--<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>-->
 <!--<script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
 </body>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap-theme.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/adddata.css}" type="text/css">
+    <!--<link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">-->
+    <!--<link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">-->
+
+    <title>管理员</title>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top" th:insert="~{admin_public.html :: public_top}"></nav>
+
+<div class="container theme-showcase" role="main">
+
+    <form class="my-input" action="/admin/addbook" method="post">
+
+        <label for="book_name">书名:</label>
+        <input id="book_name" name="book_name" type="text" placeholder="书名" required>
+
+
+        <div>
+            <label for="big_picture">大图:</label>
+            <input id="big_picture" name="big_picture" type="text" placeholder="大图">
+        </div>
+
+        <div>
+            <label for="picture">封面:</label>
+            <input id="picture" name="picture" type="text" placeholder="封面" required>
+        </div>
+
+        <div>
+            <label for="introduction">书籍简介:</label>
+            <textarea id="introduction" name="introduction" placeholder="书籍简介" required></textarea>
+        </div>
+
+        <div>
+            <label for="catalog">书籍目录:</label>
+            <textarea id="catalog" name="catalog" placeholder="书籍目录"></textarea>
+        </div>
+
+        <div>
+            <label for="authors_id">作者id:</label>
+            <input id="authors_id" name="authors_id" type="text" placeholder="作者id" required>
+        </div>
+
+        <div>
+            <label for="kind_id">书籍类别id:</label>
+            <input id="kind_id" name="kind_id" type="text" placeholder="书籍类别id" required>
+        </div>
+
+        <div>
+            <label for="label_id">书籍标签id:</label>
+            <input id="label_id" name="label_id" type="text" placeholder="书籍标签id" required>
+        </div>
+
+        <div>
+            <label for="press_id">出版社id:</label>
+            <input id="press_id" name="press_id" type="number" placeholder="出版社id" required>
+        </div>
+
+        <div>
+            <label for="publication_date">出版日期:</label>
+            <input id="publication_date" name="publication_date" type="date" placeholder="出版日期" required>
+        </div>
+
+        <div>
+            <label for="word_count">书籍字数:</label>
+            <input id="word_count" name="word_count" type="number" placeholder="书籍字数" required>
+        </div>
+
+        <div>
+            <label for="price">书籍单价:</label>
+            <input id="price" name="price" type="text" placeholder="书籍单价" required>
+        </div>
+
+        <div>
+            <label for="score">书籍评分:</label>
+            <input id="score" name="score" type="number" placeholder="书籍评分" required>
+        </div>
+
+        <div>
+            <label for="hot">书籍总热度:</label>
+            <input id="hot" name="hot" type="number" placeholder="书籍总热度" required>
+        </div>
+
+        <button type="submit">提交</button>
+
+    </form>
+
+</div>
+
+
+<script type="text/javascript" th:src="@{/jquery/jquery-3.3.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+
+<!--<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>-->
+<!--<script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+
+</body>
+</html>

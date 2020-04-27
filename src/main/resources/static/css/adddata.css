@@ -1,0 +1,19 @@
+
+.my-input {
+    margin-top: 90px;
+    margin-left: 300px;
+}
+
+.my-input > div {
+    margin-bottom: 20px;
+}
+
+.my-input > label {
+    float: left;
+}
+
+.my-input > div > textarea {
+    display: block;
+    height: 200px;
+    width: 400px;
+}

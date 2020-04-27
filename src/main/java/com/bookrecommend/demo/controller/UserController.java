@@ -81,6 +81,7 @@ public class UserController {
         Page<CommentOnly> comments = userRepository.findCommentsByUserIdOrderByDate(pageable, userId);
         model.addAttribute("commentNum", comments.getTotalElements());
         model.addAttribute("comments", comments.toList());
+        model.addAttribute("address", "user");
 
         return "user";
     }
@@ -125,6 +126,23 @@ public class UserController {
         model.addAttribute("totalPages", booksPage.getTotalPages());
         model.addAttribute("booksNum", booksPage.getTotalElements());
         model.addAttribute("books", books);
+
+
+        switch (status) {
+            case 0:
+                model.addAttribute("address", "collection");
+                break;
+            case 1:
+                model.addAttribute("address", "want");
+                break;
+            case 2:
+                model.addAttribute("address", "reading");
+                break;
+            case 3:
+                model.addAttribute("address", "have_read");
+                break;
+        }
+
         return "collection";
     }
 
@@ -149,7 +167,7 @@ public class UserController {
         model.addAttribute("commentOrderType", commentOrderType);
         model.addAttribute("commentNum", comments.getTotalElements());
         model.addAttribute("comments", comments.toList());
-
+        model.addAttribute("address", "comment");
         return "comment";
     }
 
@@ -387,6 +405,7 @@ public class UserController {
         model.addAttribute("currentPage", offset + 1);
         model.addAttribute("userOrderNumber", userOrderPage.getTotalElements());
         model.addAttribute("totalPages", userOrderPage.getTotalPages());
+        model.addAttribute("address", "user_order");
 
         return "userorder";
     }

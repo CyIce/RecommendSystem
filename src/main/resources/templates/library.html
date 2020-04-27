@@ -66,15 +66,20 @@
                 <div class="select-wrap">
                     <div style="padding-top: 13px;">
                         <span style="float: right;margin-right: 10px;" th:text="${'共 '+booksNumber+' 条记录'}"></span>
-                        <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getLibraryUrl('hot',1,10,kindId,labelId,keyword)}}">热门</a>
+                        <a th:styleappend="${bookOrderType=='hot'}?'color:red;':''"
+                           th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getLibraryUrl('hot',1,10,kindId,labelId,keyword)}}">热门</a>
                         /
-                        <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getLibraryUrl('collectionNum',1,10,kindId,labelId,keyword)}}">总收藏</a>
+                        <a th:styleappend="${bookOrderType=='collectionNum'}?'color:red;':''"
+                           th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getLibraryUrl('collectionNum',1,10,kindId,labelId,keyword)}}">总收藏</a>
                         /
-                        <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getLibraryUrl('wantNum',1,10,kindId,labelId,keyword)}}">总想看</a>
+                        <a th:styleappend="${bookOrderType=='wantNum'}?'color:red;':''"
+                           th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getLibraryUrl('wantNum',1,10,kindId,labelId,keyword)}}">总想看</a>
                         /
-                        <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getLibraryUrl('haveReadNum',1,10,kindId,labelId,keyword)}}">总看过</a>
+                        <a th:styleappend="${bookOrderType=='haveReadNum'}?'color:red;':''"
+                           th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getLibraryUrl('haveReadNum',1,10,kindId,labelId,keyword)}}">总看过</a>
                         /
-                        <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getLibraryUrl('readingNum',1,10,kindId,labelId,keyword)}}">总在看</a>
+                        <a th:styleappend="${bookOrderType=='readingNum'}?'color:red;':''"
+                           th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getLibraryUrl('readingNum',1,10,kindId,labelId,keyword)}}">总在看</a>
                     </div>
                 </div>
 
