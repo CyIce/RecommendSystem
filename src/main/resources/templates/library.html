@@ -21,14 +21,14 @@
                     <h4 style="color: #007722;">已选</h4>
                     <ul class="category">
                         <li th:if="${kindId>0}">
-                            <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getLibraryUrl(bookOrderType,1,10,0,labelId,keyword)}}">
+                            <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getLibraryUrl(bookOrderType,1,10,0,labelId,keyword)}}">
                                 <span th:text="${kindName}"></span>
                                 <span style="margin-left: -4px;" class="glyphicon glyphicon-remove"></span>
                             </a>
                         </li>
 
                         <li th:if="${labelId>0}">
-                            <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getLibraryUrl(bookOrderType,1,10,kindId,0,keyword)}}">
+                            <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getLibraryUrl(bookOrderType,1,10,kindId,0,keyword)}}">
                                 <span th:text="${labelName}"></span>
                                 <span style="margin-left: -4px;" class="glyphicon glyphicon-remove"></span>
                             </a>
@@ -46,7 +46,7 @@
                     <h4 style="color: #007722;">分类</h4>
                     <ul class="category">
                         <li th:each="kind:${kinds}">
-                            <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getLibraryUrl(bookOrderType,1,10,kind.getId(),labelId,keyword)}}"
+                            <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getLibraryUrl(bookOrderType,1,10,kind.getId(),labelId,keyword)}}"
                                th:text="${kind.getKind()}"></a>
                         </li>
                     </ul>
@@ -55,7 +55,7 @@
                     <h4 style="color: #007722;">标签</h4>
                     <ul class="category">
                         <li th:each="label:${labels}">
-                            <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getLibraryUrl(bookOrderType,1,10,kindId,label.getId(),keyword)}}"
+                            <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getLibraryUrl(bookOrderType,1,10,kindId,label.getId(),keyword)}}"
                                th:text="${label.getLabel()}"></a>
                         </li>
                     </ul>
@@ -66,15 +66,15 @@
                 <div class="select-wrap">
                     <div style="padding-top: 13px;">
                         <span style="float: right;margin-right: 10px;" th:text="${'共 '+booksNumber+' 条记录'}"></span>
-                        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getLibraryUrl('hot',1,10,kindId,labelId,keyword)}}">热门</a>
+                        <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getLibraryUrl('hot',1,10,kindId,labelId,keyword)}}">热门</a>
                         /
-                        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getLibraryUrl('collectionNum',1,10,kindId,labelId,keyword)}}">总收藏</a>
+                        <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getLibraryUrl('collectionNum',1,10,kindId,labelId,keyword)}}">总收藏</a>
                         /
-                        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getLibraryUrl('wantNum',1,10,kindId,labelId,keyword)}}">总想看</a>
+                        <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getLibraryUrl('wantNum',1,10,kindId,labelId,keyword)}}">总想看</a>
                         /
-                        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getLibraryUrl('haveReadNum',1,10,kindId,labelId,keyword)}}">总看过</a>
+                        <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getLibraryUrl('haveReadNum',1,10,kindId,labelId,keyword)}}">总看过</a>
                         /
-                        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getLibraryUrl('readingNum',1,10,kindId,labelId,keyword)}}">总在看</a>
+                        <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getLibraryUrl('readingNum',1,10,kindId,labelId,keyword)}}">总在看</a>
                     </div>
                 </div>
 
@@ -83,7 +83,7 @@
 
                     <div class="media-book" th:each="book:${books}">
                         <div class="media-left">
-                            <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getBookUrl(book.getId(),'date',1,5)}}">
+                            <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getBookUrl(book.getId(),'date',1,5)}}">
                                 <img class="media-object book-cover-img"
                                      th:src="@{/img/cover/{bookId}(bookId=${book.getId().toString()+'.jpg'})}">
                             </a>
@@ -104,7 +104,7 @@
     <nav aria-label="Page navigation" style="float: right;">
         <ul th:each="i:${#numbers.sequence(1,totalPages)}" class="pagination">
             <li th:if="${i == 1 and i != currentPage}">
-                <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getLibraryUrl(bookOrderType,currentPage+-1,10,kindId,labelId,keyword)}}"
+                <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getLibraryUrl(bookOrderType,currentPage+-1,10,kindId,labelId,keyword)}}"
                    aria-label="Previous">
                     <span aria-hidden="true">上一页</span>
                 </a>
@@ -115,11 +115,11 @@
 
 
             <li th:class="${i == currentPage}? 'active':''">
-                <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getLibraryUrl(bookOrderType,i,10,kindId,labelId,keyword)}}"
+                <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getLibraryUrl(bookOrderType,i,10,kindId,labelId,keyword)}}"
                    th:text="${i}"></a></li>
 
             <li th:if="${i == totalPages and i != currentPage}">
-                <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getLibraryUrl(bookOrderType,currentPage+1,10,kindId,labelId,keyword)}}"
+                <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getLibraryUrl(bookOrderType,currentPage+1,10,kindId,labelId,keyword)}}"
                    aria-label="Next">
                     <span aria-hidden="true">下一页</span>
                 </a>

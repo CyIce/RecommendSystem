@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap-theme.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/admin.css}" type="text/css">
+    <!--<link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">-->
+    <!--<link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">-->
+
+    <title>管理员</title>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top" th:insert="~{admin_public.html :: public_top}"></nav>
+
+<div class="row">
+
+    <div class="col-sm-3 col-md-2 sidebar">
+        <ul class="nav nav-sidebar">
+            <li><a href="#">用户</a></li>
+            <li class="active"><a href="#">书籍 <span class="sr-only">(current)</span></a></li>
+            <li><a href="#">作者</a></li>
+            <li><a href="#">评论</a></li>
+        </ul>
+        <ul class="nav nav-sidebar">
+            <li><a href="">类别</a></li>
+            <li><a href="">标签</a></li>
+        </ul>
+    </div>
+
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h2 class="sub-header">Section title</h2>
+        <div class="table-responsive">
+            <table class="table table-striped" style="table-layout: fixed;">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>书名</th>
+                    <th>作者</th>
+                    <th>简介</th>
+                    <th>出版社</th>
+                    <th>出版日期</th>
+                    <th>目录</th>
+                    <th>大图</th>
+                    <th>封面</th>
+                    <th>评分</th>
+                    <th>单价</th>
+                    <th>字数</th>
+                    <th>类别</th>
+                    <th>标签</th>
+                    <th>总热度</th>
+                    <th>周热度</th>
+                    <th>月热度</th>
+                    <th>收藏人数</th>
+                    <th>想读人数</th>
+                    <th>在读人数</th>
+                    <th>已读人数</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="long-text" th:each="book:${books}">
+                    <td th:text="${book.getId()}"></td>
+                    <td th:text="${book.getNameCn()}"></td>
+                    <td th:text="${book.getAuthorsName()}"></td>
+                    <td th:text="${book.getIntroduction()}"></td>
+                    <td th:text="${book.getPress()}"></td>
+                    <td th:text="${book.getPublicationDate()}"></td>
+                    <td th:text="${book.getCatalog()}"></td>
+                    <td th:text="${book.getBigPicture()}"></td>
+                    <td th:text="${book.getPicture()}"></td>
+                    <td th:text="${book.getScore()}"></td>
+                    <td th:text="${book.getPrice()}"></td>
+                    <td th:text="${book.getWordCount()}"></td>
+                    <td th:text="${book.kindToString()}"></td>
+                    <td th:text="${book.labelsToString()}"></td>
+                    <td th:text="${book.getHot()}"></td>
+                    <td th:text="${book.getWeekHot()}"></td>
+                    <td th:text="${book.getMonthHot()}"></td>
+                    <td th:text="${book.getCollectionNum()}"></td>
+                    <td th:text="${book.getWantNum()}"></td>
+                    <td th:text="${book.getReadingNum()}"></td>
+                    <td th:text="${book.getHaveReadNum()}"></td>
+
+                </tr>
+                </tbody>
+            </table>
+            <!--<nav aria-label="Page navigation" style="float: right;">-->
+            <!--<ul th:each="i:${#numbers.sequence(1,totalPages)}" class="pagination">-->
+            <!--<li th:if="${i == 1 and i != currentPage}">-->
+            <!--<a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getAdminUserUrl(order,currentPage+-1,5)}}"-->
+            <!--aria-label="Previous">-->
+            <!--<span aria-hidden="true">上一页</span>-->
+            <!--</a>-->
+            <!--</li>-->
+            <!--<li th:if="${i == 1 and i == currentPage}">-->
+            <!--<span aria-hidden="true">上一页</span>-->
+            <!--</li>-->
+
+
+            <!--<li th:class="${i == currentPage}? 'active':''">-->
+            <!--<a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getAdminUserUrl(order,i,5)}}"-->
+            <!--th:text="${i}"></a></li>-->
+
+            <!--<li th:if="${i == totalPages and i != currentPage}">-->
+            <!--<a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getAdminUserUrl(order,currentPage+1,5)}}"-->
+            <!--aria-label="Next">-->
+            <!--<span aria-hidden="true">下一页</span>-->
+            <!--</a>-->
+            <!--</li>-->
+
+            <!--<li th:if="${i == totalPages and i == currentPage}">-->
+            <!--<span aria-hidden="true">下一页</span>-->
+            <!--</li>-->
+            <!--</ul>-->
+            <!--</nav>-->
+        </div>
+    </div>
+
+</div>
+
+
+<script type="text/javascript" th:src="@{/jquery/jquery-3.3.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+
+<!--<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>-->
+<!--<script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+
+</body>
+</html>

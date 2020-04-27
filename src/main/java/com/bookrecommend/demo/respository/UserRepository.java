@@ -64,4 +64,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "where s.userOrderId = :orderId and s.bookId = b.id")
     List<ShopingOrderOnly> findShopingOrdersByOrderId(@Param("orderId") Integer orderId);
 
+
+    @Query(value = "select new com.bookrecommend.demo.Data.UserOnly(u.id,u.name,u.age,u.gender,u.photo,u.introduction,u.phoneNumber,u.email,u.registrationDate) " +
+            "from User u")
+    Page<UserOnly> findAllUser(Pageable pageable);
+
 }

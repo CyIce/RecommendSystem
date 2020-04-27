@@ -25,14 +25,14 @@
                 &nbsp;·&nbsp;·&nbsp;·&nbsp;·&nbsp;·&nbsp;·
             </h3>
             <div style="float: left;margin: 23px auto;">
-                <span>（<a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl(2,'date',1,10)}}"
+                <span>（<a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserCollectionUrl(2,'date',1,10)}}"
                           th:text="${'共 '+readingNum+' 本'}"></a>）</span>
             </div>
         </div>
         <div class="show-books">
             <ul>
                 <li th:each="book:${readingBooks}">
-                    <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getBookUrl(book.getId(),'date',1,5)}}">
+                    <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getBookUrl(book.getId(),'date',1,5)}}">
                         <img th:src="@{'/img/cover/'+${book.getId()}+'.jpg'}">
                     </a>
                 </li>
@@ -46,14 +46,14 @@
                 &nbsp;·&nbsp;·&nbsp;·&nbsp;·&nbsp;·&nbsp;·
             </h3>
             <div style="float: left;margin: 23px auto;">
-                <span>（<a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl(1,'date',1,10)}}"
+                <span>（<a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserCollectionUrl(1,'date',1,10)}}"
                           th:text="${'共 '+wantNum+' 本'}"></a>）</span>
             </div>
         </div>
         <div class="show-books">
             <ul>
                 <li th:each="book:${wantBooks}">
-                    <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getBookUrl(book.getId(),'date',1,5)}}">
+                    <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getBookUrl(book.getId(),'date',1,5)}}">
                         <img th:src="@{'/img/cover/'+${book.getId()}+'.jpg'}">
                     </a>
                 </li>
@@ -67,14 +67,14 @@
                 &nbsp;·&nbsp;·&nbsp;·&nbsp;·&nbsp;·&nbsp;·
             </h3>
             <div style="float: left;margin: 23px auto;">
-                <span>（<a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl(3,'date',1,10)}}"
+                <span>（<a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserCollectionUrl(3,'date',1,10)}}"
                           th:text="${'共 '+haveReadNum+' 本'}"></a>）</span>
             </div>
         </div>
         <div class="show-books">
             <ul>
                 <li th:each="book:${haveReadBooks}">
-                    <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getBookUrl(book.getId(),'date',1,5)}}">
+                    <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getBookUrl(book.getId(),'date',1,5)}}">
                         <img th:src="@{'/img/cover/'+${book.getId()}+'.jpg'}">
                     </a>
                 </li>
@@ -89,14 +89,14 @@
                 &nbsp;·&nbsp;·&nbsp;·&nbsp;·&nbsp;·&nbsp;·
             </h3>
             <div style="float: left;margin: 23px auto;">
-                <span>（<a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCollectionUrl(0,'date',1,10)}}"
+                <span>（<a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserCollectionUrl(0,'date',1,10)}}"
                           th:text="${'共 '+collectionNum+' 本'}"></a>）</span>
             </div>
         </div>
         <div class="show-books">
             <ul>
                 <li th:each="book:${collectionBooks}">
-                    <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getBookUrl(book.getId(),'date',1,5)}}">
+                    <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getBookUrl(book.getId(),'date',1,5)}}">
                         <img th:src="@{'/img/cover/'+${book.getId()}+'.jpg'}">
                     </a>
                 </li>
@@ -110,7 +110,7 @@
                 &nbsp;·&nbsp;·&nbsp;·&nbsp;·&nbsp;·&nbsp;·
             </h3>
             <div style="float: left;margin: 23px auto;">
-                <span>（<a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserCommentUrl('date',1,10)}}"
+                <span>（<a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserCommentUrl('date',1,10)}}"
                           th:text="${'共 '+commentNum+' 条'}"></a>）</span>
             </div>
         </div>

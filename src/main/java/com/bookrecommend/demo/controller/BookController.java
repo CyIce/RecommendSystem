@@ -1,10 +1,7 @@
 package com.bookrecommend.demo.controller;
 
 import com.bookrecommend.demo.Data.*;
-import com.bookrecommend.demo.entity.Collection;
-import com.bookrecommend.demo.entity.Kind;
-import com.bookrecommend.demo.entity.Label;
-import com.bookrecommend.demo.entity.Score;
+import com.bookrecommend.demo.entity.*;
 import com.bookrecommend.demo.respository.*;
 import com.bookrecommend.demo.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,8 +63,10 @@ public class BookController {
         // 获取热门书籍
         List<BookOnly> hotBooks = bookRepository.findHotBooks().subList(0, 12);
         for (BookOnly bookOnly : hotBooks) {
-            List<BookLabelOnly> labels = bookRepository.findBookKindsByBookId(bookOnly.getId());
-            bookOnly.setKinds(labels);
+            List<BookLabelOnly> kinds = bookRepository.findBookKindsByBookId(bookOnly.getId());
+            List<BookLabelOnly> labels = bookRepository.findBookLabelsByBookId(bookOnly.getId());
+            bookOnly.setKinds(kinds);
+            bookOnly.setLabels(labels);
             List<AuthorOnly> authors = authorRepository.findAuthorsByBookId(bookOnly.getId());
             bookOnly.setAuthors(authors);
         }
@@ -91,9 +90,26 @@ public class BookController {
         Sort sort = Sort.by(Sort.Order.desc(commentOrderType));
         Pageable pageable = PageRequest.of(offset, limit, sort);
 
+        Integer scoreNumber = scoreRepository.findScoreNumberByBookId(bookId);
+        model.addAttribute("scoreNumber", scoreNumber);
+        if (scoreNumber == 0) {
+            scoreNumber = 1;
+        }
+
+        List<Double> starsPercent = new ArrayList<Double>();
+        float s = 0;
+        for (int i = 1; i <= 5; i++) {
+            starsPercent.add(100.0 * scoreRepository.findScoreNumberByBookIdAndScore(bookId, i * 2) / scoreNumber);
+            s += (starsPercent.get(i - 1) * i * 2) / 100;
+        }
+        Book b = bookRepository.getOne(bookId);
+        b.setScore(s);
+        bookRepository.save(b);
+
 
         BookOnly book = bookRepository.findBookByBookId(bookId);
         book.setKinds(bookRepository.findBookKindsByBookId(bookId));
+        book.setLabels(bookRepository.findBookLabelsByBookId(bookId));
         book.setAuthors(authorRepository.findAuthorsInfoByBookId(bookId));
         model.addAttribute("book", book);
 
@@ -104,18 +120,7 @@ public class BookController {
         model.addAttribute("commentsNumber", comments.getTotalElements());
         model.addAttribute("commentOrderType", commentOrderType);
         model.addAttribute("comments", comments.toList());
-        Integer scoreNumber = scoreRepository.findScoreNumberByBookId(bookId);
-        model.addAttribute("scoreNumber", scoreNumber);
-        if (scoreNumber == 0) {
-            scoreNumber = 1;
-        }
 
-        List<Double> starsPercent = new ArrayList<Double>();
-//        float score=0;
-        for (int i = 1; i <= 5; i++) {
-            starsPercent.add(100.0 * scoreRepository.findScoreNumberByBookIdAndScore(bookId, i * 2) / scoreNumber);
-//            score+=(starsPercent.get(i-1)*i*2);
-        }
 
         model.addAttribute("fiveStarPercent", Utils.DoubleToFormat(starsPercent.get(4)));
         model.addAttribute("fourStarPercent", Utils.DoubleToFormat(starsPercent.get(3)));

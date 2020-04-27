@@ -18,7 +18,6 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 //    Book findBookById(Integer bookId);
 
 
-
     @Query(value = "select new com.bookrecommend.demo.Data.BookOnly(b.id,b.nameCn,b.bigPicture) " +
             "from Book b order by b.weekHot desc ")
     List<BookOnly> findBooksByMonthHot();
@@ -40,13 +39,13 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
             "from Book b order by b.weekHot desc ")
     List<BookOnly> findBookIdOrderByWeekHot();
 
-    @Query(value = "select new com.bookrecommend.demo.Data.BookLabelOnly(b.id,k.kind) " +
+    @Query(value = "select new com.bookrecommend.demo.Data.BookLabelOnly(k.id,k.kind) " +
             "from BookKind b,Kind k " +
             "where b.kindId = k.id and b.bookId = :bookId " +
             "order by b.value desc ")
     List<BookLabelOnly> findBookKindsByBookId(@Param("bookId") Integer bookId);
 
-    @Query(value = "select new com.bookrecommend.demo.Data.BookLabelOnly(b.id,l.label) " +
+    @Query(value = "select new com.bookrecommend.demo.Data.BookLabelOnly(l.id,l.label) " +
             "from BookLabel b,Label l " +
             "where b.labelId = l.id and b.bookId = :bookId " +
             "order by b.value desc ")
@@ -90,8 +89,6 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     Page<BookOnly> findAllBookByLabelId(Pageable pageable, @Param("labelId") Integer labelId, @Param("keyword") String keyword);
 
 
-
-
     // 获取用户已读的书籍
     @Query(value = "select new com.bookrecommend.demo.Data.BookOnly(b.id,b.nameCn,b.nameEng,b.picture) " +
             "from Book b,Collection c " +
@@ -112,5 +109,9 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     Page<BookOnly> findCollectionsAllInfoByUserId(Pageable pageable, @Param("userId") Integer userId, @Param("status") Integer status);
 
 
-
+    @Query(value = "select new com.bookrecommend.demo.Data.BookOnly(b.id,b.nameCn,b.bigPicture,b.picture,b.catalog,b.publicationDate," +
+            "b.wordCount,b.price,b.score,b.introduction,b.hot,b.weekHot," +
+            "b.monthHot,b.collectionNum,b.wantNum,b.haveReadNum,b.readingNum) " +
+            "from Book b ")
+    Page<BookOnly> findAllBooks(Pageable pageable);
 }

@@ -1,4 +1,4 @@
-package com.bookrecommend.demo.Data;
+package com.bookrecommend.demo.util;
 
 public class MyUrl {
 
@@ -22,4 +22,9 @@ public class MyUrl {
     public static String getUserOrderUrl(int offser, int limit) {
         return "/user/userorder?offset=" + offser + "&limit=" + limit;
     }
+
+    public static String getAdminUserUrl(String order, int offset, int limit) {
+        return "/admin/user?order=" + order + "&offset=" + offset + "&limit=" + limit;
+    }
+
 }

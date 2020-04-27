@@ -38,11 +38,11 @@
         <div th:each="userOrder:${userOrders}" style="margin-top: 30px;margin-left: 25px;">
             <div th:each="shopingOrder:${userOrder.getShopingOrders()}" style="clear: both; padding-top: 20px;">
                 <div class="col-md-4">
-                    <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getBookUrl(shopingOrder.getBookId(),'date',1,5)}}">
+                    <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getBookUrl(shopingOrder.getBookId(),'date',1,5)}}">
                         <img width="80px" th:src="${shopingOrder.getBookPicture()}">
                     </a>
                     <a style="margin-left: 20px"
-                       th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getBookUrl(shopingOrder.getBookId(),'date',1,5)}}"
+                       th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getBookUrl(shopingOrder.getBookId(),'date',1,5)}}"
                        th:text="${shopingOrder.getBookName()}"></a>
                 </div>
                 <div style="padding-top: 50px;margin-left: -30px;" class="col-md-2">
@@ -68,7 +68,7 @@
         <nav aria-label="Page navigation" style="float: right;">
             <ul th:each="i:${#numbers.sequence(1,totalPages)}" class="pagination">
                 <li th:if="${i == 1 and i != currentPage}">
-                    <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserOrderUrl(currentPage+-1,5)}}"
+                    <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserOrderUrl(currentPage+-1,5)}}"
                        aria-label="Previous">
                         <span aria-hidden="true">上一页</span>
                     </a>
@@ -79,11 +79,11 @@
 
 
                 <li th:class="${i == currentPage}? 'active':''">
-                    <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserOrderUrl(i,5)}}"
+                    <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserOrderUrl(i,5)}}"
                        th:text="${i}"></a></li>
 
                 <li th:if="${i == totalPages and i != currentPage}">
-                    <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getUserOrderUrl(currentPage+1,5)}}"
+                    <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserOrderUrl(currentPage+1,5)}}"
                        aria-label="Next">
                         <span aria-hidden="true">下一页</span>
                     </a>

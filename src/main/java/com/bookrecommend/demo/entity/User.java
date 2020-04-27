@@ -67,4 +67,6 @@ public class User {
         this.photo = photo;
         this.registrationDate = registrationDate;
     }
+
+
 }

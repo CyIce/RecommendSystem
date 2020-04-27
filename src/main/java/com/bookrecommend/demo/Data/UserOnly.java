@@ -26,7 +26,7 @@ public class UserOnly {
     private Date registrationDate;
 
 
-    private String getGender() {
+    public String getGender() {
         if (gender) {
             return "男";
         }
@@ -48,5 +48,17 @@ public class UserOnly {
         this.id = id;
         this.name = name;
         this.photo = photo;
+    }
+
+    public UserOnly(Integer id, String name, Integer age, boolean gender, String photo, String introduction, String phoneNumber, String email, Date registrationDate) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.photo = photo;
+        this.introduction = introduction;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.registrationDate = registrationDate;
     }
 }

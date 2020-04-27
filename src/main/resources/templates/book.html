@@ -37,8 +37,15 @@
                 <h5>评分：<span th:text="${book.getScore()}"></span></h5>
                 <h5>定价：<span th:text="${book.getPrice()}+'元'"></span></h5>
                 <h5>字数：<span th:text="${book.getWordCount()}"></span></h5>
-                <h5>类别:<a th:each="label:${book.getKinds()}" href="#" th:text="${label.getLabel()}"
-                          style="margin-right: 4px"></a>
+                <h5>类别:<a th:each="kind:${book.getKinds()}"
+                          th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getLibraryUrl('hot',1,10,kind.getLabelId(),-1,'')}}"
+                          th:text="${kind.getLabel()}"
+                          style="padding-left: 5px"></a>
+                </h5>
+                <h5>标签:<a th:each="label:${book.getLabels()}"
+                          th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getLibraryUrl('hot',1,10,-1,label.getLabelId(),'')}}"
+                          th:text="${label.getLabel()}"
+                          style="padding-left: 5px"></a>
                 </h5>
             </div>
         </div>
@@ -52,7 +59,7 @@
         </div>
 
         <div class="book-star" th:style="'width: '+${book.score*7}+'px;'"></div>
-        <div th:text="${scoreNumber}+'人评价'" style="padding-left: 50px;"></div>
+        <div th:text="${scoreNumber}+'人评价'" style="padding-left: 78px;"></div>
 
         <div class="power-list">
             <span style="float: left;margin-right: 5px;">5星</span>
@@ -189,7 +196,7 @@
     </div>
 
     <div style="padding-top: 66px;" th:if="${commentOrderType.equals('date')}">
-        <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getBookUrl(book.getId(),'hot',1,5)}}">热门</a>
+        <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getBookUrl(book.getId(),'hot',1,5)}}">热门</a>
         /
         <span>最新</span>
     </div>
@@ -226,7 +233,7 @@
     <nav aria-label="Page navigation" style="float: right;">
         <ul th:each="i:${#numbers.sequence(1,totalPages)}" class="pagination">
             <li th:if="${i == 1 and i != currentPage}">
-                <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getBookUrl(book.getId(),commentOrderType,currentPage+-1,5)}}"
+                <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getBookUrl(book.getId(),commentOrderType,currentPage+-1,5)}}"
                    aria-label="Previous">
                     <span aria-hidden="true">上一页</span>
                 </a>
@@ -237,11 +244,11 @@
 
 
             <li th:class="${i == currentPage}? 'active':''">
-                <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getBookUrl(book.getId(),commentOrderType,i,5)}}"
+                <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getBookUrl(book.getId(),commentOrderType,i,5)}}"
                    th:text="${i}"></a></li>
 
             <li th:if="${i == totalPages and i != currentPage}">
-                <a th:href="@{${T(com.bookrecommend.demo.Data.MyUrl).getBookUrl(book.getId(),commentOrderType,currentPage+1,5)}}"
+                <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getBookUrl(book.getId(),commentOrderType,currentPage+1,5)}}"
                    aria-label="Next">
                     <span aria-hidden="true">下一页</span>
                 </a>

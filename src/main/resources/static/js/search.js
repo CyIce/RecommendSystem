@@ -2,13 +2,6 @@ var MyUrl = "http://127.0.0.1:8081";
 
 $(document).ready(function () {
 
-    $(this).keypress(function (e) {
-        var curKey = e.which;
-        if (curKey == 13) {
-            $("#submit").click();
-        }
-    });
-
     $("#submit").click(function () {
 
         console.log("ClickSearch");

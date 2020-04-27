@@ -44,6 +44,28 @@ public class BookOnly {
 
     private String press;
 
+    // 总书籍热度
+    private int hot;
+
+    // 周书籍热度
+    private int weekHot;
+
+    // 月书籍热度
+    private int monthHot;
+
+    // 收藏人数
+    private int collectionNum;
+
+    // 想看人数
+    private int wantNum;
+
+    // 看过的人数
+    private int haveReadNum;
+
+    // 正在看的人数
+    private int readingNum;
+
+
     public BookOnly() {
     }
 
@@ -111,6 +133,28 @@ public class BookOnly {
         this.wordCount = wordCount;
     }
 
+    public BookOnly(Integer id, String nameCn, String bigPicture, String picture, String catalog, Date publicationDate,
+                    int wordCount, float price, float score, String introduction, int hot,
+                    int weekHot, int monthHot, int collectionNum, int wantNum, int haveReadNum, int readingNum) {
+        this.id = id;
+        this.nameCn = nameCn;
+        this.bigPicture = bigPicture;
+        this.picture = picture;
+        this.catalog = catalog;
+        this.publicationDate = publicationDate;
+        this.wordCount = wordCount;
+        this.price = price;
+        this.score = score;
+        this.introduction = introduction;
+        this.hot = hot;
+        this.weekHot = weekHot;
+        this.monthHot = monthHot;
+        this.collectionNum = collectionNum;
+        this.wantNum = wantNum;
+        this.haveReadNum = haveReadNum;
+        this.readingNum = readingNum;
+    }
+
     public String getAuthorsName() {
         List<String> nameList = new ArrayList<String>();
 
@@ -118,7 +162,7 @@ public class BookOnly {
         for (int i = 0; i <= 3 && i < authors.size(); i++) {
             nameList.add(authors.get(i).getNameCn());
         }
-        return String.join(" ", nameList);
+        return String.join("、", nameList);
     }
 
     public String labelsToString() {
@@ -128,7 +172,7 @@ public class BookOnly {
             nameList.add(labels.get(i).getLabel());
         }
 
-        return String.join(" ", nameList);
+        return String.join("、", nameList);
     }
 
     public String kindToString() {
@@ -137,7 +181,7 @@ public class BookOnly {
         for (int i = 0; i <= 3 && i < kinds.size(); i++) {
             nameList.add(kinds.get(i).getLabel());
         }
-        return String.join(" ", nameList);
+        return String.join("、", nameList);
     }
 
     public String getPrice() {

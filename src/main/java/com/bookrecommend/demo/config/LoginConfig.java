@@ -19,7 +19,7 @@ public class LoginConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns("/index", "/", "/login", "/user/login", "/user/logout", "/book", "/library",
+                .excludePathPatterns("/index", "/", "/login", "/user/login", "/user/logout", "/book", "/library", "/admin/*",
                         "/error", "/user/register", "/register", "/existemail",
                         "/**/*.css", "/**/*.js", "/**/*.jpg", "/**/*.png", "/**/*.map", "/**/*.ttf",
                         "/**/*.woff", "/**/*.woff2");
