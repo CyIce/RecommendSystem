@@ -19,4 +19,9 @@ public class AuthorToBook {
 
     @Column(name = "book_id", nullable = false, length = 11)
     private Integer bookId;
+
+    public AuthorToBook(Integer authorId, Integer bookId) {
+        this.authorId = authorId;
+        this.bookId = bookId;
+    }
 }

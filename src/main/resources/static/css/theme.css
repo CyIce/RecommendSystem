@@ -24,7 +24,16 @@ body {
 }
 
 .book-cover {
-    max-height: 267px;
+    height: 194px;
+    width: 188px;
+    max-height: 264px;
+    margin-left: unset;
+    margin-right: unset;
+}
+
+.book-cover-hot {
+    height: 194px;
+    max-height: 194px;
     margin-left: unset;
     margin-right: unset;
 }

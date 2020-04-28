@@ -80,7 +80,8 @@
             <div th:each="b:${hotBooks}" class="col-sm-6 col-md-4" style="width: 33%;">
                 <div class="thumbnail" style="display: flex">
                     <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getBookUrl(b.getId(),'date',1,5)}}">
-                        <img class="book-cover" th:src="@{/img/cover/{bookId}(bookId=${b.getId().toString()+'.jpg'})}"
+                        <img class="book-cover-hot"
+                             th:src="@{/img/cover/{bookId}(bookId=${b.getId().toString()+'.jpg'})}"
                              style="margin: unset; max-width: unset">
                     </a>
 

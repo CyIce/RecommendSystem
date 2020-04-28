@@ -1,5 +1,7 @@
 package com.bookrecommend.demo.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.bookrecommend.demo.Data.BookOnly;
 import com.bookrecommend.demo.Data.UserOnly;
 import com.bookrecommend.demo.entity.*;
@@ -42,6 +44,9 @@ public class AdminController {
 
     @Autowired
     private BookLabelRepository bookLabelRepository;
+
+    @Autowired
+    private PressRepository pressRepository;
 
     @GetMapping(value = "/admin/user")
     public String getUser(@RequestParam("offset") Integer offset,
@@ -144,9 +149,7 @@ public class AdminController {
         String[] authorIdList = authorsId.split(" ");
         for (String s : authorIdList) {
             int id = Integer.parseInt(s);
-            AuthorToBook authorToBook = new AuthorToBook();
-            authorToBook.setAuthorId(id);
-            authorToBook.setBookId(book.getId());
+            AuthorToBook authorToBook = new AuthorToBook(id, book.getId());
             authorToBookRepository.save(authorToBook);
         }
         String[] kindIdList = kindId.split(" ");
@@ -184,4 +187,97 @@ public class AdminController {
         return "1";
 
     }
+
+    @GetMapping(value = "/admin/writedata")
+    @ResponseBody
+    public String writedata() {
+        JSONArray books = JSONObject.parseArray(Utils.getJson());
+        Integer userId = 1;
+        String bigPicture = "https://bossaudioandcomic-1252317822.image.myqcloud.com/activity/document/880a18546e1cf5ff7db425add24a048d.jpg";
+        String catalog = "中文版自序\n" +
+                "韩文版自序\n" +
+                "日文版自序\n" +
+                "英文版自序\n" +
+                "麦田新版自序\n" +
+                "活着\n" +
+                "外文版评论摘要";
+
+        for (int i = 0; i < books.size(); i++) {
+            JSONObject bookJson = books.getJSONObject(i);
+            Book book = new Book();
+            book.setNameCn(bookJson.getString("name"));
+            book.setPicture(bookJson.getString("picture"));
+            book.setBigPicture(bigPicture);
+            book.setCatalog(catalog);
+            book.setPublicationDate(new Date());
+            book.setWordCount(300000);
+            book.setPrice(20);
+            book.setScore(bookJson.getFloat("score"));
+            book.setIntroduction(bookJson.getString("introduction"));
+            book.setHot(bookJson.getInteger("hot"));
+            book.setWeekHot(bookJson.getInteger("hot") / 10);
+            book.setMonthHot(bookJson.getInteger("hot") / 4);
+            book.setCollectionNum(0);
+            book.setWantNum(0);
+            book.setReadingNum(0);
+            book.setHaveReadNum(0);
+            book.setCreateTime(new Date());
+            book.setModifiedTime(new Date());
+
+            String pressName = bookJson.getString("press");
+            Press press = pressRepository.findPressByName(pressName);
+            if (press == null) {
+                press = new Press(pressName, "无", new Date());
+                pressRepository.save(press);
+            }
+            book.setPressId(press.getId());
+            bookRepository.save(book);
+
+            String authorName = bookJson.getString("author");
+            Author author = authorRepository.findAuthorByNameCn(authorName);
+            if (author == null) {
+                author = new Author(authorName, "无", bookJson.getString("introduction"), bookJson.getFloat("score"));
+                authorRepository.save(author);
+            }
+            AuthorToBook ab = new AuthorToBook(author.getId(), book.getId());
+            authorToBookRepository.save(ab);
+
+            String[] comments = bookJson.getString("comment").split("\n");
+            for (String comment : comments) {
+                Comment c = new Comment(book.getId(), userId, comment, 0, 8, new Date());
+            }
+
+            double d1 = Math.random();
+            double d2 = Math.random();
+            double d = Math.random();
+            int kindId = (int) (d1 * 20) + 1;
+            int labelId = (int) (d2 * 20) + 1;
+            int value = (int) (d * 100);
+
+            BookKind bookKind = new BookKind(kindId, book.getId(), value);
+            bookKindRepository.save(bookKind);
+            BookLabel bookLabel = new BookLabel(labelId, book.getId(), value);
+            bookLabelRepository.save(bookLabel);
+
+        }
+
+
+        return "1";
+    }
+
+    @GetMapping(value = "/admin/downloadimg")
+    @ResponseBody
+    public String downloadImg() throws Exception {
+        List<Book> books = bookRepository.findAll();
+        for (Book book : books) {
+            if (book.getId() >= 70) {
+                Utils.download(book.getPicture(), book.getId());
+            }
+        }
+
+
+        return "1";
+
+    }
+
 }

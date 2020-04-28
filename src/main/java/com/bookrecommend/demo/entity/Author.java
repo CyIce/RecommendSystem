@@ -16,7 +16,7 @@ public class Author {
     private Integer id;
 
     // 中文名
-    @Column(name = "name_cn", length = 31)
+    @Column(name = "name_cn", length = 128)
     private String nameCn;
 
     // 英文名
@@ -44,4 +44,6 @@ public class Author {
         this.introduction = introduction;
         this.score = score;
     }
+
+
 }

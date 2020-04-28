@@ -1,6 +1,7 @@
 package com.bookrecommend.demo.entity;
 
 
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import java.util.Date;
 
 
 // 出版社表
+@Data
 @Entity
 @Table(name = "press")
 public class Press {
@@ -17,7 +19,7 @@ public class Press {
     private Integer id;
 
     // 出版社名称
-    @Column(name = "name", nullable = false, unique = true, length = 31)
+    @Column(name = "name", nullable = false, unique = true, length = 128)
     private String name;
 
     // 简介
@@ -33,36 +35,9 @@ public class Press {
     public Press() {
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public Press(String name, String introduction, Date establishDate) {
         this.name = name;
-    }
-
-    public String getIntroduction() {
-        return introduction;
-    }
-
-    public void setIntroduction(String introduction) {
         this.introduction = introduction;
-    }
-
-    public Date getEstablishDate() {
-        return establishDate;
-    }
-
-    public void setEstablishDate(Date establishDate) {
         this.establishDate = establishDate;
     }
-
 }
