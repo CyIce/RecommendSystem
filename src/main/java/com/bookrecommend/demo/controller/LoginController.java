@@ -1,9 +1,7 @@
 package com.bookrecommend.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.bookrecommend.demo.Data.BookOnly;
 import com.bookrecommend.demo.Data.UserOnly;
-import com.bookrecommend.demo.entity.Recommend;
 import com.bookrecommend.demo.entity.User;
 import com.bookrecommend.demo.respository.BookRepository;
 import com.bookrecommend.demo.respository.RecommendRepository;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
-import java.util.List;
 
 @Controller
 @Slf4j
@@ -92,17 +89,6 @@ public class LoginController {
 
         User user = new User(name, email, password, gender, photo, new Date());
         userRepository.save(user);
-
-        List<BookOnly> books = bookRepository.findBookIdOrderByWeekHot().subList(0, 10);
-        for (BookOnly b : books) {
-            Recommend recommend = new Recommend();
-            recommend.setUserId(user.getId());
-            recommend.setBookId(b.getId());
-            recommend.setValue(10);
-            recommend.setDate(new Date());
-            recommendRepository.save(recommend);
-        }
-
 
         log.info("注册成功");
 

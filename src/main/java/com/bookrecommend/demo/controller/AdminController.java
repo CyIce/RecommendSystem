@@ -6,6 +6,7 @@ import com.bookrecommend.demo.Data.BookOnly;
 import com.bookrecommend.demo.Data.UserOnly;
 import com.bookrecommend.demo.entity.*;
 import com.bookrecommend.demo.respository.*;
+import com.bookrecommend.demo.util.SlopeOne;
 import com.bookrecommend.demo.util.Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @Slf4j
@@ -47,6 +47,12 @@ public class AdminController {
 
     @Autowired
     private PressRepository pressRepository;
+
+    @Autowired
+    private ScoreRepository scoreRepository;
+
+    @Autowired
+    private RecommendRepository recommendRepository;
 
     @GetMapping(value = "/admin/user")
     public String getUser(@RequestParam("offset") Integer offset,
@@ -280,4 +286,40 @@ public class AdminController {
 
     }
 
+    @GetMapping(value = "/admin/recommend")
+    @ResponseBody
+    public String recommned() {
+        Integer k = 10;
+        Map<Integer, Map<Integer, Integer>> userRations = new HashMap<Integer, Map<Integer, Integer>>();
+        Map<Integer, Integer> userScores = new HashMap<Integer, Integer>();
+        List<Integer> usersId = new ArrayList<Integer>();
+        List<Score> scores = scoreRepository.findAll();
+        Integer nowUserId = -1;
+        for (Score score : scores) {
+            if (score.getUserId() != nowUserId) {
+                if (userScores.size() > 0) {
+                    userRations.put(nowUserId, userScores);
+                    usersId.add(nowUserId);
+                    userScores = new HashMap<Integer, Integer>();
+                }
+                nowUserId = score.getUserId();
+            }
+            userScores.put(score.getBookId(), score.getScore());
+        }
+        userRations.put(nowUserId, userScores);
+
+        SlopeOne slopeOne = new SlopeOne(userRations);
+        slopeOne.computeDeviation();
+
+        for (Integer userId : usersId) {
+            List<Map.Entry<Integer, Double>> topK = slopeOne.predictRating(userRations.get(userId), k);
+            for (Map.Entry<Integer, Double> item : topK) {
+                Recommend r = new Recommend(item.getKey(), userId, item.getValue(), new Date());
+                recommendRepository.save(r);
+            }
+        }
+
+
+        return "1";
+    }
 }

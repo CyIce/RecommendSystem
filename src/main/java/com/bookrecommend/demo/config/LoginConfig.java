@@ -12,7 +12,7 @@ public class LoginConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         //访问http://localhost:8080/ 和 http://localhost:8080/index.html都会寻找静态资源下的templates/login.html
-        registry.addViewController("/").setViewName("login");
+        registry.addViewController("/login").setViewName("login");
     }
 
     @Override

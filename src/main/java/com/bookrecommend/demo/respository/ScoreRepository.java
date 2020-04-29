@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface ScoreRepository extends JpaRepository<Score, Integer> {
 
     @Query(value = "select count(s) from Score s where s.bookId = :bookId")
@@ -14,4 +16,8 @@ public interface ScoreRepository extends JpaRepository<Score, Integer> {
     Integer findScoreNumberByBookIdAndScore(@Param("bookId") Integer bookId, @Param("score") Integer score);
 
     Score findScoreByUserIdAndBookId(Integer userId, Integer bookId);
+
+    @Query(value = "select s from Score s order by s.userId")
+    List<Score> findAll();
+
 }

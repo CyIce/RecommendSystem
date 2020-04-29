@@ -16,7 +16,7 @@
 <div class="container">
 
     <form id="form" class="form-signin" action="/user/login" method="post">
-        <h2 class="form-signin-heading">登录藏经阁</h2>
+        <h2 style="margin-left: 30%" class="form-signin-heading"><a th:href="@{/index}">藏经阁</a></h2>
         <label for="inputEmail" class="sr-only">Email address</label>
         <input name="email" type="email" id="inputEmail" class="form-control" placeholder="请输入邮箱地址" required
                autofocus>
@@ -29,6 +29,16 @@
         </div>
         <button class="btn btn-lg btn-primary btn-block" id="submit" type="submit">登录</button>
     </form>
+
+    <div style="margin-left: 37%;">
+        <span>还没有藏经阁账号？</span>
+        <a style="color: red;" th:href="@{/register}">立即注册</a>
+    </div>
+    <div style="margin-left: 37%;">
+        <span>不登录直接访问?</span>
+        <a style="color: red;" th:href="@{/index}">前往首页</a>
+    </div>
+
 
 </div> <!-- /container -->
 <script type="text/javascript" th:src="@{/jquery/jquery-3.3.1.min.js}"></script>

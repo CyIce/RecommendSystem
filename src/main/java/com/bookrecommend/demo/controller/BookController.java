@@ -42,7 +42,7 @@ public class BookController {
     @Autowired
     private LabelRepository labelRepository;
 
-    @GetMapping(value = "/index")
+    @GetMapping(value = {"/", "/index"})
     public String index(Model model, HttpServletRequest request) {
 
         int userId = Utils.SetLoginInfo(model, request, userRepository);
@@ -52,7 +52,13 @@ public class BookController {
         model.addAttribute("top5Books", top5Books);
 
         // 推荐书籍
-        List<BookOnly> recommendBooks = bookRepository.findRecommendBooksByUserId(userId).subList(0, 10);
+        List<BookOnly> recommendBooks = bookRepository.findRecommendBooksByUserId(userId);
+        int resNum = 10 - recommendBooks.size();
+        if (resNum > 0) {
+            recommendBooks.addAll(bookRepository.findHotBooks().subList(20, 20 + resNum));
+        } else {
+            recommendBooks = recommendBooks.subList(0, 10);
+        }
 
         for (BookOnly bookOnly : recommendBooks) {
             List<AuthorOnly> authors = authorRepository.findAuthorsByBookId(bookOnly.getId());

@@ -15,7 +15,7 @@
 <div class="container">
 
     <form class="form-signin">
-        <h2 class="form-signin-heading">注册藏经阁账号</h2>
+        <h2 style="margin-left: 30%" class="form-signin-heading"><a th:href="@{/index}">藏经阁</a></h2>
         <input name="name" type="email" class="form-control" placeholder="请输入姓名" required autofocus>
         <input name="email" type="email" id="inputEmail" class="form-control" placeholder="请输入邮箱地址" required
                autofocus>
@@ -31,6 +31,16 @@
 
         <button class="btn btn-lg btn-primary btn-block" id="submit" type="button">注册</button>
     </form>
+
+    <div style="margin-left: 37%;">
+        <span>以有藏经阁账号？</span>
+        <a style="color: red;" th:href="@{/login}">立即登录</a>
+    </div>
+    <div style="margin-left: 37%;">
+        <span>不登录直接访问?</span>
+        <a style="color: red;" th:href="@{/index}">前往首页</a>
+    </div>
+
 
 </div> <!-- /container -->
 <script type="text/javascript" th:src="@{/jquery/jquery-3.3.1.min.js}"></script>
