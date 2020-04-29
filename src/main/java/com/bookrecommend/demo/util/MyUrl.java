@@ -27,4 +27,7 @@ public class MyUrl {
         return "/admin/user?order=" + order + "&offset=" + offset + "&limit=" + limit;
     }
 
+    public static String getAdminBookUrl(String order, int offset, int limit) {
+        return "/admin/book?order=" + order + "&offset=" + offset + "&limit=" + limit;
+    }
 }

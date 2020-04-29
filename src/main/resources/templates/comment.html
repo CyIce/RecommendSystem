@@ -51,32 +51,37 @@
         </div>
     </div>
 
-    <div style="width: 100%; float: left" ;>
+    <div style="width: 100%; float: left;">
+
         <nav aria-label="Page navigation" style="float: right;">
-            <ul th:each="i:${#numbers.sequence(1,totalPages)}" class="pagination">
-                <li th:if="${i == 1 and i != currentPage}">
+            <ul class="pagination">
+                <li th:if="${currentPage!=1}">
                     <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserCommentUrl(commentOrderType,currentPage+-1,10)}}"
                        aria-label="Previous">
                         <span aria-hidden="true">上一页</span>
                     </a>
                 </li>
-                <li th:if="${i == 1 and i == currentPage}">
+                <li th:if="${currentPage==1}">
                     <span aria-hidden="true">上一页</span>
                 </li>
 
-
-                <li th:class="${i == currentPage}? 'active':''">
+                <li th:if="${totalPages>0}"
+                    th:each="i:${#numbers.sequence(currentPage+-4>0?currentPage+-4:1,currentPage+4<=totalPages?currentPage+4:totalPages)}"
+                    th:class="${i == currentPage}? 'active':''">
                     <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserCommentUrl(commentOrderType,i,10)}}"
-                       th:text="${i}"></a></li>
+                       th:text="${i}">
+                    </a>
+                </li>
 
-                <li th:if="${i == totalPages and i != currentPage}">
+
+                <li th:if="${currentPage!=totalPages and totalPages>0}">
                     <a th:href="@{${T(com.bookrecommend.demo.util.MyUrl).getUserCommentUrl(commentOrderType,currentPage+1,10)}}"
                        aria-label="Next">
                         <span aria-hidden="true">下一页</span>
                     </a>
                 </li>
 
-                <li th:if="${i == totalPages and i == currentPage}">
+                <li th:if="${currentPage==totalPages or totalPages==0}">
                     <span aria-hidden="true">下一页</span>
                 </li>
             </ul>

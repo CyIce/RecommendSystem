@@ -36,7 +36,7 @@ function loadGoods() {
             '<label><input type="checkbox" class="goods-list-item"/></label>' +
             '</div>' +
             '<div class="col-md-4 car-goods-info goods-image-column">' +
-            '<img class="goods-image" src="' + item["bookPicture"] + '" style="width: 100px;margin-left: 30px" />' +
+            '<img class="goods-image" src="' + MyUrl + '/img/cover/' + item['bookId'] + '.jpg' + '" style="width: 100px;margin-left: 30px" />' +
             '<span id="goods-info">' +
             item["bookName"] +
             '</span>' +
