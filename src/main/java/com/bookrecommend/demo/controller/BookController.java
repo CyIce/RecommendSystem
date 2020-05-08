@@ -91,6 +91,7 @@ public class BookController {
                           Model model,
                           HttpServletRequest request) {
         int userId = Utils.GetUserId(request);
+
         offset -= 1;
 
         Sort sort = Sort.by(Sort.Order.desc(commentOrderType));
@@ -109,6 +110,11 @@ public class BookController {
             s += (starsPercent.get(i - 1) * i * 2) / 100;
         }
         Book b = bookRepository.getOne(bookId);
+        if (userId == -1) {
+            b.setHot(b.getHot() + 1);
+        } else {
+            b.setHot(b.getHot() + 2);
+        }
         b.setScore(s);
         bookRepository.save(b);
 

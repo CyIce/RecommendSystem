@@ -25,8 +25,7 @@ body {
 
 .book-cover {
     height: 194px;
-    width: 188px;
-    max-height: 264px;
+    max-height: 250px;
     margin-left: unset;
     margin-right: unset;
 }

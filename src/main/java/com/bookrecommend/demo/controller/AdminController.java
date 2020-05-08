@@ -54,6 +54,9 @@ public class AdminController {
     @Autowired
     private RecommendRepository recommendRepository;
 
+    @Autowired
+    private CommentRepository commentRepository;
+
     @GetMapping(value = "/admin/user")
     public String getUser(@RequestParam("offset") Integer offset,
                           @RequestParam("limit") Integer limit,
@@ -307,10 +310,10 @@ public class AdminController {
             userScores.put(score.getBookId(), score.getScore());
         }
         userRations.put(nowUserId, userScores);
-
         SlopeOne slopeOne = new SlopeOne(userRations);
         slopeOne.computeDeviation();
 
+        recommendRepository.deleteAll();
         for (Integer userId : usersId) {
             List<Map.Entry<Integer, Double>> topK = slopeOne.predictRating(userRations.get(userId), k);
             for (Map.Entry<Integer, Double> item : topK) {

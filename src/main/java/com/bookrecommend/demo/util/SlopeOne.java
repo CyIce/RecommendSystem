@@ -18,9 +18,6 @@ public class SlopeOne {
         this.user_rating = user_rating;
     }
 
-    /**
-     * 所有有item间的评分偏差
-     */
     public void computeDeviation() {
         for (Map.Entry<Integer, Map<Integer, Integer>> ratingsEntry : user_rating.entrySet()) {
             for (Map.Entry<Integer, Integer> ratingEntry : ratingsEntry.getValue().entrySet()) {
@@ -65,13 +62,7 @@ public class SlopeOne {
         }
     }
 
-    /**
-     * 评分预测
-     *
-     * @param userRating 目标用户的评分
-     * @param k          返回前k个
-     * @return
-     */
+
     public List<Map.Entry<Integer, Double>> predictRating(Map<Integer, Integer> userRating, int k) {
         Map<Integer, Double> recommendations = new HashMap<Integer, Double>();
         Map<Integer, Integer> frequencies = new HashMap<Integer, Integer>();
@@ -100,7 +91,7 @@ public class SlopeOne {
             double value = recoEntry.getValue() / frequencies.get(key);
             recommendations.put(key, value);
         }
-        //排序，这里还可以使用优先队列返回top_k
+        //排序
         List<Map.Entry<Integer, Double>> list_map = new ArrayList<Map.Entry<Integer, Double>>(recommendations.entrySet());
         Collections.sort(list_map, new Comparator<Map.Entry<Integer, Double>>() {
                     @Override
@@ -124,28 +115,32 @@ public class SlopeOne {
 
 //    public static void main(String[] args){
 //        Map<Integer,Map<Integer,Integer>> userRatings=new HashMap<Integer, Map<Integer, Integer>>();
+//
 //        Map<Integer,Integer> xiMingRating=new HashMap<Integer, Integer>();
 //        xiMingRating.put(1,4);
 //        xiMingRating.put(2,3);
-//        xiMingRating.put(3,4);
+//        xiMingRating.put(3,2);
 //        Map<Integer,Integer> xiHaiRating=new HashMap<Integer, Integer>();
 //        xiHaiRating.put(1,5);
-//        xiHaiRating.put(2,2);
+//        xiHaiRating.put(2,4);
+//        xiHaiRating.put(3,3);
 //        Map<Integer,Integer> liMeiRating=new HashMap<Integer, Integer>();
-//        liMeiRating.put(2,3);
-//        liMeiRating.put(3,4);
-//        Map<Integer,Integer> liLeiRating=new HashMap<Integer, Integer>();
-//        liLeiRating.put(1,5);
-//        liLeiRating.put(3,3);
+//        liMeiRating.put(1,3);
+//        liMeiRating.put(2,2);
 //
 //        userRatings.put(1,xiMingRating);
 //        userRatings.put(2,xiHaiRating);
 //        userRatings.put(3,liMeiRating);
-//        userRatings.put(4,liLeiRating);
 //
-//        SlopeOne slopOne=new SlopeOne(userRatings);
+//
+//        Map<Integer,Map<Integer,Integer>> userComment=new HashMap<Integer, Map<Integer, Integer>>();
+//        Map<Integer,Integer> xiMingComment=new HashMap<Integer, Integer>();
+//        xiMingComment.put(3,1);
+//        userComment.put(2,xiMingComment);
+//
+//        SlopeOne slopOne=new SlopeOne(userRatings,userComment);
 //        slopOne.computeDeviation();
-//        List<Map.Entry<Integer,Double>> top_k=slopOne.predictRating(userRatings.get(4),5);
+//        List<Map.Entry<Integer,Double>> top_k=slopOne.predictRating(userRatings.get(3),5);
 //        for(Map.Entry<Integer,Double> item:top_k){
 //            System.out.println(item.getKey()+"   "+item.getValue());
 //        }

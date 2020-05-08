@@ -25,8 +25,10 @@ public class LoginInterceptor implements HandlerInterceptor {
 
         if (userInfo == null) {
             log.info("没有登录");
+            response.setContentType("text/xml");
+            response.setCharacterEncoding("GBK");
             response.getWriter().write("Please Login In");
-            request.getRequestDispatcher("/").forward(request, response);
+            request.getRequestDispatcher("/login").forward(request, response);
             return false;
         } else {
             log.info("已经登录过啦，用户信息为：" + session.getAttribute("userInfo"));
